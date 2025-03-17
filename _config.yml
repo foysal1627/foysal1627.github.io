@@ -1,9 +1,0 @@
-title: "Foysal's Blog"
-description: "A blog about ethical hacking, cybersecurity, and technology."
-baseurl: ""
-url: "https://foysal1627.github.io"
-theme: minima
-permalink: /blog/:title/
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
