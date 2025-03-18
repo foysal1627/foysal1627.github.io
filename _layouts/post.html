@@ -10,6 +10,27 @@ layout: default
 
 <a href="/blog.html" class="button"><i class="fa-solid fa-hand-point-left"></i> <b>Back to Blog</b></a>
 
+<!-- Copy Link Button -->
+<button id="copyLinkButton" style="font-family: courier; position: fixed; bottom: 10px; right: 10px; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    <b>Copy Link</b>
+</button>
+
+<!-- Script to Copy Link -->
+<script>
+    document.getElementById('copyLinkButton').addEventListener('click', function() {
+        var dummy = document.createElement('input'),
+            text = window.location.href;
+
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+
+        alert('Link copied to clipboard!');
+    });
+</script>
+
 <!-- Social Share Buttons -->
 <p style="font-family: courier; font-size: 17px; text-align: center">Share on</p>
 <hr>
