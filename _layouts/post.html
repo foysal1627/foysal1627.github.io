@@ -1,11 +1,7 @@
----
-layout: default
----
-
-<article>
-    <h2 style="font-family: courier">{{ page.title }}</h2>
-    <p style="font-family: courier"><i>Posted on {{ page.date | date: "%B %d, %Y" }} by <b>{{ page.author }}</b></i></p>
-    <div>{{ content }}</div>
+<article style="max-width: 600px; margin: 20px auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+    <h2 style="font-family: courier; color: #333; text-align: center; margin-bottom: 20px; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">{{ page.title }}</h2>
+    <p style="font-family: courier; color: #333; text-align: center;"><i>Posted on {{ page.date | date: "%B %d, %Y" }} by <b>{{ page.author }}</b></i></p>
+    <div style="font-family: courier; color: #333; line-height: 1.6;">{{ content }}</div>
 </article>
 
-<a style="font-family: courier" href="/blog.html" class="button"><i class="fa-solid fa-hand-point-left"></i> <b>Back to Blog</b></a>
+<a style="font-family: courier; display: inline-block; padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px;" href="/blog.html" class="button"><i class="fa-solid fa-hand-point-left"></i> <b>Back to Blog</b></a>
