@@ -46,9 +46,9 @@ nav a:hover {
 
 /* Article Section */
 article {
-    max-width: 800px;
-    margin: 2px auto;
-    padding: 100px;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
     background: white;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
