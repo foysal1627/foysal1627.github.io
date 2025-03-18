@@ -7,7 +7,7 @@ title: "All Blog Posts"
 
 <ul>
     {% for post in site.posts %}
-        <li>
+        <li style="font-family: courier">
             <a style="font-family: courier; font-weight: bold; text-decoration: none" href="{{ post.url }}">{{ post.title }}</a> - <i>{{ post.date | date: "%B %d, %Y" }}</i>
         </li>
     {% endfor %}
