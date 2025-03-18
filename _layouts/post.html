@@ -13,13 +13,13 @@ layout: default
 <!-- Social Share Buttons -->
 <div class="share-buttons">
     <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" target="_blank" title="Share on Facebook">
-        <img src="https://www.example.com/facebook-icon.png" alt="Facebook" />
+        <i class="fa-brands fa-facebook fa-lg"></i> Facebook
     </a>
     <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text={{ page.title }}" target="_blank" title="Share on Twitter">
-        <img src="https://www.example.com/twitter-icon.png" alt="Twitter" />
+       <i class="fa-brands fa-square-x-twitter fa-lg"></i> Twitter
     </a>
     <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url }}&title={{ page.title }}" target="_blank" title="Share on LinkedIn">
-        <img src="https://www.example.com/linkedin-icon.png" alt="LinkedIn" />
+       <i class="fa-brands fa-linkedin fa-lg"></i> LinkedIn
     </a>
 </div>
 
@@ -45,14 +45,5 @@ layout: default
     }
     .share-buttons a {
         text-decoration: none;
-    }
-    .share-buttons img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        transition: transform 0.3s;
-    }
-    .share-buttons img:hover {
-        transform: scale(1.1);
     }
 </style>
