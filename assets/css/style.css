@@ -19,7 +19,7 @@ nav {
 .button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #333333;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -48,7 +48,7 @@ nav a:hover {
 article {
     max-width: 800px;
     margin: 40px auto;
-    padding: 40px;
+    padding: 50px;
     background: white;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
