@@ -4,8 +4,8 @@ layout: default
 
 <article>
     <h1>{{ page.title }}</h1>
-    <p><i>Posted on {{ page.date | date: "%B %d, %Y" }} by {{ page.author }}</i></p>
+    <p style="font-family: courier"><i>Posted on {{ page.date | date: "%B %d, %Y" }} by <b>{{ page.author }}</b></i></p>
     <div>{{ content }}</div>
 </article>
 
-<a href="/blog.html" class="button"><i class="fa-solid fa-hand-point-left"></i> Back to Blog</a>
+<a style="font-family: courier" href="/blog.html" class="button"><i class="fa-solid fa-hand-point-left"></i> Back to Blog</a>
