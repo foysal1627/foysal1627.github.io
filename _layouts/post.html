@@ -1,58 +1,83 @@
----
-layout: default
----
+<!-- Add this CSS to style your buttons -->
+<style>
+  .share-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
 
-<article class="post-content">
-    <h2>{{ page.title }}</h2>
-    <p><i>Posted on {{ page.date | date: "%B %d, %Y" }} by <b>{{ page.author }}</b></i></p>
-    <div>{{ content }}</div>
-</article>
+  .share-button {
+    margin-left: 10px;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
 
-<a href="/blog.html" class="button"><i class="fa-solid fa-hand-point-left"></i> <b>Back to Blog</b></a>
+  .share-button img {
+    width: 24px;
+    height: 24px;
+  }
 
-<!-- Social Share Buttons -->
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position the tooltip above the button */
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+</style>
+
+<!-- Add this HTML to your post layout -->
 <div class="share-buttons">
-    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" target="_blank" title="Share on Facebook">
-        <img src="https://www.example.com/facebook-icon.png" alt="Facebook" />
-    </a>
-    <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text={{ page.title }}" target="_blank" title="Share on Twitter">
-        <img src="https://www.example.com/twitter-icon.png" alt="Twitter" />
-    </a>
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url }}&title={{ page.title }}" target="_blank" title="Share on LinkedIn">
-        <img src="https://www.example.com/linkedin-icon.png" alt="LinkedIn" />
-    </a>
+  <!-- Instagram Share Button -->
+  <div class="tooltip">
+    <button class="share-button" onclick="shareOnInstagram()">
+      <img src="https://image.flaticon.com/icons/png/512/174/174855.png" alt="Instagram Share">
+      <span class="tooltiptext">Share on Instagram</span>
+    </button>
+  </div>
+  <!-- Copy Link Button -->
+  <div class="tooltip">
+    <button class="share-button" onclick="copyLink()">
+      <img src="https://image.flaticon.com/icons/png/512/60/60577.png" alt="Copy Link">
+      <span class="tooltiptext">Copy Link</span>
+    </button>
+  </div>
 </div>
 
-<!-- CSS for styling the post content and share buttons -->
-<style>
-    .post-content {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        font-family: courier;
-    }
-    .post-content h2 {
-        font-family: courier;
-    }
-    .post-content p {
-        font-family: courier;
-    }
-    .share-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 20px;
-    }
-    .share-buttons a {
-        text-decoration: none;
-    }
-    .share-buttons img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        transition: transform 0.3s;
-    }
-    .share-buttons img:hover {
-        transform: scale(1.1);
-    }
-</style>
+<!-- Add this JavaScript to handle the button actions -->
+<script>
+  function shareOnInstagram() {
+    var url = window.location.href;
+    var instagramUrl = `https://www.instagram.com/share?url=${encodeURIComponent(url)}`;
+    window.open(instagramUrl, '_blank');
+  }
+
+  function copyLink() {
+    var url = window.location.href;
+    navigator.clipboard.writeText(url).then(function() {
+      alert('Link copied to clipboard');
+    }, function(err) {
+      console.error('Could not copy text: ', err);
+    });
+  }
+</script>
