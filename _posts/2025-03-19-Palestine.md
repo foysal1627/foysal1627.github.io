@@ -29,7 +29,7 @@
 ---
 
 
-![My Image](/assets/images/palestine.jpg)
+![My Image](/assets/image/palestine.jepg)
 
 ---
 
