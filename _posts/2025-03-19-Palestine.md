@@ -29,7 +29,7 @@
 ---
 
 
-<img src="/assets/images/palestine.jpeg" alt="My Image" style="max-width: 100%; height: auto;">
+<img src="/assets/image/palestine.jpeg" alt="Palestine" style="max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; border-radius: 8px; object-fit: cover">
 
 
 ---
