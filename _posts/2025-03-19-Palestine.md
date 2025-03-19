@@ -29,7 +29,8 @@
 ---
 
 
-![My Image](/assets/image/palestine.jepg)
+<img src="/assets/images/my-image.jpg" alt="My Image" style="max-width: 100%; height: auto;">
+
 
 ---
 
