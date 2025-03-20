@@ -115,8 +115,8 @@ button:hover {
     }
 }
 
-/* আর্টিকেল বক্সে অ্যানিমেশন প্রয়োগ */
-.article-box {
+/* post-content ক্লাসে অ্যানিমেশন প্রয়োগ */
+.post-content {
     animation: zoomIn 0.5s ease-in-out;
     will-change: transform, opacity; /* পারফরম্যান্স অপ্টিমাইজেশন */
     backface-visibility: hidden; /* রেন্ডারিং ইস্যু ঠিক করে */
@@ -125,7 +125,7 @@ button:hover {
 
 /* মোবাইল ডিভাইসে অ্যানিমেশন হালকা করুন */
 @media (max-width: 768px) {
-    .article-box {
+    .post-content {
         animation: zoomIn 0.3s ease-in-out;
     }
 }
