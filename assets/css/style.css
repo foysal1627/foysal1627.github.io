@@ -117,7 +117,7 @@ button:hover {
 
 /* post-content ক্লাসে অ্যানিমেশন প্রয়োগ */
 .post-content {
-    animation: zoomIn 1.3s ease-in-out;
+    animation: zoomIn 1s ease-in-out;
     will-change: transform, opacity; /* পারফরম্যান্স অপ্টিমাইজেশন */
     backface-visibility: hidden; /* রেন্ডারিং ইস্যু ঠিক করে */
     transform: translate3d(0, 0, 0); /* হার্ডওয়্যার এক্সিলারেশন সক্ষম করে */
@@ -126,7 +126,7 @@ button:hover {
 /* মোবাইল ডিভাইসে অ্যানিমেশন হালকা করুন */
 @media (max-width: 768px) {
     .post-content {
-        animation: zoomIn 1.3s ease-in-out;
+        animation: zoomIn 1s ease-in-out;
     }
 }
 
