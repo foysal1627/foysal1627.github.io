@@ -72,10 +72,10 @@
     </nav>
     <hr>
     {{ content }}
-    <!-- স্ক্রল-ট্রিগারড জুম ইন অ্যানিমেশন -->
+<!-- স্ক্রল-ট্রিগারড জুম ইন অ্যানিমেশন -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const articleBoxes = document.querySelectorAll('.article-box');
+    const postContents = document.querySelectorAll('.post-content');
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -88,8 +88,8 @@ document.addEventListener("DOMContentLoaded", function() {
         threshold: 0.1 // এলিমেন্ট ১০% দেখা গেলে অ্যানিমেশন চালু হবে
     });
 
-    articleBoxes.forEach(box => {
-        observer.observe(box);
+    postContents.forEach(content => {
+        observer.observe(content);
     });
 });
 </script>
