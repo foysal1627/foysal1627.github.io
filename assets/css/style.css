@@ -103,3 +103,29 @@ button:hover {
         font-size: 2em;
     }
 }
+/* জুম ইন অ্যানিমেশন */
+@keyframes zoomIn {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* আর্টিকেল বক্সে অ্যানিমেশন প্রয়োগ */
+.article-box {
+    animation: zoomIn 0.5s ease-in-out;
+    will-change: transform, opacity; /* পারফরম্যান্স অপ্টিমাইজেশন */
+    backface-visibility: hidden; /* রেন্ডারিং ইস্যু ঠিক করে */
+    transform: translate3d(0, 0, 0); /* হার্ডওয়্যার এক্সিলারেশন সক্ষম করে */
+}
+
+/* মোবাইল ডিভাইসে অ্যানিমেশন হালকা করুন */
+@media (max-width: 768px) {
+    .article-box {
+        animation: zoomIn 0.3s ease-in-out;
+    }
+}
