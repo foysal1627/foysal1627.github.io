@@ -81,5 +81,50 @@ layout: default
     display: inline-block;
     max-width: 100%;
     }
+    
+    .post-content {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+}
 
+.post-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+    #progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 5px;
+    background: linear-gradient(to right, #ff5722, #007bff);
+    z-index: 1000;
+    transition: width 0.2s ease-out;
+    }
+    
 </style>
+
+<div id="progress-bar"></div>
+<script>
+window.onscroll = function () {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("progress-bar").style.width = scrolled + "%";
+};
+    </script>
+
+<div id="google_translate_element"></div>
+<script>
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+        { pageLanguage: 'bn', includedLanguages: 'bn,en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+        'google_translate_element'
+    );
+}
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
