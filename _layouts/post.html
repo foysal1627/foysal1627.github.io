@@ -49,6 +49,9 @@ layout: default
     </a>
 </div>
 
+<button id="translateButton"><i class="fa-solid fa-language"></i> Translate</button>
+<div id="google_translate_element" style="display: none;"></div>
+
 <!-- CSS for styling the post content and share buttons -->
 <style>
     .post-content {
@@ -106,6 +109,28 @@ layout: default
     z-index: 1000;
     transition: width 0.2s ease-out;
     }
+
+    #translateButton {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 8px 15px;
+    background: #333;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s ease;
+}
+
+#translateButton:hover {
+    background: #555;
+}
     
 </style>
 
@@ -119,7 +144,6 @@ window.onscroll = function () {
 };
     </script>
 
-<div id="google_translate_element"></div>
 <script>
 function googleTranslateElementInit() {
     new google.translate.TranslateElement(
@@ -127,5 +151,15 @@ function googleTranslateElementInit() {
         'google_translate_element'
     );
 }
+
+document.getElementById("translateButton").addEventListener("click", function () {
+    let googleFrame = document.querySelector(".goog-te-menu-frame");
+    if (googleFrame) {
+        googleFrame.style.display = googleFrame.style.display === "none" ? "block" : "none";
+    } else {
+        let selector = document.querySelector("#google_translate_element select");
+        if (selector) selector.dispatchEvent(new Event("change"));
+    }
+});
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
