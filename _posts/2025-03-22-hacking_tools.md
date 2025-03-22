@@ -1,6 +1,9 @@
 ---
 layout: post
 title: "Hacking Tools for Beginners"
+date: 2025-03-17
+categories: Ethical Hacking
+author: "Foysal"
 
 ---
 
@@ -218,7 +221,7 @@ I used OWASP ZAP to find a hidden XSS vulnerability in a client’s web app. The
 
 Ethical hacking is a journey, and these tools are your companions along the way. They’ve helped me uncover vulnerabilities, secure systems, and protect organizations from cyber threats. But remember, with great power comes great responsibility. Always use these tools ethically and with proper authorization.  
 
-If you’re ready to dive deeper into the world of ethical hacking, check out my blogs for more resources, tools, and tutorials: [https://foysal1627.github.io](https://foysal1627.github.io). Let’s build a safer digital world together!  
+If you’re ready to dive deeper into the world of ethical hacking, check out my blogs for more resources, tools, and tutorials: [https://foysal1627.github.io](https://foysal1627.github.io).
 
----
+"Let’s build a safer digital world together!"
 
