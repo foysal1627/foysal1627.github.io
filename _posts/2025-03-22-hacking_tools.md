@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Ethical Hacking & Cyber Security"
+title: "Hacking Tools for Beginners"
 
 ---
 
