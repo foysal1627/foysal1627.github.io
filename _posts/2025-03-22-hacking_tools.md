@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Hacking Tools for Beginners"
-date: 2025-03-17
+date: 2025-03-22
 categories: Ethical Hacking
 author: "Foysal"
 
