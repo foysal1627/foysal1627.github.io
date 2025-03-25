@@ -10,10 +10,10 @@ quote: 06
 
 ---
 
-Get Ready, wait 5 seconds...!!
+Get Ready, wait 10 seconds...!!
 
 ---
 
-<meta http-equiv="refresh" content="5; url=https://birthday.mewtru.com/ACKLhneP">
+<meta http-equiv="refresh" content="10; url=https://birthday.mewtru.com/ACKLhneP">
 
 ---
