@@ -132,6 +132,25 @@ body {
   animation: click 0.3s ease;
 }
 
+#get-password-btn {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 15px 32px; /* Some padding */
+    text-align: center; /* Centered text */
+    font-weight: bold;
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Make the button inline */
+    font-size: 16px; /* Increase font size */
+    margin: 4px 2px; /* Some margin */
+    cursor: pointer; /* Pointer/hand icon */
+    border-radius: 8px; /* Rounded corners */
+}
+
+#get-password-btn:hover {
+    background-color: #45a049; /* Darker green background on hover */
+}
+
 .currency-container,
 .set-time-items {
   position: absolute;
