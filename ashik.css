@@ -133,8 +133,12 @@ body {
 }
 
 #get-password-btn {
-    background-color: #4CAF50; /* Green background */
+    background-color: green; /* Green background */
     border: none; /* Remove borders */
+    position: fixed;
+    top: 25px;
+    left: 20px;
+    font-family: georgia;
     color: white; /* White text */
     padding: 15px 32px; /* Some padding */
     text-align: center; /* Centered text */
