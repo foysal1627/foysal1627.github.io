@@ -12,9 +12,9 @@ quote: 06
 
 Get Ready...!!
 
-<meta http-equiv="refresh" content="12; url=https://birthday.mewtru.com/ACKLhneP">
-<p>Wait <span id="countdown">12</span> seconds...</p>
+<meta http-equiv="refresh" content="15; url=https://birthday.mewtru.com/ACKLhneP">
+<p>Wait <span id="countdown">15</span> seconds...</p>
 <script>
-    let t = 12, c = document.getElementById("countdown");
+    let t = 15, c = document.getElementById("countdown");
     setInterval(() => c.innerText = --t, 1000);
 </script>
