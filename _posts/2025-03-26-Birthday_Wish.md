@@ -12,8 +12,4 @@ quote: 06
 
 Get Ready, wait 10 seconds...!!
 
----
-
 <meta http-equiv="refresh" content="10; url=https://birthday.mewtru.com/ACKLhneP">
-
----
