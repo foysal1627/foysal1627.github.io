@@ -51,8 +51,8 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background-color: #6200EA; /* স্লাইড কালার */
-    transition: all 0.5s ease;
+    background-color: red; /* স্লাইড কালার */
+    transition: all 0.4s ease;
     z-index: -1;
     border-radius: 25px;
 }
@@ -61,8 +61,17 @@
     left: 0;
 }
 
+.slide-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .slide-btn.active {
     color: white;
+}
+
+.slide-btn.active::after {
+    left: 0;
 }
 
         /* Horizontal Line */
@@ -115,22 +124,18 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
     
  <script>
-        // DOM কন্টেন্ট লোড হওয়ার পর কোড এক্সিকিউট হবে
-document.addEventListener('DOMContentLoaded', function() {
-    // সব স্লাইড বাটন সিলেক্ট
-    const slideButtons = document.querySelectorAll('.slide-btn');
-    
-    // প্রতিটি বাটনে ইভেন্ট লিসেনার যোগ
-    slideButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            
-            this.classList.add('active');
-            
-            // 600ms পর active ক্লাস রিমুভ
-            setTimeout(() => {
-                this.classList.remove('active');
-            }, 600);
-        });
+        document.querySelectorAll('.slide-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        // ফোকাস স্টাইল প্রিভেন্ট
+        this.style.outline = 'none';
+        
+        // এনিমেশন শুরু
+        this.classList.add('active');
+        
+        setTimeout(() => {
+            this.classList.remove('active');
+            this.style.outline = ''; // রিসেট
+        }, 700);
     });
 });
     </script>
