@@ -18,6 +18,7 @@
         }
 
         /* Navigation Bar */
+/* Navigation Bar */
 nav {
     text-align: center;
     margin-bottom: 20px;
@@ -41,11 +42,14 @@ nav a.slide-btn {
     overflow: hidden;
     z-index: 1;
     outline: none;
+    border: none; /* ফোকাস আউটলাইন ও বর্ডার সরানো */
 }
 
-/* নীল ফোকাস আউটলাইন রিমুভ */
-nav a.slide-btn:focus {
+/* নীল ফোকাস আউটলাইন সম্পূর্ণ রিমুভ */
+nav a.slide-btn:focus,
+nav a.slide-btn:active {
     outline: none;
+    box-shadow: none;
 }
 
 /* স্লাইড ইন ইফেক্ট */
@@ -59,11 +63,11 @@ nav a.slide-btn::after {
     background-color: #4CAF50;
     z-index: -1;
     border-radius: 25px;
-    transition: transform 0.6s ease-in-out; /* Transition স্লো করা */
+    transition: transform 0.5s ease-in-out;
     transform: translateX(-100%);
 }
 
-/* ক্লিক করলে স্লাইড ইফেক্ট */
+/* ক্লিক করলে স্লাইড ইন হবে */
 nav a.slide-btn.active::after {
     transform: translateX(0);
 }
@@ -123,19 +127,16 @@ document.addEventListener("DOMContentLoaded", function() {
      
         document.querySelectorAll('.slide-btn').forEach(button => {
     button.addEventListener('click', function(e) {
-        // Prevent default behavior (যদি প্রয়োজন হয়)
-        // e.preventDefault();
-
         // ক্লাস রিমুভ করে রি-অ্যাড করার জন্য ট্রিক
         this.classList.remove('active');
         void this.offsetWidth; // Repaint trigger (CSS animation reset)
-
+        
         this.classList.add('active');
 
-        // Animation ঠিকমতো শেষ হওয়ার জন্য সময় একটু বাড়ানো হলো (600ms)
+        // Animation পুরোপুরি শেষ হওয়ার জন্য সময় দেওয়া হলো
         setTimeout(() => {
             this.classList.remove('active');
-        }, 600);
+        }, 500);
     });
 
     // ফোকাস আউটলাইন রিমুভ করার জন্য
