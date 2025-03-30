@@ -4,7 +4,7 @@ title: "Hacking Tools for Beginners"
 date: 2025-03-22
 categories: Ethical Hacking
 author: "Foysal"
-quote: 3282
+quote: 5282
 ---
 
 ## **Introduction**
