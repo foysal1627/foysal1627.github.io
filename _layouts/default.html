@@ -44,6 +44,27 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
+        slide-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: #6200EA; /* স্লাইড কালার */
+    transition: all 0.5s ease;
+    z-index: -1;
+    border-radius: 25px;
+}
+
+.slide-btn.active::after {
+    left: 0;
+}
+
+.slide-btn.active {
+    color: white;
+}
+
         /* Horizontal Line */
         hr {
             border: 0;
@@ -67,7 +88,7 @@
 <body>
     <!-- Navigation Bar -->
     <nav>
-        <a href="/"><i class="fa-solid fa-house-chimney"></i> Home</a>
+        <a href="https://foysal1627.github.io" class="nav-link slide-btn"><i class="fa-solid fa-house-chimney"></i> Home</a>
     </nav>
     <hr>
     {{ content }}
@@ -92,5 +113,26 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+    
+ <script>
+        // DOM কন্টেন্ট লোড হওয়ার পর কোড এক্সিকিউট হবে
+document.addEventListener('DOMContentLoaded', function() {
+    // সব স্লাইড বাটন সিলেক্ট
+    const slideButtons = document.querySelectorAll('.slide-btn');
+    
+    // প্রতিটি বাটনে ইভেন্ট লিসেনার যোগ
+    slideButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            
+            this.classList.add('active');
+            
+            // 600ms পর active ক্লাস রিমুভ
+            setTimeout(() => {
+                this.classList.remove('active');
+            }, 600);
+        });
+    });
+});
+    </script>
 </body>
 </html>
