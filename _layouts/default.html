@@ -59,12 +59,13 @@ nav a.slide-btn::after {
     background-color: #4CAF50;
     z-index: -1;
     border-radius: 25px;
-    transition: left 0.5s ease-in-out;
+    transition: transform 0.6s ease-in-out; /* Transition স্লো করা */
+    transform: translateX(-100%);
 }
 
 /* ক্লিক করলে স্লাইড ইফেক্ট */
 nav a.slide-btn.active::after {
-    left: 0;
+    transform: translateX(0);
 }
 
         /* Horizontal Line */
@@ -131,10 +132,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         this.classList.add('active');
 
-        // কিছুক্ষণ পর ক্লাস রিমুভ করলে animation বারবার চলবে
+        // Animation ঠিকমতো শেষ হওয়ার জন্য সময় একটু বাড়ানো হলো (600ms)
         setTimeout(() => {
             this.classList.remove('active');
-        }, 500);
+        }, 600);
     });
 
     // ফোকাস আউটলাইন রিমুভ করার জন্য
