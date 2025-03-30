@@ -4,7 +4,7 @@ title: "Palestine"
 date: 2025-03-19
 categories: Palestine
 author: "Foysal"
-quote: 3468
+quote: 4468
 ---
 
 ## ফিলিস্তিনের রক্তে রঞ্জিত মানবতা: ইসরায়েলের বর্বরতা ও মুসলিম বিশ্বের করণীয়
