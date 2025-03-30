@@ -24,10 +24,10 @@
         }
 
         /* বেসিক নেভ স্টাইল */
-nav a {
+nav a.slide-btn {
     display: inline-block;
     margin: 0 10px;
-    padding: 10px 17px;
+    padding: 10px 20px;
     font-size: 16px;
     font-family: courier;
     font-weight: bold;
@@ -35,33 +35,35 @@ nav a {
     background-color: #333;
     text-decoration: none;
     border-radius: 25px;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
     z-index: 1;
+    outline: none !important;
 }
 
-/* স্লাইড এনিমেশন স্টাইল */
-.slide-btn::after {
+nav a.slide-btn::after {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background-color: red;
-    transition: all 0.8s ease;
+    background-color: #4CAF50;
     z-index: -1;
     border-radius: 25px;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.slide-btn.active::after {
+nav a.slide-btn.active::after {
     left: 0;
 }
 
-.slide-btn.active {
-    color: white;
+nav a.slide-btn:hover {
+    background-color: #555;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
         /* Horizontal Line */
@@ -116,16 +118,20 @@ document.addEventListener("DOMContentLoaded", function() {
  <script>
         document.querySelectorAll('.slide-btn').forEach(button => {
     button.addEventListener('click', function(e) {
-        // ফোকাস স্টাইল প্রিভেন্ট
-        this.style.outline = 'none';
+        // Prevent default only for demonstration
+        // e.preventDefault(); 
         
-        // এনিমেশন শুরু
+        // Reset animation if already running
+        this.classList.remove('active');
+        void this.offsetWidth; // Trigger reflow
+        
+        // Start new animation
         this.classList.add('active');
         
+        // Remove class after animation completes
         setTimeout(() => {
             this.classList.remove('active');
-            this.style.outline = ''; // রিসেট
-        }, 700);
+        }, 400);
     });
 });
     </script>
