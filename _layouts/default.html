@@ -23,35 +23,40 @@
             margin-bottom: 20px;
         }
 
-        nav a {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-family: courier;
-            font-weight: bold;
-            color: #fff;
-            background-color: #333;
-            text-decoration: none;
-            border-radius: 25px;
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+        /* বেসিক নেভ স্টাইল */
+nav a {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: courier;
+    font-weight: bold;
+    color: #fff;
+    background-color: #333;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
 
-        nav a:hover {
-            background-color: #555;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
+nav a:hover {
+    background-color: #555;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
 
-        slide-btn::after {
+/* স্লাইড এনিমেশন স্টাইল */
+.slide-btn::after {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background-color: red; /* স্লাইড কালার */
+    background-color: red;
     transition: all 0.4s ease;
     z-index: -1;
     border-radius: 25px;
@@ -61,17 +66,8 @@
     left: 0;
 }
 
-.slide-btn:focus {
-    outline: none;
-    box-shadow: none;
-}
-
 .slide-btn.active {
     color: white;
-}
-
-.slide-btn.active::after {
-    left: 0;
 }
 
         /* Horizontal Line */
