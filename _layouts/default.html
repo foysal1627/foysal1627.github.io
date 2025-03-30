@@ -18,12 +18,12 @@
         }
 
         /* Navigation Bar */
-        nav {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+nav {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-        /* বেসিক নেভ স্টাইল */
+/* বেসিক নেভিগেশন স্টাইল */
 nav a.slide-btn {
     display: inline-block;
     margin: 0 10px;
@@ -40,9 +40,15 @@ nav a.slide-btn {
     position: relative;
     overflow: hidden;
     z-index: 1;
-    outline: none !important;
+    outline: none;
 }
 
+/* নীল ফোকাস আউটলাইন রিমুভ */
+nav a.slide-btn:focus {
+    outline: none;
+}
+
+/* স্লাইড ইন ইফেক্ট */
 nav a.slide-btn::after {
     content: '';
     position: absolute;
@@ -53,10 +59,11 @@ nav a.slide-btn::after {
     background-color: #4CAF50;
     z-index: -1;
     border-radius: 25px;
-    transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: left 0.5s ease-in-out;
 }
 
-nav a.slide-btn.active::after {
+/* ক্লিক করলে স্লাইড ইফেক্ট */
+nav a.slide-btn:active::after {
     left: 0;
 }
 
@@ -81,10 +88,12 @@ nav a.slide-btn.active::after {
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav>
-        <a href="https://foysal1627.github.io" class="nav-link slide-btn"><i class="fa-solid fa-house-chimney"></i> Home</a>
-    </nav>
+<!-- Navigation Bar -->
+<nav>
+    <a href="https://foysal1627.github.io" class="nav-link slide-btn">
+        <i class="fa-solid fa-house-chimney"></i> Home
+    </a>
+</nav>
     <hr>
     {{ content }}
 <!-- স্ক্রল-ট্রিগারড জুম ইন অ্যানিমেশন -->
@@ -111,21 +120,18 @@ document.addEventListener("DOMContentLoaded", function() {
     
  <script>
         document.querySelectorAll('.slide-btn').forEach(button => {
-    button.addEventListener('click', function(e) {
-        // Prevent default only for demonstration
-        // e.preventDefault(); 
-        
-        // Reset animation if already running
-        this.classList.remove('active');
-        void this.offsetWidth; // Trigger reflow
-        
-        // Start new animation
+    button.addEventListener('click', function() {
         this.classList.add('active');
-        
+
         // Remove class after animation completes
         setTimeout(() => {
             this.classList.remove('active');
-        }, 800);
+        }, 500);
+    });
+
+    // Focus outline রিমুভ করার জন্য
+    button.addEventListener('mousedown', function(e) {
+        e.preventDefault();
     });
 });
     </script>
