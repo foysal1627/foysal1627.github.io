@@ -1,7 +1,7 @@
 ---
 layout: post
 author: "Foysal"
-quote: 1280
+quote: 2527
 ---
 
 ## Hamari Adhuri Kahani
