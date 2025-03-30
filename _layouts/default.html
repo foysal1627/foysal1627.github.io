@@ -63,7 +63,7 @@ nav a.slide-btn::after {
 }
 
 /* ক্লিক করলে স্লাইড ইফেক্ট */
-nav a.slide-btn:active::after {
+nav a.slide-btn.active::after {
     left: 0;
 }
 
@@ -119,17 +119,25 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
     
  <script>
+     
         document.querySelectorAll('.slide-btn').forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function(e) {
+        // Prevent default behavior (যদি প্রয়োজন হয়)
+        // e.preventDefault();
+
+        // ক্লাস রিমুভ করে রি-অ্যাড করার জন্য ট্রিক
+        this.classList.remove('active');
+        void this.offsetWidth; // Repaint trigger (CSS animation reset)
+
         this.classList.add('active');
 
-        // Remove class after animation completes
+        // কিছুক্ষণ পর ক্লাস রিমুভ করলে animation বারবার চলবে
         setTimeout(() => {
             this.classList.remove('active');
         }, 500);
     });
 
-    // Focus outline রিমুভ করার জন্য
+    // ফোকাস আউটলাইন রিমুভ করার জন্য
     button.addEventListener('mousedown', function(e) {
         e.preventDefault();
     });
