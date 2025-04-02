@@ -134,28 +134,28 @@ button:hover {
 .tissue-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.6rem 0; /* এখানে 0.2-এর জায়গায় 0 দেওয়া হয়েছে */
+  margin: 1.6rem 0;
+  table-layout: fixed;
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  border: 2px solid #444; /* বর্ডার স্পষ্ট করার জন্য */
+}
+
+.tissue-table th, .tissue-table td {
+  border: 2px solid #444; /* প্রতিটি ঘরের বর্ডার স্পষ্ট করা */
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
 }
 
 .tissue-table th {
-  background-color: rgba(0, 0, 0, 0.8); /* কালো রঙ কিন্তু একটু কম স্বচ্ছ */
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
-  padding: 10px;
-  text-align: left;
-  word-wrap: break-word;
 }
 
-.tissue-table td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  word-wrap: break-word;
-}
-
-.tissue-table tr:nth-child(even) {
-  background-color: #f2f2f2; /* জোড় সংখ্যার লাইনের রঙ */
-}
-
-.tissue-table tr:hover {
-  background-color: lightblue; /* মাউস রাখলে কালার পরিবর্তন */
+@media (max-width: 600px) {
+  .tissue-table {
+    font-size: 14px;
+  }
 }
