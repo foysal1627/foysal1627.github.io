@@ -123,7 +123,7 @@ button:hover {
     transform: translate3d(0, 0, 0); /* হার্ডওয়্যার এক্সিলারেশন সক্ষম করে */
 }
 
-/* মোবাইল ডিভাইসে অ্যানিমেশন হালকা করুন */
+/* মোবাইল ডিভাইসে অ্যানিমেশন হালকা*/
 @media (max-width: 768px) {
     .post-content {
         animation: zoomIn 0.7s ease-in-out;
@@ -131,4 +131,12 @@ button:hover {
 }
 
 
-
+.tissue-table {
+     width: 100%;
+     border-collapse: collapse;
+     margin: 1rem 0;
+   }
+   .tissue-table th {
+     background-color: #4CAF50;
+     color: white;
+   }
