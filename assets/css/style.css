@@ -134,9 +134,12 @@ button:hover {
 .tissue-table {
      width: 100%;
      border-collapse: collapse;
-     margin: 1rem 0;
+     margin: 1.6rem 0.2;
+     word-wrap: break-word;
    }
    .tissue-table th {
-     background-color: #4CAF50;
+     background-color: black;
+     opacity: 0.5;
      color: white;
+     word-wrap: break-word;
    }
