@@ -225,7 +225,7 @@
             font-size: 22px;
         }
     
- /* লাইন পড়ার ইফেক্ট */
+
 .service h3 {
     position: relative;
     display: inline-block;
@@ -234,13 +234,13 @@
 .service h3 span {
     position: relative;
     display: inline-block;
-    color: red;    /* টেক্সটের রঙ সেট করুন */
+    color: red;    
 }
 
 .service h3 span::after {
     content: '';
     position: absolute;
-    bottom: -10px; /* লাইন টেক্সটের নিচে থাকবে */
+    bottom: -10px; 
     left: 50%;
     width: 1px;
     height: 8px;
@@ -252,10 +252,10 @@
     animation-delay: var(--animation-delay, 0s);
 }
 
-    /* স্পেস ক্যারেক্টারের জন্য স্টাইল */
+    
 .service h3 span.space {
     display: inline-block;
-    width: 0.5em; /* স্পেসের প্রস্থ নির্ধারণ করুন */
+    width: 0.5em;
 }
     
 @keyframes fall {
@@ -269,23 +269,23 @@
     }
 }
     
-    /* শেক এনিমেশন */
+
 @keyframes shake {
     0%, 100% {
         transform: translateX(0);
     }
     10%, 30%, 50%, 70%, 90% {
-        transform: translateX(-4px); /* বাম দিকে শেক */
+        transform: translateX(-4px);
     }
     20%, 40%, 60%, 80% {
-        transform: translateX(4px); /* ডান দিকে শেক */
+        transform: translateX(4px); 
     }
 }
 
-/* শেক এনিমেশন প্রয়োগ করুন */
+
 .shake-text {
     display: inline-block;
-    animation: shake 5s infinite; /* শেক এনিমেশন চালু করুন */
+    animation: shake 5s infinite; 
 }
 
         .service p {
@@ -568,10 +568,10 @@
 }
 
     .modal-content img {
-    width: 350px; /* ইমেজ সাইজ */
+    width: 350px; 
     height: auto;
     position: absolute;
-    top: -135px; /* ইনপুট বক্সের ঠিক উপর আনতে */
+    top: -135px; 
     left: 50%;
     transform: translateX(-50%);
     background-color: transparent;
@@ -825,7 +825,7 @@ submitPassword.addEventListener('click', () => {
         Your browser does not support the audio element.
     </audio>
 
-    <button id="play-audio">🔊 Play Audio</button>
+    <button id="play-audio"><i class="fa-solid fa-volume-high fa-sm"></i> Play Audio</button>
 
     <script>
         document.getElementById("play-audio").addEventListener("click", function () {
@@ -836,15 +836,15 @@ submitPassword.addEventListener('click', () => {
         });
     </script>
     
-    <script>// প্রতিটি অক্ষরকে আলাদা span ট্যাগে ভাগ করুন
+    <script>
 document.querySelectorAll('.service h3').forEach((h3) => {
     const text = h3.textContent;
-    h3.innerHTML = ''; // পুরানো টেক্সট ক্লিয়ার করুন
+    h3.innerHTML = ''; 
     text.split('').forEach((char) => {
         const span = document.createElement('span');
         if (char === ' ') {
-            span.classList.add('space'); // স্পেস ক্যারেক্টার হলে বিশেষ ক্লাস যোগ করুন
-            span.innerHTML = '&nbsp;'; // স্পেস ক্যারেক্টার যোগ করুন
+            span.classList.add('space');
+            span.innerHTML = '&nbsp;'; 
         } else {
             span.textContent = char;
         }
