@@ -821,7 +821,7 @@ submitPassword.addEventListener('click', () => {
     </script>
 
     <audio id="background-audio" loop>
-        <source src="https://bdtools.top/song.mp3" type="audio/mpeg">
+        <source src="http://foysal1627.github.io/assets/audio.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
@@ -852,19 +852,19 @@ document.querySelectorAll('.service h3').forEach((h3) => {
     });
 });
 
-// র্যান্ডম ডেলেই যোগ করুন
+
 document.querySelectorAll('.service h3 span').forEach((span) => {
-    const delay = Math.random() * 2; // 0 থেকে 2 সেকেন্ডের মধ্যে র্যান্ডম ডেলেই
+    const delay = Math.random() * 2; 
     span.style.setProperty('--animation-delay', `${delay}s`);
 });
     </script>
-    <script>// শেক এনিমেশন র্যান্ডমলি প্রয়োগ করুন
+    <script>
 const textElements = document.querySelectorAll('.service h3 span');
 
 textElements.forEach((span) => {
     setInterval(() => {
         span.classList.toggle('shake-text');
-    }, Math.random() * 20000 + 1000); // 1 থেকে 3 সেকেন্ডের মধ্যে র্যান্ডম ইন্টারভাল
+    }, Math.random() * 20000 + 1000); 
 });</script>
 </body>
 
