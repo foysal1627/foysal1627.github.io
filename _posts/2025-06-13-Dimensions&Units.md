@@ -47,8 +47,8 @@ th, td {
 }
 
 th {
-  background: linear-gradient(to right, #EFEFBB, #D4D3DD);
-  color: white;
+  background: linear-gradient(to right, #e0f7fa, #ffffff);
+  color: black;
   font-weight: bold;
 }
 
