@@ -47,7 +47,7 @@ th, td {
 }
 
 th {
-  background: linear-gradient(to right, #00acc1, #4dd0e1); /* teal to cyan-ish */
+  background: linear-gradient(to right, #EFEFBB, #D4D3DD); /* teal to cyan-ish */
   color: white;
   font-weight: bold;
 }
