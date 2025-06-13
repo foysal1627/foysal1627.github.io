@@ -7,7 +7,6 @@ author: "Foysal"
 quote: 4622
 ---
 
-<!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
