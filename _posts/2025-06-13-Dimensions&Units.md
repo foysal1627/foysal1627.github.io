@@ -47,7 +47,7 @@ th, td {
 }
 
 th {
-  background-color: #00acc1;
+  background: linear-gradient(to right, #00acc1, #4dd0e1); /* teal to cyan-ish */
   color: white;
   font-weight: bold;
 }
@@ -59,11 +59,8 @@ tr:hover {
 .note {
   margin-top: 30px;
   font-size: 0.95em;
+  color: #546e7a;
   text-align: center;
-
-  background: linear-gradient(to right, #006064, #0097a7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
   </style>
