@@ -25,7 +25,7 @@ quote: 4622
 h1 {
   text-align: center;
   color: #006064;
-  font-size: 2em;
+  font-size: 1.8em;
   margin-bottom: 30px;
   border-bottom: 2px solid #00acc1;
   padding-bottom: 10px;
@@ -41,7 +41,7 @@ table {
 }
 
 th, td {
-  padding: 12px;
+  padding: 10px;
   text-align: center;
   border-bottom: 2px solid #e0f2f1;
 }
@@ -83,12 +83,12 @@ tr:hover {
       <tr><td>বৈদ্যুতিক প্রবাহ</td><td>অ্যাম্পিয়ার (A)</td><td>[I]</td></tr>
       <tr><td>উজ্জ্বলতা</td><td>ক্যান্ডেলা (cd)</td><td>[J]</td></tr>
       <tr><td>পদার্থের পরিমাণ</td><td>মোল (mol)</td><td>[N]</td></tr>
-      <tr><td>গতি</td><td>m/s</td><td>[LT⁻¹]</td></tr>
+      <tr><td>বেগ</td><td>m/s</td><td>[LT⁻¹]</td></tr>
       <tr><td>ত্বরণ</td><td>m/s²</td><td>[LT⁻²]</td></tr>
       <tr><td>বল</td><td>নিউটন (N)</td><td>[MLT⁻²]</td></tr>
       <tr><td>শক্তি / কাজ</td><td>জুল (J)</td><td>[ML²T⁻²]</td></tr>
       <tr><td>ক্ষমতা</td><td>ওয়াট (W)</td><td>[ML²T⁻³]</td></tr>
-      <tr><td>চাপ</td><td>পাসক্যাল (Pa)</td><td>[ML⁻¹T⁻²]</td></tr>
+      <tr><td>চাপ</td><td>প্যাসকেল (Pa)</td><td>[ML⁻¹T⁻²]</td></tr>
       <tr><td>ঘনত্ব</td><td>kg/m³</td><td>[ML⁻³]</td></tr>
       <tr><td>ভরবেগ</td><td>kg·m/s</td><td>[MLT⁻¹]</td></tr>
       <tr><td>বৈদ্যুতিক চার্জ</td><td>কুলম্ব (C)</td><td>[TI]</td></tr>
