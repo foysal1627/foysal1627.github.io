@@ -25,7 +25,7 @@ quote: 4622
 h1 {
   text-align: center;
   color: #006064;
-  font-size: 2.2em;
+  font-size: 2em;
   margin-bottom: 30px;
   border-bottom: 2px solid #00acc1;
   padding-bottom: 10px;
@@ -41,13 +41,13 @@ table {
 }
 
 th, td {
-  padding: 15px;
+  padding: 12px;
   text-align: center;
-  border-bottom: 1px solid #e0f2f1;
+  border-bottom: 2px solid #e0f2f1;
 }
 
 th {
-  background: linear-gradient(to right, #EFEFBB, #D4D3DD); /* teal to cyan-ish */
+  background: linear-gradient(to right, #EFEFBB, #D4D3DD);
   color: white;
   font-weight: bold;
 }
@@ -99,6 +99,6 @@ tr:hover {
       <tr><td>আলোক শক্তি</td><td>লুমেন (lm)</td><td>[J]</td></tr></tbody>
 
   </table>
-  <p class="note">তথ্যসূত্র: এনসিটিবি পদার্থবিজ্ঞান পাঠ্যপুস্তক (নবম-দশম শ্রেণি)</p>
+  <p class="note">তথ্যসূত্র: NCTB পদার্থবিজ্ঞান পাঠ্যপুস্তক (নবম-দশম শ্রেণি)</p>
 </body>
 </html>
