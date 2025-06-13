@@ -59,8 +59,11 @@ tr:hover {
 .note {
   margin-top: 30px;
   font-size: 0.95em;
-  color: #546e7a;
   text-align: center;
+
+  background: linear-gradient(to right, #006064, #0097a7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
   </style>
