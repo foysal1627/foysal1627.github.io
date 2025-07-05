@@ -20,6 +20,7 @@ I am **Foysal Mahmud**, a **Cyber Security Specialist & Ethical Hacker** with **
 - 🌐 **OWASP Top 10, MITRE ATT&CK Framework**  
 
 ## 📬 Connect With Me  
+![Contact QR & Info](https://foysal1627.github.io/assets/image/newcover.jpg)
 📌 **Facebook:** [Visit my Profile](https://www.facebook.com/newfbaccount369)  
 📌 **WhatsApp:** [Message Me](https://wa.me/8801778866172)  
 
