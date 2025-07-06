@@ -90,16 +90,24 @@
         }
 
         nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
+    position: relative;
+    overflow: hidden;
+}
 
-        nav a:hover {
-            color: #6200ea;
-        }
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
 
         /* Hero Section */
         .hero {
@@ -871,7 +879,50 @@ textElements.forEach((span) => {
     setInterval(() => {
         span.classList.toggle('shake-text');
     }, Math.random() * 20000 + 1000); 
-});</script>
+});
+    
+    // Navigation link click animation
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        // Prevent default if it's a hash link
+        if(this.getAttribute('href').startsWith('#')) {
+            e.preventDefault();
+            
+            // Create and animate the white line
+            const line = document.createElement('div');
+            line.style.position = 'absolute';
+            line.style.bottom = '0';
+            line.style.left = '0';
+            line.style.width = '0';
+            line.style.height = '2px';
+            line.style.backgroundColor = 'white';
+            line.style.transition = 'width 0.5s ease';
+            this.appendChild(line);
+            
+            // Force reflow to trigger animation
+            void line.offsetWidth;
+            
+            // Animate the line
+            line.style.width = '100%';
+            
+            // Remove the line after animation
+            setTimeout(() => {
+                line.remove();
+                
+                // Proceed with smooth scroll
+                const targetId = this.getAttribute('href');
+                if(targetId.startsWith('#')) {
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                } else {
+                    window.location.href = targetId;
+                }
+            }, 500);
+        }
+    });
+});
+    </script>
 </body>
 
 </html>
