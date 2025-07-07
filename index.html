@@ -160,7 +160,49 @@ nav a:hover::after {
         .hero a:hover {
             background-color: #3700b3;
         }
-
+        
+ .about-text-container {
+        position: relative;
+        max-height: 180px;
+        overflow: hidden;
+        transition: all 0.5s ease;
+    }
+    
+    .about-text-container.expanded {
+        max-height: 1000px;
+    }
+    
+    .about-text-container::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        background: linear-gradient(to bottom, rgba(30, 30, 47, 0), rgba(30, 30, 47, 1));
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .about-text-container.expanded::after {
+        opacity: 0;
+    }
+    
+    .see-more {
+        color: #BBBBBB;
+        cursor: pointer;
+        text-align: center;
+        margin-top: 4px;
+        opacity: 55%;
+        font-family: Courier;
+        transition: all 0.3s ease;
+        display: block;
+    }
+    
+    .see-more:hover {
+        color: #3700b3;
+        text-decoration: none;
+    }
         /* Main Content */
         .container {
             max-width: 1200px;
@@ -923,6 +965,45 @@ document.querySelectorAll('nav a').forEach(link => {
     });
 });
     </script>
+
+                <script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const aboutSection = document.querySelector('#about');
+        const aboutParagraphs = aboutSection.querySelectorAll('p');
+        
+        // Create a container div for all paragraphs
+        const container = document.createElement('div');
+        container.className = 'about-text-container';
+        
+        // Move all paragraphs into the container
+        aboutParagraphs.forEach(p => {
+            container.appendChild(p.cloneNode(true));
+            p.remove();
+        });
+        
+        // Insert the container back into the about section
+        aboutSection.appendChild(container);
+        
+        // Create and add the "See More" button
+        const seeMore = document.createElement('span');
+        seeMore.className = 'see-more';
+        seeMore.textContent = 'see more...';
+        aboutSection.appendChild(seeMore);
+        
+        // Toggle functionality
+        seeMore.addEventListener('click', function() {
+            container.classList.toggle('expanded');
+            seeMore.textContent = container.classList.contains('expanded') ? 'See Less' : 'See More';
+        });
+        
+        container.addEventListener('click', function() {
+            container.classList.add('expanded');
+            seeMore.textContent = 'See Less';
+        });
+    });
+</script>
+    
 </body>
 
 </html>
