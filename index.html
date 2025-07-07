@@ -195,14 +195,9 @@ nav a:hover::after {
         margin-top: 4px;
         opacity: 55%;
         font-family: Courier;
-        transition: all 0.3s ease;
         display: block;
     }
     
-    .see-more:hover {
-        color: #3700b3;
-        text-decoration: none;
-    }
         /* Main Content */
         .container {
             max-width: 1200px;
@@ -967,43 +962,63 @@ document.querySelectorAll('nav a').forEach(link => {
     </script>
 
                 <script>
-    
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
         const aboutSection = document.querySelector('#about');
         const aboutParagraphs = aboutSection.querySelectorAll('p');
         
-        // Create a container div for all paragraphs
+        // Create container div
         const container = document.createElement('div');
         container.className = 'about-text-container';
         
-        // Move all paragraphs into the container
+        // Move all paragraphs into container
         aboutParagraphs.forEach(p => {
-            container.appendChild(p.cloneNode(true));
+            const newP = document.createElement('p');
+            newP.innerHTML = p.innerHTML;
+            if (p.className) newP.className = p.className;
+            container.appendChild(newP);
             p.remove();
         });
         
-        // Insert the container back into the about section
-        aboutSection.appendChild(container);
+        // Insert container after HR
+        const hrElement = aboutSection.querySelector('hr');
+        aboutSection.insertBefore(container, hrElement.nextSibling);
         
-        // Create and add the "See More" button
+        // Create See More button
         const seeMore = document.createElement('span');
         seeMore.className = 'see-more';
-        seeMore.textContent = 'see more...';
-        aboutSection.appendChild(seeMore);
+        seeMore.innerHTML = '<i class="fas fa-chevron-down"></i> See More';
+        aboutSection.insertBefore(seeMore, container.nextSibling);
         
-        // Toggle functionality
-        seeMore.addEventListener('click', function() {
+        // Click handler function
+        function toggleContent() {
             container.classList.toggle('expanded');
-            seeMore.textContent = container.classList.contains('expanded') ? 'See Less' : 'See More';
+            const isExpanded = container.classList.contains('expanded');
+            seeMore.innerHTML = isExpanded 
+                ? '<i class="fas fa-chevron-up"></i> See less' 
+                : '<i class="fas fa-chevron-down"></i> See more...';
+            
+            // Scroll to maintain position if expanding
+            if (isExpanded) {
+                setTimeout(() => {
+                    seeMore.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 50);
+            }
+        }
+        
+        // Event listeners with proper event delegation
+        seeMore.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleContent();
         });
         
-        container.addEventListener('click', function() {
-            container.classList.add('expanded');
-            seeMore.textContent = 'See Less';
+        container.addEventListener('click', function(e) {
+            // Only trigger if clicking directly on container, not a child element
+            if (e.target === container) {
+                toggleContent();
+            }
         });
     });
-</script>
-    
+    </script>
 </body>
-
 </html>
