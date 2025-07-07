@@ -159,15 +159,56 @@ nav a:hover::after {
             z-index: 2;
         }
 
-        .hero p {
-            font-size: 16px;
-            margin: 10px 0;
-            font-weight: bold;
-            height: 5px;
-            font-family: 'Source Code', monospace;
-            color: #bbbbbb;
-            z-index: 2;
+            @keyframes wordBounce {
+        0% {
+            transform: translateX(-100vw);
+            opacity: 0;
         }
+        60% {
+            transform: translateX(20px);
+            opacity: 1;
+        }
+        70% {
+            transform: translateX(-15px);
+        }
+        80% {
+            transform: translateX(10px);
+        }
+        90% {
+            transform: translateX(-5px);
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .hero p {
+        font-size: 16px;
+        font-weight: bold;
+        font-family: 'Source Code', monospace;
+        color: #bbbbbb;
+        z-index: 2;
+        display: block;
+        max-width: 100%;
+        text-align: center;
+        line-height: 1.5;
+        white-space: normal;
+        overflow: visible;
+    }
+
+    .hero p span.word {
+        display: inline-block;
+        opacity: 0;
+        position: relative;
+        animation: wordBounce 1s forwards;
+        white-space: normal;
+    }
+
+    .hero p span.space {
+        display: inline;
+        white-space: pre;
+    }
 
         .hero a {
             font-family: Arial;
@@ -1038,6 +1079,36 @@ document.addEventListener('DOMContentLoaded', function() {
             // Only trigger if clicking directly on container, not a child element
             if (e.target === container) {
                 toggleContent();
+            }
+        });
+    });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const heroText = document.querySelector('.hero p');
+        const originalText = heroText.textContent.trim();
+        
+        // Split text into words and spaces while preserving original spacing
+        const parts = originalText.split(/(\s+)/);
+        
+        // Clear original text
+        heroText.innerHTML = '';
+        
+        // Create word elements with proper spacing
+        parts.forEach((part, index) => {
+            if(part.trim() === '' && part.length > 0) {
+                // This is a space
+                const space = document.createElement('span');
+                space.className = 'space';
+                space.innerHTML = part.replace(/ /g, '&nbsp;');
+                heroText.appendChild(space);
+            } else if(part.trim() !== '') {
+                // This is a word
+                const word = document.createElement('span');
+                word.className = 'word';
+                word.textContent = part;
+                word.style.animationDelay = `${index * 0.15}s`;
+                heroText.appendChild(word);
             }
         });
     });
