@@ -99,9 +99,9 @@
         }
         .preentry-desc {
             color: #e0e0e0;
-            font-size: 1rem;
+            font-size: 14px;
             margin-bottom: 28px;
-            font-family: 'Fira Code', monospace;
+            font-family: courier;
             opacity: 0.85;
         }
         .preentry-btns {
@@ -112,7 +112,7 @@
         .preentry-btns button,
         .preentry-btns button#preentry-yes,
         .preentry-btns button#preentry-no {
-            background: linear-gradient(90deg, #f3828f 0%, #e22e43 60%, #d10209 100%);
+            background: linear-gradient(100deg, #ed3419 0%, #d10209 60%, #d10209 100%);
             color: #fff;
             font-family: 'Fira Code', monospace;
             font-size: 1.08rem;
@@ -641,11 +641,11 @@
             <div class="preentry-icon">
                 <i class="fa-solid fa-user-shield"></i>
             </div>
-            <h2>Are you a private user?</h2>
-            <p class="preentry-desc">For exclusive access and enhanced privacy features, please confirm your status.</p>
+            <h2>Who's knocking on the gate??</h2>
+            <p class="preentry-desc">Are you a authorized client or just passing by? Confirm your identity to proceed with a personalized session.</p>
             <div class="preentry-btns">
-                <button id="preentry-yes"><i class="fa-solid fa-check"></i> Yes</button>
-                <button id="preentry-no"><i class="fa-solid fa-xmark"></i> No</button>
+                <button id="preentry-yes"><i class="fa-solid fa-check"></i>Client</button>
+                <button id="preentry-no">Visitor</button>
             </div>
         </div>
         <audio id="preentry-sound" loop>
