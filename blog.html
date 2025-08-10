@@ -3,11 +3,11 @@ layout: default
 title: "All Blog Posts"
 ---
 
-<h2 style="font-family: courier; text-align: center">📝 All Blog Posts</h2>
+<h2 style="font-family: courier; text-align: center"><i class="fa-solid fa-pen-clip fa-lg"></i> All Blog Posts</h2>
 
 <ul>
     {% for post in site.posts %}
-        <li style="font-family: courier">
+        <li style="font-family: courier; font-size: 18px">
             <a style="font-family: courier; font-weight: bold; text-decoration: none" href="{{ post.url }}">{{ post.title }}</a> - <i>{{ post.date | date: "%B %d, %Y" }}</i>
         </li>
     {% endfor %}
