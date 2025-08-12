@@ -1,0 +1,313 @@
+<!-- Blog Header -->
+<section class="hero" style="min-height: 60vh; padding: var(--space-3xl) var(--space-xl);">
+    <div class="hero-content">
+        <h1 class="hero-title" data-aos="fade-up" style="font-size: clamp(2rem, 4vw, 3.5rem);">
+            <i class="fas fa-blog" style="color: var(--accent-blue);"></i>
+            Cyber Security Blog
+        </h1>
+        <p class="hero-description" data-aos="fade-up" data-aos-delay="200">
+            Dive deep into the world of cybersecurity with expert insights, practical tutorials, and the latest security trends. Stay ahead of cyber threats with actionable knowledge.
+        </p>
+        
+        <!-- Search and Filter -->
+        <div class="blog-controls" data-aos="fade-up" data-aos-delay="400" style="max-width: 600px; margin: var(--space-xl) auto 0;">
+            <div class="search-container" style="position: relative; margin-bottom: var(--space-lg);">
+                <input type="text" id="blogSearch" placeholder="Search articles..." style="width: 100%; padding: var(--space-md) var(--space-xl) var(--space-md) var(--space-md); background: var(--glass-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); color: var(--text-primary); font-size: 1rem;">
+                <i class="fas fa-search" style="position: absolute; right: var(--space-md); top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+            </div>
+            
+            <div class="filter-tags" style="display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap;">
+                <button class="filter-tag active" data-category="all" style="background: var(--accent-blue); color: var(--primary-bg); border: none; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-normal);">All</button>
+                <button class="filter-tag" data-category="cyber-security" style="background: var(--glass-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-normal);">Cyber Security</button>
+                <button class="filter-tag" data-category="ethical-hacking" style="background: var(--glass-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-normal);">Ethical Hacking</button>
+                <button class="filter-tag" data-category="tutorials" style="background: var(--glass-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-normal);">Tutorials</button>
+                <button class="filter-tag" data-category="tools" style="background: var(--glass-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-normal);">Tools</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Post -->
+{% assign featured_post = site.posts.first %}
+<section class="section" id="featured-post">
+    <h2 class="section-title" data-aos="fade-up">Featured Article</h2>
+    
+    <article class="featured-article glass-effect" data-aos="zoom-in" style="max-width: 1000px; margin: 0 auto; padding: var(--space-2xl); border-radius: var(--radius-xl); position: relative; overflow: hidden;">
+        <div class="featured-badge" style="position: absolute; top: var(--space-lg); right: var(--space-lg); background: var(--accent-orange); color: var(--primary-bg); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); font-weight: 600; font-size: 0.9rem;">
+            <i class="fas fa-star"></i> Featured
+        </div>
+        
+        <div class="grid grid-2" style="align-items: center; gap: var(--space-2xl);">
+            <div>
+                <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); color: var(--text-muted); font-size: 0.9rem;">
+                    <i class="fas fa-calendar"></i>
+                    <span>{{ featured_post.date | date: "%B %d, %Y" }}</span>
+                    <span>•</span>
+                    <span>{{ featured_post.content | number_of_words | divided_by: 200 | plus: 1 }} min read</span>
+                </div>
+                
+                <h3 style="font-size: 2rem; margin-bottom: var(--space-lg); font-family: var(--font-heading); color: var(--text-primary);">
+                    <a href="{{ featured_post.url | replace: ".md", ".html" }}" style="color: inherit; text-decoration: none;">
+                        {{ featured_post.title }}
+                    </a>
+                </h3>
+                
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-xl); font-size: 1.1rem; line-height: 1.7;">
+                    {{ featured_post.content | strip_html | truncatewords: 40 }}
+                </p>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <a href="{{ featured_post.url | replace: ".md", ".html" }}" class="btn btn-primary">
+                        Read Full Article <i class="fas fa-arrow-right"></i>
+                    </a>
+                    
+                    {% if featured_post.categories %}
+                    <div style="display: flex; gap: var(--space-xs);">
+                        {% for category in featured_post.categories limit:3 %}
+                        <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.8rem;">
+                            {{ category }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <div class="featured-icon" style="width: 200px; height: 200px; margin: 0 auto; background: linear-gradient(135deg, var(--accent-blue), var(--accent-green)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: var(--primary-bg); box-shadow: var(--shadow-glow);">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+<!-- Blog Posts Grid -->
+<section class="section" id="blog-posts">
+    <h2 class="section-title" data-aos="fade-up">All Articles</h2>
+    
+    <div class="blog-grid grid grid-3" id="blogGrid">
+        {% for post in site.posts offset:1 %}
+        <article class="blog-card card" data-aos="fade-up" data-aos-delay="{{ forloop.index | times: 100 }}" data-categories="{% for category in post.categories %}{{ category | downcase }} {% endfor %}" style="height: 100%; display: flex; flex-direction: column;">
+            <!-- Post Image Placeholder -->
+            <div class="post-image" style="height: 200px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-green)); border-radius: var(--radius-lg); margin-bottom: var(--space-lg); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                <i class="fas fa-{% if post.categories contains 'cyber-security' %}shield-alt{% elsif post.categories contains 'ethical-hacking' %}user-secret{% elsif post.categories contains 'programming' %}code{% else %}blog{% endif %}" style="font-size: 3rem; color: var(--primary-bg); opacity: 0.8;"></i>
+                
+                <div class="post-overlay" style="position: absolute; top: var(--space-md); right: var(--space-md); background: rgba(0, 0, 0, 0.7); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.8rem;">
+                    {{ post.content | number_of_words | divided_by: 200 | plus: 1 }} min read
+                </div>
+            </div>
+            
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <div style="margin-bottom: var(--space-md);">
+                    <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); color: var(--text-muted); font-size: 0.9rem;">
+                        <i class="fas fa-calendar"></i>
+                        <span>{{ post.date | date: "%B %d, %Y" }}</span>
+                        {% if post.author %}
+                        <span>•</span>
+                        <span>{{ post.author }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <h3 style="margin-bottom: var(--space-md); font-family: var(--font-heading);">
+                        <a href="{{ post.url | replace: ".md", ".html" }}" style="color: var(--text-primary); text-decoration: none; transition: color var(--transition-normal);">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+                    
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-lg); line-height: 1.6;">
+                        {{ post.content | strip_html | truncatewords: 25 }}
+                    </p>
+                </div>
+                
+                <div style="margin-top: auto;">
+                    {% if post.categories %}
+                    <div style="display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg); flex-wrap: wrap;">
+                        {% for category in post.categories limit:3 %}
+                        <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.8rem;">
+                            {{ category }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <a href="{{ post.url | replace: ".md", ".html" }}" class="btn btn-secondary" style="padding: var(--space-sm) var(--space-md); font-size: 0.9rem;">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                        
+                        <div style="display: flex; gap: var(--space-sm);">
+                            <button class="share-btn" data-url="{{ site.url }}{{ post.url | replace: ".md", ".html" }}" data-title="{{ post.title }}" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: var(--space-sm); border-radius: 50%; transition: all var(--transition-normal);" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <button class="bookmark-btn" data-post="{{ post.url | replace: ".md", ".html" }}" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: var(--space-sm); border-radius: 50%; transition: all var(--transition-normal);" title="Bookmark">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    
+    <!-- Load More Button -->
+    <div style="text-align: center; margin-top: var(--space-2xl);" data-aos="fade-up">
+        <button id="loadMoreBtn" class="btn btn-secondary" style="display: none;">
+            <i class="fas fa-plus"></i>
+            Load More Articles
+        </button>
+    </div>
+</section>
+
+<!-- Newsletter Signup -->
+<section class="section" id="newsletter">
+    <div class="card" data-aos="zoom-in" style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <h2 style="color: var(--accent-blue); margin-bottom: var(--space-lg); font-family: var(--font-heading);">
+            <i class="fas fa-envelope"></i>
+            Stay Updated
+        </h2>
+        <p style="color: var(--text-secondary); margin-bottom: var(--space-xl); font-size: 1.1rem;">
+            Subscribe to get the latest cybersecurity insights, tutorials, and security alerts delivered to your inbox.
+        </p>
+        
+        <form class="newsletter-form" style="display: flex; gap: var(--space-md); max-width: 400px; margin: 0 auto;">
+            <input type="email" placeholder="Enter your email" required style="flex: 1; padding: var(--space-md); background: var(--glass-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--text-primary);">
+            <button type="submit" class="btn btn-primary">
+                Subscribe
+            </button>
+        </form>
+        
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: var(--space-md);">
+            <i class="fas fa-lock"></i>
+            Your email is safe with us. No spam, unsubscribe anytime.
+        </p>
+    </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Filter functionality
+    const filterTags = document.querySelectorAll(".filter-tag");
+    const blogCards = document.querySelectorAll(".blog-card");
+    const searchInput = document.getElementById("blogSearch");
+    
+    filterTags.forEach(tag => {
+        tag.addEventListener("click", function() {
+            // Update active state
+            filterTags.forEach(t => {
+                t.classList.remove("active");
+                t.style.background = "var(--glass-bg)";
+                t.style.color = "var(--text-primary)";
+            });
+            
+            this.classList.add("active");
+            this.style.background = "var(--accent-blue)";
+            this.style.color = "var(--primary-bg)";
+            
+            const category = this.dataset.category;
+            filterPosts(category);
+        });
+    });
+    
+    // Search functionality
+    searchInput.addEventListener("input", function() {
+        const query = this.value.toLowerCase();
+        searchPosts(query);
+    });
+    
+    function filterPosts(category) {
+        blogCards.forEach(card => {
+            const categories = card.dataset.categories;
+            if (category === "all" || categories.includes(category)) {
+                card.style.display = "flex";
+                card.setAttribute("data-aos", "fade-up");
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+    
+    function searchPosts(query) {
+        blogCards.forEach(card => {
+            const title = card.querySelector("h3 a").textContent.toLowerCase();
+            const content = card.querySelector("p").textContent.toLowerCase();
+            
+            if (title.includes(query) || content.includes(query)) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+    
+    // Share functionality
+    document.querySelectorAll(".share-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const url = this.dataset.url;
+            const title = this.dataset.title;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    url: url
+                });
+            } else {
+                // Fallback to copying URL
+                navigator.clipboard.writeText(url).then(() => {
+                    // Show toast notification
+                    showToast("Link copied to clipboard!");
+                });
+            }
+        });
+    });
+    
+    // Bookmark functionality
+    document.querySelectorAll(".bookmark-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const postUrl = this.dataset.post;
+            const icon = this.querySelector("i");
+            
+            if (icon.classList.contains("far")) {
+                icon.classList.remove("far");
+                icon.classList.add("fas");
+                showToast("Article bookmarked!");
+            } else {
+                icon.classList.remove("fas");
+                icon.classList.add("far");
+                showToast("Bookmark removed!");
+            }
+        });
+    });
+
+    // Toast notification function
+    function showToast(message) {
+        const toast = document.createElement("div");
+        toast.classList.add("toast-notification");
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.add("show");
+        }, 100);
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+            toast.addEventListener("transitionend", () => {
+                toast.remove();
+            });
+        }, 3000);
+    }
+
+    // Load More Button (if needed)
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener("click", function() {
+            // Implement logic to load more posts dynamically
+            // This would typically involve an AJAX request or showing hidden posts
+            showToast("Loading more articles...");
+        });
+    }
+});
+</script>
+

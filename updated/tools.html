@@ -1,0 +1,226 @@
+---
+layout: modern
+title: "Tools"
+description: "Access Foysal Mahmud's interactive cybersecurity tools for password analysis, hash generation, and more."
+keywords: "cybersecurity tools, password analyzer, hash generator, base64 encoder, network tools"
+---
+
+<!-- Tools Header -->
+<section class="hero" style="min-height: 60vh; padding: var(--space-3xl) var(--space-xl);">
+    <div class="hero-content">
+        <h1 class="hero-title" data-aos="fade-up" style="font-size: clamp(2rem, 4vw, 3.5rem);">
+            <i class="fas fa-tools" style="color: var(--accent-green);"></i>
+            Interactive Cyber Security Tools
+        </h1>
+        <p class="hero-description" data-aos="fade-up" data-aos-delay="200">
+            Utilize a collection of interactive cybersecurity tools designed to assist with various security tasks, from password analysis to data encoding.
+        </p>
+    </div>
+</section>
+
+<!-- Tools Section -->
+<section class="section" id="interactive-tools">
+    <h2 class="section-title" data-aos="fade-up">Tools Collection</h2>
+    
+    <div class="grid grid-2">
+        <!-- Password Analyzer -->
+        <div class="tool-card card" data-aos="fade-up" data-aos-delay="100">
+            <h3 style="color: var(--accent-blue); margin-bottom: var(--space-lg); font-family: var(--font-heading);">
+                <i class="fas fa-key"></i>
+                Password Analyzer
+            </h3>
+            <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
+                Check the strength of your passwords and get recommendations for improvement. This tool analyzes complexity, length, and common patterns.
+            </p>
+            <input type="password" id="passwordInput" placeholder="Enter your password" style="width: 100%; padding: var(--space-md); background: var(--glass-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--text-primary); margin-bottom: var(--space-md);">
+            <div id="passwordStrength" style="font-weight: 600;"></div>
+            <ul style="list-style: none; color: var(--text-muted); margin-top: var(--space-md);">
+                <li><i class="fas fa-check-circle" style="color: var(--accent-green); margin-right: var(--space-sm);"></i> Length (min 8 chars)</li>
+                <li><i class="fas fa-check-circle" style="color: var(--accent-green); margin-right: var(--space-sm);"></i> Uppercase & Lowercase</li>
+                <li><i class="fas fa-check-circle" style="color: var(--accent-green); margin-right: var(--space-sm);"></i> Numbers & Symbols</li>
+            </ul>
+        </div>
+        
+        <!-- Hash Generator -->
+        <div class="tool-card card" data-aos="fade-up" data-aos-delay="200">
+            <h3 style="color: var(--accent-green); margin-bottom: var(--space-lg); font-family: var(--font-heading);">
+                <i class="fas fa-hashtag"></i>
+                Hash Generator
+            </h3>
+            <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
+                Generate various cryptographic hashes (MD5, SHA1, SHA256) from your input text. Useful for data integrity checks.
+            </p>
+            <textarea id="hashInput" placeholder="Enter text to hash" rows="4" style="width: 100%; padding: var(--space-md); background: var(--glass-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--text-primary); margin-bottom: var(--space-md);"></textarea>
+            <select id="hashType" style="width: 100%; padding: var(--space-md); background: var(--glass-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--text-primary); margin-bottom: var(--space-md);">
+                <option value="md5">MD5</option>
+                <option value="sha1">SHA1</option>
+                <option value="sha256">SHA256</option>
+            </select>
+            <button id="generateHashBtn" class="btn btn-primary" style="width: 100%; margin-bottom: var(--space-md);">
+                Generate Hash
+            </button>
+            <div style="color: var(--text-muted); font-size: 0.9rem;">
+                <strong>Result:</strong> <span id="hashResult" style="word-break: break-all;"></span>
+            </div>
+        </div>
+        
+        <!-- Base64 Encoder/Decoder -->
+        <div class="tool-card card" data-aos="fade-up" data-aos-delay="300">
+            <h3 style="color: var(--accent-orange); margin-bottom: var(--space-lg); font-family: var(--font-heading);">
+                <i class="fas fa-exchange-alt"></i>
+                Base64 Encoder/Decoder
+            </h3>
+            <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
+                Encode and decode text using Base64. Useful for transmitting binary data over media that only support text.
+            </p>
+            <textarea id="base64Input" placeholder="Enter text" rows="4" style="width: 100%; padding: var(--space-md); background: var(--glass-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--text-primary); margin-bottom: var(--space-md);"></textarea>
+            <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-md);">
+                <button id="encodeBase64Btn" class="btn btn-primary" style="flex: 1;">
+                    Encode
+                </button>
+                <button id="decodeBase64Btn" class="btn btn-secondary" style="flex: 1;">
+                    Decode
+                </button>
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.9rem;">
+                <strong>Result:</strong> <span id="base64Result" style="word-break: break-all;"></span>
+            </div>
+        </div>
+        
+        <!-- Network Information -->
+        <div class="tool-card card" data-aos="fade-up" data-aos-delay="400">
+            <h3 style="color: var(--accent-blue); margin-bottom: var(--space-lg); font-family: var(--font-heading);">
+                <i class="fas fa-network-wired"></i>
+                Network Information
+            </h3>
+            <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
+                Get basic network information about your current connection, including IP address and user agent.
+            </p>
+            <button id="getNetworkInfoBtn" class="btn btn-primary" style="width: 100%; margin-bottom: var(--space-md);">
+                Get Info
+            </button>
+            <div style="color: var(--text-muted); font-size: 0.9rem;">
+                <strong>Your IP:</strong> <span id="ipAddress">Loading...</span><br>
+                <strong>User Agent:</strong> <span id="userAgent">Loading...</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Password Analyzer
+    const passwordInput = document.getElementById("passwordInput");
+    const passwordStrength = document.getElementById("passwordStrength");
+
+    passwordInput.addEventListener("input", function() {
+        const password = this.value;
+        let strength = 0;
+        let feedback = "";
+
+        if (password.length >= 8) {
+            strength += 1;
+        }
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) {
+            strength += 1;
+        }
+        if (password.match(/\d/)) {
+            strength += 1;
+        }
+        if (password.match(/[^a-zA-Z\d]/)) {
+            strength += 1;
+        }
+
+        switch (strength) {
+            case 0:
+            case 1:
+                feedback = "Very Weak";
+                passwordStrength.style.color = "red";
+                break;
+            case 2:
+                feedback = "Weak";
+                passwordStrength.style.color = "orange";
+                break;
+            case 3:
+                feedback = "Medium";
+                passwordStrength.style.color = "yellow";
+                break;
+            case 4:
+                feedback = "Strong";
+                passwordStrength.style.color = "green";
+                break;
+            default:
+                feedback = "";
+        }
+        passwordStrength.textContent = `Strength: ${feedback}`;
+    });
+
+    // Hash Generator
+    const hashInput = document.getElementById("hashInput");
+    const hashType = document.getElementById("hashType");
+    const generateHashBtn = document.getElementById("generateHashBtn");
+    const hashResult = document.getElementById("hashResult");
+
+    generateHashBtn.addEventListener("click", function() {
+        const text = hashInput.value;
+        const type = hashType.value;
+        let hash = "";
+
+        switch (type) {
+            case "md5":
+                hash = CryptoJS.MD5(text).toString();
+                break;
+            case "sha1":
+                hash = CryptoJS.SHA1(text).toString();
+                break;
+            case "sha256":
+                hash = CryptoJS.SHA256(text).toString();
+                break;
+        }
+        hashResult.textContent = hash;
+    });
+
+    // Base64 Encoder/Decoder
+    const base64Input = document.getElementById("base64Input");
+    const encodeBase64Btn = document.getElementById("encodeBase64Btn");
+    const decodeBase64Btn = document.getElementById("decodeBase64Btn");
+    const base64Result = document.getElementById("base64Result");
+
+    encodeBase64Btn.addEventListener("click", function() {
+        const text = base64Input.value;
+        base64Result.textContent = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(text));
+    });
+
+    decodeBase64Btn.addEventListener("click", function() {
+        const encodedText = base64Input.value;
+        try {
+            base64Result.textContent = CryptoJS.enc.Base64.parse(encodedText).toString(CryptoJS.enc.Utf8);
+        } catch (e) {
+            base64Result.textContent = "Invalid Base64 string";
+        }
+    });
+
+    // Network Information
+    const ipAddressSpan = document.getElementById("ipAddress");
+    const userAgentSpan = document.getElementById("userAgent");
+    const getNetworkInfoBtn = document.getElementById("getNetworkInfoBtn");
+
+    getNetworkInfoBtn.addEventListener("click", function() {
+        // Fetch IP address from a public API
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                ipAddressSpan.textContent = data.ip;
+            })
+            .catch(error => {
+                console.error('Error fetching IP:', error);
+                ipAddressSpan.textContent = 'Could not retrieve IP';
+            });
+
+        // Get User Agent
+        userAgentSpan.textContent = navigator.userAgent;
+    });
+});
+</script>
+
