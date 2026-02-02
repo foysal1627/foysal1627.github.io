@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Access | Protected Folder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+          
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .login-box {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .icon-box {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            margin-bottom: 8px;
+            color: #2d3436;
+            font-size: 22px;
+        }
+
+        p.instruction {
+            color: #636e72;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 15px;
+            margin-bottom: 15px;
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        input[type="password"]:focus {
+            border-color: #6c5ce7;
+            box-shadow: 0 0 8px rgba(108, 92, 231, 0.2);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #5849c4;
+        }
+
+        #error-msg {
+            color: #d63031;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+            font-weight: 600;
+        }
+
+      
+        .footer-text {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #7f8c8d;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .credit-link {
+            font-style: italic;
+            text-decoration: none;
+            color: #6c5ce7; 
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .credit-link:hover {
+            color: #4834d4;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <div class="icon-box"><i class="fa-solid fa-vault"></i></div>
+        <h2>একসেস ভেরিফিকেশন</h2>
+        <p class="instruction">ফোল্ডারটি দেখতে সঠিক পাসওয়ার্ড দিন।</p>
+        
+        <input type="password" id="passwordInput" placeholder="পাসওয়ার্ড লিখুন..." autofocus>
+        <button class="btn" onclick="checkPassword()">প্রবেশ করুন</button>
+        
+        <p id="error-msg">ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।</p>
+
+        <div class="footer-text">
+            Powered by <a href="https://foysal1627.github.io/" target="_blank" class="credit-link">Foysal Mahmud</a>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const passInput = document.getElementById('passwordInput');
+            const errorMsg = document.getElementById('error-msg');
+            const targetURL = "https://drive.google.com/drive/folders/1oUUKUmk-bU1WISK4hfj0k0BiHezv_cQP";
+
+            
+            if (passInput.value === "ndc") {
+                window.location.href = targetURL;
+            } else {
+                
+                errorMsg.style.display = "block";
+                passInput.value = ""; 
+                passInput.focus();
+                
+                
+                setTimeout(() => {
+                    errorMsg.style.display = "none";
+                }, 2000);
+            }
+        }
+
+      
+        document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
+
+</body>
+</html>
