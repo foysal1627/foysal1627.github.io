@@ -1,96 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResourceHub</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-gradient: linear-gradient(90deg, #add8e6 0%, #fcfbf4 100%);
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --text-color: #2d3436;
-            --accent: #6c5ce7;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-gradient);
-            min-height: 100vh;
-            margin: 0;
-            padding: 40px 20px;
-            color: var(--text-color);
-        }
-
-        .wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            color: white;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin: 0;
-            color: black;
-            letter-spacing: -1px;
-        }
-
-        header p {
-            opacity: 0.9;
-            color: black;
-            font-weight: 300;
-        }
-
-        /* Card Styling */
-        .card {
-            background: var(--glass-bg);
-            margin-bottom: 15px;
-            padding: 20px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .card:hover {
-            transform: scale(1.03);
-            background: #ffffff;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-
-        .icon {
-            width: 50px;
-            height: 50px;
-            background: #000000; /* আপনার ফাইল অনুযায়ী সব ব্ল্যাক */
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            color: white;
-            font-size: 24px;
-        }
-
-        .card-content h3 {
-            margin: 0;
-            font-size: 1.2rem;
-            color: #2d3436;
-        }
-
-        .card-content p {
-            margin: 5px 0 0;
-            font-size: 0.9rem;
-            color: #636e72;
+2;
         }
 
         /* Lab Dropdown Grid */
@@ -366,3 +274,228 @@
 </body>
   </html>
   
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResourceHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(90deg, #add8e6 0%, #fcfbf4 100%);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --text-color: #2d3436;
+            --accent: #6c5ce7;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            color: var(--text-color);
+        }
+
+        .wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: black;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            opacity: 0.9;
+            color: black;
+            font-weight: 300;
+        }
+
+        /* Card Styling */
+        .card {
+            background: var(--glass-bg);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            background: #ffffff;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+            background: #000000; /* আপনার ফাইল অনুযায়ী সব ব্ল্যাক */
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .card-content h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #2d3436;
+        }
+
+        .card-content p {
+            margin: 5px 0 0;
+            font-size: 0.9rem;
+            color: #636e72;
+        }
+
+        /* Lab Dropdown Grid */
+        .lab-grid {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lab-item {
+            background: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 12px;
+            text-decoration: none;
+            color: black;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #eee;
+            transition: 0.2s;
+        }
+
+        .lab-item:hover {
+            background: black;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: black;
+            font-weight: 800;
+            font-family: courier;
+            font-size: 20px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <header>
+        <h1>NDC ResourceHub</h1>
+        <p>All your academic resources in one place</p>
+    </header>
+
+    <a href="https://drive.google.com/drive/folders/1oUUKUmk-bU1WISK4hfj0k0BiHezv_cQP" class="card" target="_blank">
+        <div class="icon"><i class="fa-solid fa-book fa-xl"></i></div>
+        <div class="card-content">
+            <h3>Basar Sir's Notes</h3>
+            <p>Complete lecture materials and drive links</p>
+        </div>
+    </a>
+
+    <a href="https://foysal1627.github.io/assets/image/IMG_20251117_171345.jpg" class="card" target="_blank">
+        <div class="icon"><i class="fa-solid fa-shrimp fa-xl"></i></div>
+        <div class="card-content">
+            <h3>Phylum Note</h3>
+            <p>Visual biology chart & detailed classification</p>
+        </div>
+    </a>
+
+    <a href="https://drive.google.com/drive/folders/1C9WgtrYUbXkVkTi82CdfHZDoFphrNbiQ" class="card" target="_blank">
+        <div class="icon"><i class="fa-solid fa-clipboard-question fa-xl"></i></div>
+        <div class="card-content">
+            <h3>Question Bank</h3>
+            <p>Collection of previous year's question</p>
+        </div>
+    </a>
+
+    <a href="https://docs.google.com/document/d/11OzsD61jg_VrLV8pNKRyyLZCFAKVZODDU0X1701yusk/edit?usp=drive_link" class="card" target="_blank">
+        <div class="icon"><i class="fa-solid fa-square-root-variable fa-xl"></i></div>
+        <div class="card-content">
+            <h3>Math Laboratory</h3>
+            <p>Worksheets and lab documentation</p>
+        </div>
+    </a>
+
+    <div class="card" onclick="toggleLabs()" style="cursor: pointer;">
+        <div class="icon"><i class="fa-solid fa-flask fa-xl"></i></div>
+        <div class="card-content">
+            <h3>All Lab Reports</h3>
+            <p>Primary access to experiment data</p>
+        </div>
+        <i class="fa-solid fa-chevron-down" style="margin-left: auto; opacity: 0.4;"></i>
+    </div>
+
+    <div class="lab-grid" id="labGrid">
+        <a href="https://drive.google.com/drive/folders/1KfAvy0gycyU2Rx9ouKY9XTIuRTNBxm80" class="lab-item">Physics 1st</a>
+        <a href="https://drive.google.com/drive/folders/1Ixxt55tMSxrn4TlXbxXdOh0lddQIQ4CV" class="lab-item">Physics 2nd</a>
+        <a href="https://drive.google.com/drive/folders/1JwSkMmYfJgRy5Y6fmmNKXCHVYBW6h7WW" class="lab-item">Chemistry 1st</a>
+        <a href="https://drive.google.com/drive/folders/1IyF0C8XfVM77Q2GvvcZ6uuO09N_m-oVu" class="lab-item">Chemistry 2nd</a>
+        <a href="https://drive.google.com/drive/folders/1QgO_jYc53q0dWxLilY5QHSSgbPv0EI2d" class="lab-item">Biology 1st</a>
+        <a href="https://drive.google.com/drive/folders/1Qi0JeOtlbVFKo3jWK_d2XYTYp6P4R9xP" class="lab-item">Biology 2nd</a>
+        <a href="https://drive.google.com/drive/folders/1txiI2sjH5Qm7h6ePAewuDKs5MNQlrufM" class="lab-item">Higher Math 1st</a>
+        <a href="https://drive.google.com/drive/folders/1J0GdyVxfDCPuOOfRQTwVmHCWQLKRJeiA" class="lab-item">Higher Math 2nd</a>
+        <a href="https://drive.google.com/drive/folders/1PSY9XEbcV4ZdF0kHRHJzXwvihhRBTNY1" class="lab-item">ICT</a>
+        <a href="https://cutt.ly/DtrkDuPf" class="lab-item">Main Archive</a>
+    </div>
+
+    <div style="text-align: center; margin-top: 18px; padding: 20px; border: 2px dashed black; border-radius: 20px;">
+        <p style="color: black; margin-top: 2px; margin-bottom: 8px; font-style: italic;">Have more resources to share?</p>
+        <a href="https://foysal1627.github.io/contact/" 
+           style="text-decoration: none; display: inline-block; background: black; color: white; margin-bottom: 15px; padding: 10px 25px; border-radius: 50px; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+             Contribute & Add Files
+        </a>
+    </div>
+
+    <div class="footer">
+      <i>© Foysal - 12711068</i>
+    </div>
+</div>
+
+<script>
+    function toggleLabs() {
+        const grid = document.getElementById('labGrid');
+        grid.style.display = (grid.style.display === "grid") ? "none" : "grid";
+    }
+</script>
+
+</body>
+</html>
