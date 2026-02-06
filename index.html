@@ -796,6 +796,23 @@
             <p style="color: red; font-size: 14px"><i class="fa-solid fa-circle-exclamation"></i> Sorry you aren't eligible to enter the password!</p>
             <button style="padding: 6px; width: 59px; background-color: red" id="noThanks"><i class="fa-solid fa-person-walking-arrow-right fa-flip-horizontal fa-xl"></i></button>
             <button style="font-family: 'Hackers', monospace; margin-left: 45px; padding: 6px" id="submitPassword"><b>Submit</b></button> 
+
+            <div style="margin-top: 20px; border-top: 1px dashed #444; pt-3">
+    <div id="ownerLoginForm" style="display: none; margin-top: 15px; animation: fadeIn 0.5s;">
+        <input type="text" id="ownerUser" placeholder="Admin Username" style="width: 90%; padding: 8px; margin-bottom: 8px; border-radius: 5px; border: 1px solid #6200ea; background: #000; color: #fff; font-family: courier">
+        <input type="password" id="ownerPass" placeholder="Admin Password" style="width: 90%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #6200ea; background: #000; color: #fff; font-family: courier">
+        <br>
+        <button id="finalLogin" style="background: linear-gradient(0deg, #000000, #34334a); color: white; padding: 5px 15px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Hackers', monospace">Login</button>
+    </div>
+    
+    <a href="javascript:void(0)" id="toggleOwner" style="display: block; margin-top: 10px; color: #777; font-size: 13px; text-decoration: none; font-family: Courier; -webkit-tap-highlight-color: transparent; 
+outline: none; 
+color: #777777 !important;
+">
+        <i class="fa-solid fa-user-secret"></i> Owner login
+    </a>
+            </div>
+        
         </div>
     </div>
 
@@ -1015,6 +1032,87 @@
                 }
             });
         });
+
+        const styleSheet = document.createElement('style');
+styleSheet.innerHTML = `
+    @keyframes alertZoomIn {
+        from { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+        to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+    @keyframes alertZoomOut {
+        from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        to { opacity: 0; transform: translate(-50%, -40%) scale(0.9); }
+    }
+    .smooth-alert {
+        animation: alertZoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    .smooth-alert-out {
+        animation: alertZoomOut 0.2s ease forwards;
+    }
+`;
+document.head.appendChild(styleSheet);
+
+
+function showCustomAlert(message, isSuccess = false) {
+    let alertBox = document.getElementById('customAlertBox');
+    if (!alertBox) {
+        alertBox = document.createElement('div');
+        alertBox.id = 'customAlertBox';
+        alertBox.style.cssText = "position:fixed;top:50%;left:50%;background:#211f2f;border:1px solid #34334a;padding:25px;border-radius:15px;z-index:10001;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.7);width:280px;font-family:monospace;display:none;";
+        document.body.appendChild(alertBox);
+    }
+
+    const color = isSuccess ? "#00ff88" : "#ff4d4d";
+    alertBox.innerHTML = `
+        <div style="font-size:40px;margin-bottom:10px;">${isSuccess ? "✅" : "❌"}</div>
+        <p style="color:#fff;margin-bottom:20px;font-size:14px;font-weight:bold;">${message}</p>
+        <button id="closeAlert" style="background:${color};color:#000;border:none;padding:8px 25px;border-radius:8px;cursor:pointer;font-weight:bold;transition:0.2s;">OK</button>
+    `;
+
+    alertBox.className = "smooth-alert";
+    alertBox.style.display = 'block';
+
+    document.getElementById('closeAlert').onclick = () => {
+        alertBox.className = "smooth-alert-out";
+        setTimeout(() => { alertBox.style.display = 'none'; }, 200);
+    };
+}
+
+window.onload = function() {
+    const toggleBtn = document.getElementById('toggleOwner');
+    const loginForm = document.getElementById('ownerLoginForm');
+    const finalLoginBtn = document.getElementById('finalLogin');
+
+    if (toggleBtn && loginForm) {
+        toggleBtn.onclick = function(e) {
+            e.preventDefault();
+            const isHidden = loginForm.style.display === 'none' || loginForm.style.display === '';
+            loginForm.style.display = isHidden ? 'block' : 'none';
+            this.innerHTML = isHidden ? '<i class="fa-solid fa-angle-up"></i> Hide panel' : '<i class="fa-solid fa-user-lock"></i> OWNER LOGIN';
+        };
+    }
+
+    if (finalLoginBtn) {
+        finalLoginBtn.onclick = function() {
+            const user = document.getElementById('ownerUser').value.trim();
+            const pass = document.getElementById('ownerPass').value.trim();
+
+            if (user === "cyber" && pass === "369") {
+                showCustomAlert("Access Granted! Redirecting...", true);
+                setTimeout(() => { window.location.href = "https://foysal1627.github.io/dashboard"; }, 1500);
+            } else {
+                showCustomAlert("Access Denied! Incorrect Password.", false);
+            }
+        };
+    }
+};
+        
     </script>
+
+    <div id="customAlert" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#211f2f; border:1px solid #34334a; padding:20px; border-radius:10px; z-index:9999; text-align:center; box-shadow: 0 0 20px rgba(0,0,0,0.5); width: 250px;">
+    <p id="alertMessage" style="color:#fff; font-family:Courier; margin-bottom:15px; font-size:14px;"></p>
+    <button onclick="document.getElementById('customAlert').style.display='none'" style="background:#6200ea; color:#fff; border:none; padding:5px 15px; border-radius:5px; cursor:pointer; font-family:Courier;">OK</button>
+    </div>
+    
 </body>
 </html>
