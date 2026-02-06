@@ -1,127 +1,164 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ব্যক্তিগত তথ্য ও রিসোর্স ডকুমেন্টেশন</title>
+    <title>Personal Resource Dashboard</title>
     <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --accent-color: #3b82f6;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f9;
-            color: #333;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
-            line-height: 1.6;
+            display: flex;
+            justify-content: center;
         }
+
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 900px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         }
-        h1 {
+
+        header {
             text-align: center;
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 20px;
         }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
         .section {
-            margin-bottom: 25px;
-            padding: 15px;
-            border-left: 5px solid #3498db;
-            background: #f9f9f9;
-            border-radius: 0 8px 8px 0;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
+            transition: transform 0.2s;
         }
-        .section-title {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #2980b9;
-            margin-bottom: 10px;
-            display: block;
+
+        .section:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
         }
-        .link-box {
+
+        h2 {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0;
+        }
+
+        .link-btn {
             display: inline-block;
-            background: #3498db;
-            color: #fff;
-            padding: 8px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 5px;
-            transition: background 0.3s;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: opacity 0.3s;
         }
-        .link-box:hover {
-            background: #2980b9;
+
+        .link-btn:hover {
+            opacity: 0.85;
         }
-        .info-text {
-            font-size: 1.1em;
-            color: #444;
+
+        .info-item {
+            margin: 10px 0;
+            padding: 8px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-size: 0.95rem;
         }
-        .contact-info {
-            background: #e8f4fd;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 5px;
+
+        .label {
+            font-weight: bold;
+            color: #475569;
         }
-        hr {
-            border: 0;
-            height: 1px;
-            background: #eee;
-            margin: 20px 0;
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+            .container { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>রিসোর্স ও ইনফরমেশন ড্যাশবোর্ড</h1>
+    <header>
+        <h1>Information & Study Dashboard</h1>
+        <p>Centralized repository for notes, labs, and contact details</p>
+    </header>
 
-    <div class="section">
-        <span class="section-title">Biology Study Material</span>
-        <a class="link-box" href="https://foysal1627.github.io/assets/image/IMG_20251117_171345.jpg" target="_blank">Phylum Note (Image)</a>
-    </div>
-
-    <div class="section">
-        <span class="section-title">Question Bank</span>
-        <p>Quiz and term questions:</p>
-        <a class="link-box" href="https://drive.google.com/drive/folders/1C9WgtrYUbXkVkTi82CdfHZDoFphrNbiQ" target="_blank">View Questions Folder</a>
-    </div>
-
-    <div class="section">
-        <span class="section-title">Math Lab</span>
-        <p>ম্যাথ ল্যাব ডকুমেন্ট লিঙ্ক:</p>
-        <a class="link-box" href="https://docs.google.com/document/d/11OzsD61jg_VrLV8pNKRyyLZCFAKVZODDU0X1701yusk/edit?usp=drive_link" target="_blank">Open Math Lab Doc</a>
-    </div>
-
-    <div class="section">
-        <span class="section-title">Lab Reports & Resources</span>
-        <div style="margin-bottom: 10px;">
-            <a class="link-box" href="https://cutt.ly/DtrkDuPf" target="_blank">Lab Report Link 1</a>
+    <div class="grid">
+        <div class="section">
+            <h2>Biology Materials</h2>
+            <p>Comprehensive Phylum study notes.</p>
+            <a href="https://foysal1627.github.io/assets/image/IMG_20251117_171345.jpg" class="link-btn" target="_blank">Open Phylum Note</a>
         </div>
-        <a class="link-box" href="https://drive.google.com/drive/mobile/folders/1n3s7hHOpV_6djYovYtv-Tia7bjDAxe1m?sfnsn=wa" target="_blank">Lab Report Link 2 (Mobile View)</a>
-    </div>
 
-    <div class="section">
-        <span class="section-title">Personal Credentials & Info</span>
-        <div class="contact-info">
-            <p><strong>ID/Ref:</strong> BP 1111111</p>
-            <p><strong>Phone 1:</strong> 01732375924</p>
-            <p><strong>Phone 2:</strong> 01345841363</p>
-            <p><strong>Email:</strong> himusadiaarefin@gmail.com</p>
+        <div class="section">
+            <h2>Question Bank</h2>
+            <p>Shared Google Drive folder for practice questions.</p>
+            <a href="https://drive.google.com/drive/folders/1C9WgtrYUbXkVkTi82CdfHZDoFphrNbiQ" class="link-btn" target="_blank">Access Folder</a>
+        </div>
+
+        <div class="section">
+            <h2>Math Laboratory</h2>
+            <p>Lab instructions and documentation.</p>
+            <a href="https://docs.google.com/document/d/11OzsD61jg_VrLV8pNKRyyLZCFAKVZODDU0X1701yusk/edit?usp=drive_link" class="link-btn" target="_blank">View Google Doc</a>
+        </div>
+
+        <div class="section">
+            <h2>Lab Reports</h2>
+            <p>Reference reports and mobile drive folders.</p>
+            <a href="https://cutt.ly/DtrkDuPf" class="link-btn" target="_blank">Report Link 1</a>
+            <a href="https://drive.google.com/drive/mobile/folders/1n3s7hHOpV_6djYovYtv-Tia7bjDAxe1m" class="link-btn" target="_blank" style="background: #10b981;">Report Link 2</a>
+        </div>
+
+        <div class="section">
+            <h2>Contact Details</h2>
+            <div class="info-item"><span class="label">ID Ref:</span> BP 1111111</div>
+            <div class="info-item"><span class="label">Primary:</span> 01732375924</div>
+            <div class="info-item"><span class="label">Secondary:</span> 01345841363</div>
+            <div class="info-item"><span class="label">Email:</span> himusadiaarefin@gmail.com</div>
+        </div>
+
+        <div class="section">
+            <h2>Academic References</h2>
+            <div class="info-item"><span class="label">Chem:</span> Redwan Method 16082007Mr</div>
+            <div class="info-item"><span class="label">ACS:</span> 30122008</div>
+            <p><strong>External Course:</strong></p>
+            <a href="https://shikho.io/hsc27-science-pb" class="link-btn" style="background: #f59e0b;">Shikho HSC '27</a>
         </div>
     </div>
-
-    <div class="section">
-        <span class="section-title">Education & Courses</span>
-        <div class="contact-info">
-            <p><strong>Chemistry:</strong> Redwan method chem 16082007Mr</p>
-            <p><strong>ACS:</strong> Acs 30122008</p>
-        </div>
-        <p>HSC '27 Science Course:</p>
-        <a class="link-box" href="https://shikho.io/hsc27-science-pb" target="_blank">Shikho HSC 27 Course</a>
-    </div>
-
 </div>
 
 </body>
