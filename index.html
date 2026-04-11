@@ -792,7 +792,7 @@
             <div class="stats-section">
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
-                    <span class="stat-number" data-target="2">0+</span>
+                    <span class="stat-number" data-target="3">0+</span>
                     <span class="stat-label">Years Experience</span>
                 </div>
                 <div class="stat-card">
@@ -807,7 +807,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-bug"></i></div>
-                    <span class="stat-number" data-target="300">0+</span>
+                    <span class="stat-number" data-target="180">0+</span>
                     <span class="stat-label">Bugs Found</span>
                 </div>
             </div>
@@ -1216,7 +1216,7 @@ color: #777777 !important;
                     cur = Math.min(cur + step, target);
                     el.textContent = cur + '+';
                     if (cur >= target) clearInterval(t);
-                }, 60);
+                }, 50);
             });
         }
         const statsObs = new IntersectionObserver(entries => {
