@@ -938,7 +938,7 @@
                     <div class="t-dot" onclick="goToSlide(2)"></div>
                     <div class="t-dot" onclick="goToSlide(3)"></div>
                 </div>
-                <p class="swipe-hint">← swipe to navigate →</p>
+               
             </div>
         </section>
 
@@ -1216,7 +1216,7 @@ color: #777777 !important;
                     cur = Math.min(cur + step, target);
                     el.textContent = cur + '+';
                     if (cur >= target) clearInterval(t);
-                }, 25);
+                }, 60);
             });
         }
         const statsObs = new IntersectionObserver(entries => {
