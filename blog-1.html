@@ -320,7 +320,7 @@ title: "All Blog Posts"
 
   .post-date {
     font-family: 'Orbitron', monospace;
-    font-size: 9px;
+    font-size: 10px;
     color: var(--muted);
     letter-spacing: 0.15em;
     margin-top: 5px;
@@ -444,7 +444,7 @@ title: "All Blog Posts"
   <ul class="post-list" id="postList">
     {% for post in site.posts %}
     <li class="post-item" style="--item-delay: {{ forloop.index0 | times: 0.06 }}s" data-title="{{ post.title | downcase }}">
-      <a class="post-link" href="{{ post.url }}">
+      <a style="-webkit-tap-highlight-color: transparent" class="post-link" href="{{ post.url }}">
         <span class="post-index">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
         <div class="post-info">
           <div class="post-name">{{ post.title }}</div>
