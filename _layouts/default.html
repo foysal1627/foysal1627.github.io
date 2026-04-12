@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
     <style>
-        /* Base Styles */
+        
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -17,14 +17,13 @@
             line-height: 1.6;
         }
 
-        /* Navigation Bar */
+        
 /* Navigation Bar */
 nav {
     text-align: center;
     margin-bottom: 20px;
 }
 
-/* বেসিক নেভিগেশন স্টাইল */
 nav a.slide-btn {
     display: inline-block;
     margin: 0 10px;
@@ -42,17 +41,16 @@ nav a.slide-btn {
     overflow: hidden;
     z-index: 1;
     outline: none;
-    border: none; /* ফোকাস আউটলাইন ও বর্ডার সরানো */
+    border: none; 
 }
 
-/* নীল ফোকাস আউটলাইন সম্পূর্ণ রিমুভ */
+
 nav a.slide-btn:focus,
 nav a.slide-btn:active {
     outline: none;
     box-shadow: none;
 }
 
-/* স্লাইড ইন ইফেক্ট */
 nav a.slide-btn::after {
     content: '';
     position: absolute;
@@ -67,7 +65,7 @@ nav a.slide-btn::after {
     transform: translateX(-100%);
 }
 
-/* ক্লিক করলে স্লাইড ইন হবে */
+
 nav a.slide-btn.active::after {
     transform: translateX(0);
 }
@@ -101,7 +99,7 @@ nav a.slide-btn.active::after {
 </nav>
     <hr>
     {{ content }}
-<!-- স্ক্রল-ট্রিগারড জুম ইন অ্যানিমেশন -->
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const postContents = document.querySelectorAll('.post-content');
@@ -114,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }, {
-        threshold: 0.1 // এলিমেন্ট ১০% দেখা গেলে অ্যানিমেশন চালু হবে
+        threshold: 0.1 
     });
 
     postContents.forEach(content => {
@@ -127,19 +125,19 @@ document.addEventListener("DOMContentLoaded", function() {
      
         document.querySelectorAll('.slide-btn').forEach(button => {
     button.addEventListener('click', function(e) {
-        // ক্লাস রিমুভ করে রি-অ্যাড করার জন্য ট্রিক
+        
         this.classList.remove('active');
         void this.offsetWidth; // Repaint trigger (CSS animation reset)
         
         this.classList.add('active');
 
-        // Animation পুরোপুরি শেষ হওয়ার জন্য সময় দেওয়া হলো
+        
         setTimeout(() => {
             this.classList.remove('active');
         }, 500);
     });
 
-    // ফোকাস আউটলাইন রিমুভ করার জন্য
+
     button.addEventListener('mousedown', function(e) {
         e.preventDefault();
     });
