@@ -1,0 +1,841 @@
+---
+layout: default
+---
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+  :root {
+    --gold:    #c9a84c;
+    --gold2:   #f0d080;
+    --gold3:   #8a6820;
+    --dark:    #04060a;
+    --dark2:   #080c14;
+    --dark3:   #0d1220;
+    --border:  rgba(201,168,76,0.18);
+    --border2: rgba(201,168,76,0.07);
+    --border3: rgba(201,168,76,0.30);
+    --text:    #e8dcc8;
+    --muted:   #6b6050;
+    --red:     #d10209;
+    --purple:  #6200ea;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── READING PROGRESS BAR ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold3), var(--gold), var(--gold2));
+    z-index: 9999;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px rgba(201,168,76,0.6);
+  }
+
+  /* ── BACKGROUND ── */
+  #post-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  #post-stars { position: absolute; inset: 0; }
+  .p-star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: pTwinkle var(--d, 3s) var(--delay, 0s) infinite;
+  }
+  @keyframes pTwinkle {
+    0%, 100% { opacity: var(--min, 0.1); transform: scale(1); }
+    50%       { opacity: var(--max, 0.7); transform: scale(1.3); }
+  }
+  .p-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    animation: pFloatUp var(--pd, 9s) var(--pdelay, 0s) ease-in infinite;
+  }
+  @keyframes pFloatUp {
+    0%   { transform: translateY(0) scale(1); opacity: 0; }
+    10%  { opacity: var(--po, 0.2); }
+    90%  { opacity: var(--po, 0.2); }
+    100% { transform: translateY(-100vh) scale(0.2); opacity: 0; }
+  }
+  .p-scanlines {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
+    );
+    pointer-events: none;
+  }
+  .p-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    animation: pOrbDrift var(--od, 22s) ease-in-out infinite alternate;
+  }
+  .p-orb1 {
+    width: 500px; height: 500px;
+    top: -15%; left: -10%;
+    background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+    --od: 28s;
+  }
+  .p-orb2 {
+    width: 350px; height: 350px;
+    bottom: -10%; right: -10%;
+    background: radial-gradient(circle, rgba(98,0,234,0.04) 0%, transparent 70%);
+    --od: 20s;
+  }
+  @keyframes pOrbDrift {
+    0%   { transform: translate(0,0) scale(1); }
+    100% { transform: translate(25px,18px) scale(1.08); }
+  }
+
+  /* HUD scan line */
+  .p-hud-line {
+    position: fixed;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    height: 1px; width: 100%;
+    z-index: 3; pointer-events: none; opacity: 0.12;
+    animation: pHudScan 10s linear infinite;
+  }
+  @keyframes pHudScan {
+    0%   { top: 0; opacity: 0; }
+    5%   { opacity: 0.12; }
+    95%  { opacity: 0.12; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* HUD corners */
+  .p-corner {
+    position: fixed;
+    width: 44px; height: 44px;
+    z-index: 3; pointer-events: none;
+  }
+  .p-corner-tl { top: 14px; left: 14px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .p-corner-tr { top: 14px; right: 14px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+  .p-corner-bl { bottom: 14px; left: 14px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .p-corner-br { bottom: 14px; right: 14px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+  /* ── PAGE WRAPPER ── */
+  .post-page {
+    position: relative;
+    z-index: 10;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 56px 20px 90px;
+    animation: postPageIn 0.7s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes postPageIn {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── BACK BUTTON ── */
+  .post-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 7px 14px 7px 10px;
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    margin-bottom: 36px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    text-transform: uppercase;
+  }
+  .post-back:hover {
+    color: var(--gold);
+    border-color: var(--border);
+    background: rgba(201,168,76,0.05);
+  }
+  .post-back i { font-size: 10px; }
+
+  /* ── POST HEADER ── */
+  .post-header {
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .post-sys-tag {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .post-sys-tag::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold3));
+  }
+
+  .post-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(18px, 4.5vw, 30px);
+    font-weight: 700;
+    color: var(--gold2);
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+    text-shadow: 0 0 40px rgba(201,168,76,0.3);
+    margin-bottom: 20px;
+  }
+
+  .post-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+  }
+
+  .post-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .post-meta-item i { color: var(--gold3); font-size: 10px; }
+
+  .post-meta-item a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .post-meta-item a:hover { color: var(--gold2); }
+
+  .post-meta-divider {
+    width: 1px; height: 12px;
+    background: var(--border);
+  }
+
+  /* ── ARTICLE BODY ── */
+  .post-body {
+    background: linear-gradient(145deg, rgba(13,18,32,0.9) 0%, rgba(8,12,20,0.95) 100%);
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    padding: 36px 36px 32px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .post-body::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--gold), transparent);
+    opacity: 0.5;
+  }
+
+  /* Typography for blog content */
+  .post-body h1, .post-body h2, .post-body h3,
+  .post-body h4, .post-body h5, .post-body h6 {
+    font-family: 'Orbitron', monospace;
+    color: var(--gold2);
+    letter-spacing: 0.06em;
+    margin: 28px 0 14px;
+    line-height: 1.3;
+  }
+  .post-body h1 { font-size: 22px; }
+  .post-body h2 { font-size: 18px; border-bottom: 1px solid var(--border2); padding-bottom: 8px; }
+  .post-body h3 { font-size: 15px; color: var(--gold); }
+  .post-body h4, .post-body h5, .post-body h6 { font-size: 13px; color: var(--gold3); }
+
+  .post-body p {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    line-height: 1.78;
+    color: var(--text);
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+  }
+
+  .post-body a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    transition: color 0.2s, border-color 0.2s;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    display: inline;
+    max-width: 100%;
+  }
+  .post-body a:hover {
+    color: var(--gold2);
+    border-color: var(--gold);
+  }
+
+  .post-body ul, .post-body ol {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+    margin: 0 0 18px 24px;
+  }
+  .post-body li { margin-bottom: 6px; }
+  .post-body ul li::marker { color: var(--gold3); }
+
+  .post-body blockquote {
+    border-left: 2px solid var(--gold);
+    background: rgba(201,168,76,0.04);
+    padding: 14px 20px;
+    margin: 20px 0;
+    border-radius: 0 2px 2px 0;
+    font-style: italic;
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+  }
+
+  .post-body code {
+    font-family: 'Share Tech Mono', monospace;
+    background: rgba(201,168,76,0.07);
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    padding: 2px 7px;
+    font-size: 13px;
+    color: var(--gold2);
+    word-break: break-all;
+  }
+
+  .post-body pre {
+    background: rgba(4,6,10,0.95);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    margin: 20px 0;
+    position: relative;
+  }
+  .post-body pre::before {
+    content: '// CODE';
+    display: block;
+    font-family: 'Orbitron', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+  }
+  .post-body pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    color: var(--gold2);
+    line-height: 1.6;
+  }
+
+  .post-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    margin: 16px 0;
+    display: block;
+  }
+
+  .post-body hr {
+    border: none;
+    border-top: 1px solid var(--border2);
+    margin: 28px 0;
+  }
+
+  .post-body strong { color: var(--gold2); font-weight: 700; }
+  .post-body em { color: var(--muted); font-style: italic; }
+
+  table.post-body, .post-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+  }
+  .post-body th {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .post-body td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border2);
+    color: var(--text);
+  }
+  .post-body tr:hover td { background: rgba(201,168,76,0.03); }
+
+  /* ── POST QUOTE FOOTER ── */
+  .post-quote-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border2);
+  }
+  .post-quote-bar i { color: var(--gold3); font-size: 12px; flex-shrink: 0; }
+  .post-quote-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    font-style: italic;
+  }
+
+  /* ── AUTHOR CARD ── */
+  .author-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: linear-gradient(135deg, rgba(13,18,32,0.95) 0%, rgba(8,12,20,0.97) 100%);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .author-card::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--gold), transparent);
+    opacity: 0.4;
+  }
+
+  .author-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--dark3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    color: var(--gold3);
+  }
+
+  .author-info { flex: 1; }
+
+  .author-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .author-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold2);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .author-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .author-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Orbitron', monospace;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 4px 9px;
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    text-transform: uppercase;
+  }
+  .author-link:hover {
+    color: var(--gold);
+    border-color: var(--border);
+    background: rgba(201,168,76,0.05);
+  }
+  .author-link i { font-size: 10px; }
+
+  /* ── ACTION ROW ── */
+  .post-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 28px;
+    align-items: center;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--muted);
+  }
+  .action-btn i { font-size: 11px; }
+  .action-btn:hover {
+    border-color: var(--border);
+    color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+  .action-btn.copy-btn.copied {
+    border-color: rgba(0,220,100,0.35);
+    color: #00dc64;
+    background: rgba(0,220,100,0.05);
+  }
+
+  /* ── SHARE SECTION ── */
+  .share-section {
+    background: linear-gradient(135deg, rgba(13,18,32,0.95) 0%, rgba(8,12,20,0.97) 100%);
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .share-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .share-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border2);
+  }
+
+  .share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    background: transparent;
+  }
+  .share-btn i { font-size: 13px; }
+  .share-btn:hover {
+    border-color: var(--border3);
+    color: var(--gold2);
+    background: rgba(201,168,76,0.07);
+    transform: translateY(-1px);
+  }
+  .share-btn.fb:hover  { border-color: rgba(66,103,178,0.4); color: #4267B2; background: rgba(66,103,178,0.06); }
+  .share-btn.tw:hover  { border-color: rgba(29,155,240,0.4); color: #1d9bf0; background: rgba(29,155,240,0.06); }
+  .share-btn.li:hover  { border-color: rgba(10,102,194,0.4); color: #0a66c2; background: rgba(10,102,194,0.06); }
+  .share-btn.wa:hover  { border-color: rgba(37,211,102,0.4); color: #25D366; background: rgba(37,211,102,0.06); }
+
+  /* ── FOOTER TAG ── */
+  .post-footer-tag {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--border2);
+    font-family: 'Orbitron', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+  }
+
+  /* ── TOAST NOTIFICATION ── */
+  #post-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(13,18,32,0.97);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 10px 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  #post-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  #post-toast i { font-size: 12px; color: #00dc64; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .post-page { padding: 40px 14px 70px; }
+    .post-body { padding: 22px 18px 20px; }
+    .post-body p { font-size: 16px; }
+    .post-title { font-size: 18px; }
+    .author-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .post-meta-divider { display: none; }
+    .share-buttons, .post-actions { gap: 8px; }
+  }
+</style>
+
+<!-- Background -->
+<div id="post-bg">
+  <div id="post-stars"></div>
+  <div class="p-scanlines"></div>
+  <div class="p-orb p-orb1"></div>
+  <div class="p-orb p-orb2"></div>
+</div>
+<div class="p-hud-line"></div>
+<div class="p-corner p-corner-tl"></div>
+<div class="p-corner p-corner-tr"></div>
+<div class="p-corner p-corner-bl"></div>
+<div class="p-corner p-corner-br"></div>
+
+<!-- Reading Progress -->
+<div id="progress-bar"></div>
+
+<!-- Toast -->
+<div id="post-toast"><i class="fa-solid fa-check"></i> <span id="toast-msg">LINK COPIED</span></div>
+
+<!-- ── MAIN ── -->
+<div class="post-page">
+
+  <!-- Back -->
+  <a class="post-back" href="https://foysal1627.github.io/blog">
+    <i class="fa-solid fa-chevron-left"></i> BACK TO BLOG
+  </a>
+
+  <!-- Post Header -->
+  <div class="post-header">
+    <div class="post-sys-tag">SYS :: POST_VIEW</div>
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta-bar">
+      <span class="post-meta-item">
+        <i class="fa-regular fa-calendar"></i>
+        {{ page.date | date: "%B %d, %Y" }}
+      </span>
+      <span class="post-meta-divider"></span>
+      <span class="post-meta-item">
+        <i class="fa-solid fa-user-secret"></i>
+        <a href="https://www.facebook.com/foysal1627githubio" target="_blank">FOYSAL MAHMUD</a>
+      </span>
+      <span class="post-meta-divider"></span>
+      <span class="post-meta-item" id="read-time-meta">
+        <i class="fa-regular fa-clock"></i>
+        <span id="read-time-val">CALCULATING...</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Article Body -->
+  <article class="post-body">
+    {{ content }}
+
+    {% if page.quote %}
+    <div class="post-quote-bar">
+      <i class="fa-solid fa-eye fa-xs"></i>
+      <span class="post-quote-text">{{ page.quote }}</span>
+    </div>
+    {% endif %}
+  </article>
+
+  <!-- Action Row -->
+  <div class="post-actions">
+    <button class="action-btn copy-btn" id="copyLinkButton" title="Copy link">
+      <i class="fa-solid fa-link"></i> COPY LINK
+    </button>
+    <a class="action-btn" href="https://foysal1627.github.io/blog" title="All posts">
+      <i class="fa-solid fa-list"></i> ALL POSTS
+    </a>
+  </div>
+
+  <!-- Author Card -->
+  <div class="author-card">
+    <div class="author-avatar">
+      <img src="https://foysal1627.github.io/assets/image/pp1.jpg"
+           alt="Foysal"
+           style="width:52px;height:52px;border-radius:50%;object-fit:cover;display:block;"
+           onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fa-solid fa-user-secret\' style=\'color:var(--gold3);font-size:22px\'></i>'">
+    </div>
+    <div class="author-info">
+      <div class="author-label">// WRITTEN BY</div>
+      <div class="author-name">FOYSAL MAHMUD</div>
+      <div class="author-links">
+        <a class="author-link" href="https://www.facebook.com/foysal1627githubio" target="_blank">
+          <i class="fa-brands fa-facebook"></i> FACEBOOK
+        </a>
+        <a class="author-link" href="https://foysal1627.github.io/blog" target="_blank">
+          <i class="fa-solid fa-pen-clip"></i> ALL POSTS
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Section -->
+  <div class="share-section">
+    <div class="share-label"><i class="fa-solid fa-share-nodes" style="color:var(--gold3)"></i> SHARE THIS POST</div>
+    <div class="share-buttons">
+      <a class="share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" target="_blank" title="Share on Facebook">
+        <i class="fa-brands fa-facebook"></i> FACEBOOK
+      </a>
+      <a class="share-btn tw" href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text={{ page.title }}" target="_blank" title="Share on Twitter">
+        <i class="fa-brands fa-square-x-twitter"></i> TWITTER
+      </a>
+      <a class="share-btn li" href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url }}&title={{ page.title }}" target="_blank" title="Share on LinkedIn">
+        <i class="fa-brands fa-linkedin"></i> LINKEDIN
+      </a>
+      <a class="share-btn wa" href="https://wa.me/?text={{ page.title | url_encode }}%20{{ page.url | absolute_url }}" target="_blank" title="Share on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i> WHATSAPP
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer tag -->
+  <div class="post-footer-tag">// FOYSAL MAHMUD · CYBER SECURITY · END OF POST</div>
+
+</div>
+
+<script>
+(function () {
+  /* ── Background stars ── */
+  const starsEl = document.getElementById('post-stars');
+  for (let i = 0; i < 100; i++) {
+    const s = document.createElement('div');
+    s.className = 'p-star';
+    const sz = Math.random() * 2 + 0.5;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*5}s;--delay:${Math.random()*6}s;--min:${0.04+Math.random()*0.08};--max:${0.3+Math.random()*0.5};`;
+    starsEl.appendChild(s);
+  }
+  for (let i = 0; i < 14; i++) {
+    const p = document.createElement('div');
+    p.className = 'p-particle';
+    const sz = Math.random() * 2.5 + 0.8;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:0;--pd:${8+Math.random()*12}s;--pdelay:${Math.random()*12}s;--po:${0.08+Math.random()*0.15};`;
+    starsEl.appendChild(p);
+  }
+
+  /* ── Reading progress bar ── */
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', function () {
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+
+  /* ── Estimated read time ── */
+  const bodyEl = document.querySelector('.post-body');
+  const rtEl = document.getElementById('read-time-val');
+  if (bodyEl && rtEl) {
+    const words = bodyEl.innerText.trim().split(/\s+/).length;
+    const mins = Math.max(1, Math.round(words / 200));
+    rtEl.textContent = mins + ' MIN READ';
+  }
+
+  /* ── Copy link with toast ── */
+  const copyBtn = document.getElementById('copyLinkButton');
+  const toast = document.getElementById('post-toast');
+  let toastTimer;
+  function showToast(msg) {
+    document.getElementById('toast-msg').textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          copyBtn.classList.add('copied');
+          copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED!';
+          showToast('LINK COPIED TO CLIPBOARD');
+          setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            copyBtn.innerHTML = '<i class="fa-solid fa-link"></i> COPY LINK';
+          }, 2500);
+        });
+      } else {
+        const inp = document.createElement('input');
+        inp.value = window.location.href;
+        document.body.appendChild(inp);
+        inp.select();
+        document.execCommand('copy');
+        document.body.removeChild(inp);
+        showToast('LINK COPIED TO CLIPBOARD');
+      }
+    });
+  }
+})();
+</script>
