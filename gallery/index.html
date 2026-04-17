@@ -233,6 +233,16 @@ description: "Photo gallery of Foysal Mahmud - personal and project photos."
     columns: 3 280px; column-gap: 14px;
   }
 
+     /* Wide screenshot items — 2 column span */
+.gal-item.gal-wide {
+    column-span: all;
+    max-width: 100%;
+}
+.gal-item.gal-wide img {
+    max-height: 280px;
+    object-fit: cover;
+    object-position: top left;
+}
   .gal-item {
     break-inside: avoid; margin-bottom: 14px;
     position: relative; overflow: hidden;
@@ -490,6 +500,16 @@ description: "Photo gallery of Foysal Mahmud - personal and project photos."
         <div class="gal-overlay-cat">// PERSONAL</div>
       </div>
        </div>
+
+       <div class="gal-item gal-wide" data-cat="project" data-title="Web development">
+      <span class="gal-cat-chip">Project</span>
+      <img src="https://foysal1627.github.io/assets/image/asf25.png" alt="Foysal's web dev" loading="lazy">
+      <div class="gal-overlay">
+        <div class="gal-overlay-icon"><i class="fa-solid fa-expand"></i></div>
+        <div class="gal-overlay-title">Web development</div>
+        <div class="gal-overlay-cat">// PROJECT</div>
+      </div>
+       </div>
        
     <div class="gal-item" data-cat="personal" data-title="Foysal">
       <span class="gal-cat-chip">Personal</span>
@@ -532,7 +552,7 @@ description: "Photo gallery of Foysal Mahmud - personal and project photos."
       </div>
     </div>
 
-       <div class="gal-item" data-cat="project" data-title="AI workplace">
+       <div class="gal-item gal-wide" data-cat="project" data-title="AI workplace">
       <span class="gal-cat-chip">Project</span>
       <img src="https://foysal1627.github.io/assets/image/project.jpg" alt="Foysal's AI workplace" loading="lazy">
       <div class="gal-overlay">
@@ -541,16 +561,6 @@ description: "Photo gallery of Foysal Mahmud - personal and project photos."
         <div class="gal-overlay-cat">// PROJECT</div>
       </div>
        </div>
-       
-  <div class="gal-item" data-cat="project" data-title="Web development">
-      <span class="gal-cat-chip">Project</span>
-      <img src="https://foysal1627.github.io/assets/image/asf25.png" alt="Foysal's web dev" loading="lazy">
-      <div class="gal-overlay">
-        <div class="gal-overlay-icon"><i class="fa-solid fa-expand"></i></div>
-        <div class="gal-overlay-title">Web development</div>
-        <div class="gal-overlay-cat">// PROJECT</div>
-      </div>
-    </div>
        
     <div class="gal-item" data-cat="project" data-title="Cover — Cyber Operations">
       <span class="gal-cat-chip">Project</span>
