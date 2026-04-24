@@ -1841,6 +1841,7 @@ function showTyping() {
 
 
 async function sendMessage(msg) {
+async function sendMessage(msg, retryCount = 0) {
     if (!msg.trim() || isTyping) return;
     
     isTyping = true;
@@ -1852,20 +1853,23 @@ async function sendMessage(msg) {
     chatHistory.push({ role: 'user', content: msg });
     showTyping();
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
+
     try {
         const res = await fetch('https://ai-omega-gray.vercel.app/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            
-            body: JSON.stringify({ chatHistory: chatHistory.slice(-6) })
+            body: JSON.stringify({ chatHistory: chatHistory.slice(-6) }),
+            signal: controller.signal
         });
+        clearTimeout(timeout);
 
-        if (!res.ok) throw new Error('Network response was not ok');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const data = await res.json();
         hideTyping();
 
-    
         if (data && data.candidates && data.candidates[0].content) {
             const reply = data.candidates[0].content.parts[0].text;
             appendMsg('bot', reply);
@@ -1873,14 +1877,21 @@ async function sendMessage(msg) {
         } else if (data.error) {
             appendMsg('bot', '⚠️ Error: ' + data.error);
         } else {
-            appendMsg('bot', '⚠️ Unexpected response format. Please try again.');
+            appendMsg('bot', '⚠️ Unexpected response. Please try again.');
         }
 
     } catch (e) {
+        clearTimeout(timeout);
         hideTyping();
-        console.error("Fetch Error:", e);
-        
-        appendMsg('bot', '⚠️ Connection lost. Please check your internet or retry.');
+
+        if (retryCount < 1) {
+            chatHistory.pop();
+            appendMsg('bot', '⏳ Server warming up, retrying...');
+            setTimeout(() => sendMessage(msg, retryCount + 1), 3000);
+            return;
+        }
+
+        appendMsg('bot', '⚠️ Connection failed. Please try again.');
     } finally {
         isTyping = false;
         chatInput.disabled = false;
