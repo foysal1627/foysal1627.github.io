@@ -1510,9 +1510,9 @@ color: #777777 !important;
             const yesBtn = document.getElementById('preentry-yes');
             const noBtn  = document.getElementById('preentry-no');
             yesBtn.onclick = noBtn.onclick = function () {
-                startBgAudio();
-                setTimeout(enableSite, 350);
-            };
+    try { startBgAudio(); } catch(e) {}  
+    setTimeout(enableSite, 350);
+};
             document.addEventListener('keydown', function (e) {
                 if (document.getElementById('preentry-overlay').style.display !== 'none') {
                     if (e.key === 'Tab') e.preventDefault();
@@ -1826,7 +1826,6 @@ color: #777777 !important;
         chatContent.scrollTop = chatContent.scrollHeight;
     }
 
-    function showTyping() {
 
 function showTyping() {
     const chatContent = document.getElementById('chat-content');
