@@ -1848,15 +1848,19 @@ async function sendMessage(msg, retryCount = 0) {
     chatInput.disabled = true;
     chatSend.disabled  = true;
     
-    appendMsg('user', msg);
-    chatHistory.push({ role: 'user', content: msg });
+    if (retryCount === 0) {
+        appendMsg('user', msg);
+        chatHistory.push({ role: 'user', content: msg });
+    }
+    
     showTyping();
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 20000);
 
     try {
-        const res = await fetch('https://ai-omega-gray.vercel.app/api/chat', {
+
+        const res = await fetch('https://aifoysal.netlify.app/.netlify/functions/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ chatHistory: chatHistory.slice(-6) }),
@@ -1864,7 +1868,7 @@ async function sendMessage(msg, retryCount = 0) {
         });
         clearTimeout(timeout);
 
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) throw new Error('Server error');
 
         const data = await res.json();
         hideTyping();
@@ -1873,24 +1877,24 @@ async function sendMessage(msg, retryCount = 0) {
             const reply = data.candidates[0].content.parts[0].text;
             appendMsg('bot', reply);
             chatHistory.push({ role: 'assistant', content: reply });
-        } else if (data.error) {
-            appendMsg('bot', '⚠️ Error: ' + data.error);
         } else {
-            appendMsg('bot', '⚠️ Unexpected response. Please try again.');
+            throw new Error('Format Error');
         }
 
     } catch (e) {
         clearTimeout(timeout);
         hideTyping();
 
+        
         if (retryCount < 1) {
-            chatHistory.pop();
-            appendMsg('bot', '⏳ Server warming up, retrying...');
-            setTimeout(() => sendMessage(msg, retryCount + 1), 3000);
+            setTimeout(() => {
+                isTyping = false;
+                sendMessage(msg, retryCount + 1);
+            }, 3000);
             return;
         }
 
-        appendMsg('bot', '⚠️ Connection failed. Please try again.');
+        appendMsg('bot', '⚠️ System currently unavailable. Please try again later.');
     } finally {
         isTyping = false;
         chatInput.disabled = false;
