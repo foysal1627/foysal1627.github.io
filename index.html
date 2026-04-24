@@ -1819,7 +1819,7 @@ color: #777777 !important;
         avatar.innerHTML = role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
         const bubble = document.createElement('div');
         bubble.className = 'msg-bubble';
-        bubble.textContent = text;
+        bubble.innerHTML = text;
         wrap.appendChild(avatar);
         wrap.appendChild(bubble);
         chatContent.appendChild(wrap);
@@ -1874,7 +1874,8 @@ async function sendMessage(msg, retryCount = 0) {
         hideTyping();
 
         if (data && data.candidates && data.candidates[0].content) {
-            const reply = data.candidates[0].content.parts[0].text;
+            let reply = data.candidates[0].content.parts[0].text;
+            reply = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             appendMsg('bot', reply);
             chatHistory.push({ role: 'assistant', content: reply });
         } else {
