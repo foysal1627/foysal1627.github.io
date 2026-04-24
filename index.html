@@ -1860,7 +1860,7 @@ async function sendMessage(msg, retryCount = 0) {
 
     try {
 
-        const res = await fetch('https://aifoysal.netlify.app/.netlify/functions/chat', {
+        const res = await fetch('https://wandering-rain-e523.foysalmahmud1627.workers.dev/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ chatHistory: chatHistory.slice(-6) }),
