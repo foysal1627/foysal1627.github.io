@@ -1828,21 +1828,17 @@ color: #777777 !important;
 
 
 function showTyping() {
-    const chatContent = document.getElementById('chat-content');
-    const typingDiv = document.createElement('div');
-    typingDiv.id = 'typing-indicator';
-    typingDiv.style.color = '#00a8ff';
-    typingDiv.style.fontSize = '12px';
-    typingDiv.style.marginBottom = '10px';
-    typingDiv.innerHTML = '<i>Assistant is thinking...</i>';
-    chatContent.appendChild(typingDiv);
-    chatContent.scrollTop = chatContent.scrollHeight;
-}
+        const wrap = document.createElement('div');
+        wrap.className = 'chat-msg bot'; wrap.id = 'typing-indicator';
+        wrap.innerHTML = '<div class="msg-avatar"><i class="fas fa-robot"></i></div>' +
+            '<div class="msg-bubble"><div class="typing-indicator">' +
+            '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>' +
+            '</div></div>';
+        chatContent.appendChild(wrap);
+        chatContent.scrollTop = chatContent.scrollHeight;
+    }
+    function hideTyping() { const t = document.getElementById('typing-indicator'); if (t) t.remove(); }
 
-function hideTyping() {
-    const indicator = document.getElementById('typing-indicator');
-    if (indicator) indicator.remove();
-}
 
 async function sendMessage(msg) {
     if (!msg.trim() || isTyping) return;
