@@ -1840,7 +1840,6 @@ function showTyping() {
     function hideTyping() { const t = document.getElementById('typing-indicator'); if (t) t.remove(); }
 
 
-async function sendMessage(msg) {
 async function sendMessage(msg, retryCount = 0) {
     if (!msg.trim() || isTyping) return;
     
