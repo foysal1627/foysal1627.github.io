@@ -1811,19 +1811,41 @@ color: #777777 !important;
         sendMessage(el.textContent.trim());
     };
 
-    function appendMsg(role, text) {
+function appendMsg(role, text) {
         const wrap = document.createElement('div');
         wrap.className = 'chat-msg ' + role;
+        
         const avatar = document.createElement('div');
         avatar.className = 'msg-avatar';
         avatar.innerHTML = role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+        
         const bubble = document.createElement('div');
         bubble.className = 'msg-bubble';
-        bubble.innerHTML = text;
+        
         wrap.appendChild(avatar);
         wrap.appendChild(bubble);
         chatContent.appendChild(wrap);
-        chatContent.scrollTop = chatContent.scrollHeight;
+        
+        
+        if (role === 'bot' && !text.startsWith('⚠️')) {
+            let i = 0;
+            const speed = 6;
+            
+            function type() {
+                if (i < text.length) {
+                   
+                    bubble.innerHTML = text.substring(0, i + 1);
+                    i++;
+                    chatContent.scrollTop = chatContent.scrollHeight;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        } else {
+ 
+            bubble.innerHTML = text;
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
     }
 
 
