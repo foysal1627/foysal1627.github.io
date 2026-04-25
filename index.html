@@ -1970,30 +1970,33 @@ window.startVoice = function() {
         return;
     }
 
-  const recognition = new SpeechRecognition();
+const recognition = new SpeechRecognition();
 const voiceBtn = document.getElementById('voice-btn');
 recognition.lang = 'bn-BD';
+
 recognition.onstart = () => {
-    voiceBtn.classList.add('listening');
+    if (voiceBtn) voiceBtn.classList.add('listening');
     chatInput.placeholder = "Listening...";
 };
+
 recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
     chatInput.value = transcript;
+    sendMessage(transcript);
 };
 
-    recognition.onerror = (e) => {
-        console.log("Error: " + e.error);
-        voiceBtn.classList.remove('listening');
-    };
-
-    recognition.onend = () => {
-        voiceBtn.classList.remove('listening');
-        chatInput.placeholder = "Ask something...";
-    };
-
-    recognition.start();
+recognition.onerror = (e) => {
+    if (voiceBtn) voiceBtn.classList.remove('listening');
+    chatInput.placeholder = "Ask something...";
+    alert("Voice error: " + e.error);  // ← কী error আসে দেখো
 };
+
+recognition.onend = () => {
+    if (voiceBtn) voiceBtn.classList.remove('listening');
+    chatInput.placeholder = "Ask something...";
+};
+
+recognition.start();
             
     chatInput.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatInput.value); }
