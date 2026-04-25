@@ -981,7 +981,8 @@
     #ai-widget { right: 14px; bottom: 18px; }
 }
 
-        #chat-input-area {
+
+#chat-input-area {
     display: flex;
     align-items: center;
     background: #111; 
@@ -998,6 +999,7 @@
     cursor: pointer;
     transition: 0.3s ease;
 }
+
 
 #voice-btn.listening {
     color: #ff3e3e;
@@ -1448,6 +1450,9 @@
             <span class="chat-suggestion" onclick="sendSuggestion(this)">Services?</span>
             <span class="chat-suggestion" onclick="sendSuggestion(this)">How to hire?</span>
             <span class="chat-suggestion" onclick="sendSuggestion(this)">Pricing?</span>
+             <span class="chat-suggestion" onclick="sendSuggestion(this)">Contact info?</span>
+             <span class="chat-suggestion" onclick="sendSuggestion(this)">About Foysal?</span>
+            <span class="chat-suggestion" onclick="sendSuggestion(this)">Cybersecurity tips?</span>
         </div>
         <div id="chat-input-area">
             <input type="text" id="chat-input" placeholder="Ask something..." autocomplete="off" />
@@ -1856,10 +1861,10 @@ function appendMsg(role, text) {
         wrap.appendChild(bubble);
         chatContent.appendChild(wrap);
         
-        
+   
         if (role === 'bot' && !text.startsWith('⚠️')) {
             let i = 0;
-            const speed = 6;
+            const speed = 6; 
             
             function type() {
                 if (i < text.length) {
@@ -1872,7 +1877,7 @@ function appendMsg(role, text) {
             }
             type();
         } else {
- 
+        
             bubble.innerHTML = text;
             chatContent.scrollTop = chatContent.scrollHeight;
         }
@@ -1956,7 +1961,6 @@ async function sendMessage(msg, retryCount = 0) {
     }
 }
 
-        
 const voiceBtn = document.getElementById('voice-btn');
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -1966,7 +1970,7 @@ if (SpeechRecognition && voiceBtn) {
     recognition.interimResults = false;
 
     voiceBtn.onclick = () => {
-     
+
         if (isTyping) return; 
         try {
             recognition.start();
@@ -1983,7 +1987,7 @@ if (SpeechRecognition && voiceBtn) {
     recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         chatInput.value = transcript;
-        
+       
     };
 
     recognition.onerror = (event) => {
@@ -1997,7 +2001,7 @@ if (SpeechRecognition && voiceBtn) {
         chatInput.placeholder = "Ask something...";
     };
 }
-            
+
     chatInput.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatInput.value); }
     });
