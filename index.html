@@ -1997,6 +1997,7 @@ recognition.onend = () => {
 };
 
 recognition.start();
+    };
             
     chatInput.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatInput.value); }
