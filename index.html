@@ -1961,7 +1961,7 @@ async function sendMessage(msg, retryCount = 0) {
     }
 }
 
-cwindow.startVoice = function() {
+window.startVoice = function() {
     if (isTyping) return;
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1970,20 +1970,17 @@ cwindow.startVoice = function() {
         return;
     }
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'bn-BD';
-
-    recognition.onstart = () => {
-        voiceBtn.classList.add('listening');
-        chatInput.placeholder = "Listening...";
-    };
-
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        chatInput.value = transcript;
-        // ইচ্ছে করলে সরাসরি সেন্ড করতে পারিস
-        sendMessage(transcript);
-    };
+  const recognition = new SpeechRecognition();
+const voiceBtn = document.getElementById('voice-btn');
+recognition.lang = 'bn-BD';
+recognition.onstart = () => {
+    voiceBtn.classList.add('listening');
+    chatInput.placeholder = "Listening...";
+};
+recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    chatInput.value = transcript;
+};
 
     recognition.onerror = (e) => {
         console.log("Error: " + e.error);
