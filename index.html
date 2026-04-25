@@ -981,6 +981,35 @@
     #ai-widget { right: 14px; bottom: 18px; }
 }
 
+        #chat-input-area {
+    display: flex;
+    align-items: center;
+    background: #111; 
+    padding: 10px;
+    border-top: 1px solid #333;
+}
+
+#voice-btn {
+    background: none;
+    border: none;
+    color: #00ffcc; 
+    font-size: 1.2rem;
+    padding: 0 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#voice-btn.listening {
+    color: #ff3e3e;
+    animation: voice-pulse 1.5s infinite;
+}
+
+@keyframes voice-pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
     </style>
 </head>
 
@@ -1422,6 +1451,7 @@
         </div>
         <div id="chat-input-area">
             <input type="text" id="chat-input" placeholder="Ask something..." autocomplete="off" />
+            <button id="voice-btn" title="Voice Search"><i class="fas fa-microphone"></i></button>
             <button id="chat-send"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
@@ -1926,6 +1956,48 @@ async function sendMessage(msg, retryCount = 0) {
     }
 }
 
+        
+const voiceBtn = document.getElementById('voice-btn');
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (SpeechRecognition && voiceBtn) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'bn-BD'; 
+    recognition.interimResults = false;
+
+    voiceBtn.onclick = () => {
+     
+        if (isTyping) return; 
+        try {
+            recognition.start();
+        } catch (err) {
+            console.error("Recognition already started", err);
+        }
+    };
+
+    recognition.onstart = () => {
+        voiceBtn.classList.add('listening');
+        chatInput.placeholder = "Listening...";
+    };
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        chatInput.value = transcript;
+        
+    };
+
+    recognition.onerror = (event) => {
+        console.error("Speech error: ", event.error);
+        voiceBtn.classList.remove('listening');
+        chatInput.placeholder = "Ask something...";
+    };
+
+    recognition.onend = () => {
+        voiceBtn.classList.remove('listening');
+        chatInput.placeholder = "Ask something...";
+    };
+}
+            
     chatInput.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatInput.value); }
     });
