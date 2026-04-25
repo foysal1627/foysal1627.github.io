@@ -1456,7 +1456,7 @@
         </div>
         <div id="chat-input-area">
             <input type="text" id="chat-input" placeholder="Ask something..." autocomplete="off" />
-            <button id="voice-btn" title="Voice Search"><i class="fas fa-microphone"></i></button>
+            <button id="voice-btn" onclick="startVoice()"><i class="fas fa-microphone"></i></button>
             <button id="chat-send"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
@@ -1961,23 +1961,17 @@ async function sendMessage(msg, retryCount = 0) {
     }
 }
 
-const voiceBtn = document.getElementById('voice-btn');
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+cwindow.startVoice = function() {
+    if (isTyping) return;
 
-if (SpeechRecognition && voiceBtn) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        alert("Your browser does not support voice input.");
+        return;
+    }
+
     const recognition = new SpeechRecognition();
-    recognition.lang = 'bn-BD'; 
-    recognition.interimResults = false;
-
-    voiceBtn.onclick = () => {
-
-        if (isTyping) return; 
-        try {
-            recognition.start();
-        } catch (err) {
-            console.error("Recognition already started", err);
-        }
-    };
+    recognition.lang = 'bn-BD';
 
     recognition.onstart = () => {
         voiceBtn.classList.add('listening');
@@ -1987,21 +1981,23 @@ if (SpeechRecognition && voiceBtn) {
     recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         chatInput.value = transcript;
-       
+        // ইচ্ছে করলে সরাসরি সেন্ড করতে পারিস
+        sendMessage(transcript);
     };
 
-    recognition.onerror = (event) => {
-        console.error("Speech error: ", event.error);
+    recognition.onerror = (e) => {
+        console.log("Error: " + e.error);
         voiceBtn.classList.remove('listening');
-        chatInput.placeholder = "Ask something...";
     };
 
     recognition.onend = () => {
         voiceBtn.classList.remove('listening');
         chatInput.placeholder = "Ask something...";
     };
-}
 
+    recognition.start();
+};
+            
     chatInput.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatInput.value); }
     });
