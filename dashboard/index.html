@@ -109,22 +109,23 @@
         }
 
         .video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    height: 0;
-    overflow: hidden;
-    margin-bottom: 20px;
+.yt-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #FF0000; /* YouTube Red Color */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    margin: 10px;
+    transition: background 0.3s ease;
 }
 
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 8px; 
+.yt-button:hover {
+    background-color: #CC0000; 
 }
-        
+
     </style>
 </head>
 <body>
@@ -224,27 +225,16 @@
   <source src="https://foysal1627.github.io/assets/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/PTT-20260415-WA0004.opus" type="audio/mpeg">
   Apnar browser ti audio tag support kore na.
         </audio>
-
-            <div class="video-container">
-    <iframe 
-        src="https://www.youtube.com/embed/videoseries?list=PLBJzN4mdFwTAecmRRoJ4gREC9Qto1JsRw" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-    </iframe>
-        <a href="https://youtube.com/playlist?list=PLBJzN4mdFwTAecmRRoJ4gREC9Qto1JsRw" target="_blank">Playlist</a>
         
-</div>
+<a href="https://youtube.com/playlist?list=PLBJzN4mdFwTAecmRRoJ4gREC9Qto1JsRw" class="yt-button" target="_blank">
+    Playlist
+</a>
 
-<div class="video-container">
-    <iframe 
-        src="https://www.youtube.com/embed/videoseries?list=PLBJzN4mdFwTCSynNE38pXZEvmtlgW2knO" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-    </iframe>
-    <a href="https://youtube.com/playlist?list=PLBJzN4mdFwTCSynNE38pXZEvmtlgW2knO" target="_blank">Playlist</a>
-</div>
+<a href="https://youtube.com/playlist?list=PLBJzN4mdFwTCSynNE38pXZEvmtlgW2knO" class="yt-button" target="_blank">
+    Playlist
+</a>
+        
+
     </div>
 </div>
     
