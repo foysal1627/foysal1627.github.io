@@ -236,6 +236,37 @@
 
     </div>
 </div>
+    <script>
+        async function checkDashboardAccess() {
     
+    const ACCESS_KEY = prompt("🔒 ENTER ADMIN ACCESS KEY:");
+    
+    if (!ACCESS_KEY) {
+        document.body.innerHTML = "<h1 style='color: #ff1744; text-align: center; margin-top: 20vh; font-family: monospace;'>[ACCESS DENIED // NO KEY PROVIDED]</h1>";
+        return;
+    }
+
+  
+    const WORKER_URL = 'https://wandering-rain-e523.foysalmahmud1627.workers.dev'; 
+
+    try {
+       
+        const res = await fetch(`${WORKER_URL}/api/get-logs?key=${ACCESS_KEY}`);
+        
+        if (!res.ok) {
+  
+            document.body.innerHTML = "<h1 style='color: #ff1744; text-align: center; margin-top: 20vh; font-family: monospace;'>[ACCESS DENIED // INVALID KEY]</h1>";
+        } else {
+            console.log("Access Granted. Loading Dashboard...");
+
+        }
+    } catch (err) {
+        document.body.innerHTML = `<h1 style='color: #ff1744; text-align: center; margin-top: 20vh; font-family: monospace;'>❌ CONNECTION ERROR: ${err.message}</h1>`;
+    }
+}
+
+
+window.onload = checkDashboardAccess;
+    </script>
 </body>
 </html>
