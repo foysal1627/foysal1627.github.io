@@ -797,6 +797,110 @@ button:focus-visible,a:focus-visible{
 /* ── PREVENT TEXT SELECTION on decorative elements ── */
 .nav-brand,.nav-links,.ticker-track,.stat-num,.hs-val,
 .hero-name,.pre-logo,.f-brand,.gate-title{user-select:none}
+
+/* ── MESSAGE FORM ── */
+.msg-form-wrap{margin-top:44px;background:rgba(7,11,17,.85);border:none;
+  border-radius:10px;padding:36px 32px;position:relative}
+.msg-form-wrap::before{
+  content:'';position:absolute;
+  inset:-2px;border-radius:12px;
+  background:conic-gradient(from var(--angle,0deg),transparent 70%,var(--red) 85%,transparent 100%);
+  animation:borderSpin 3s linear infinite;
+  z-index:0;transition:none;pointer-events:none}
+.msg-form-wrap.sent::before{
+  background:conic-gradient(from var(--angle,0deg),transparent 70%,#22c55e 85%,transparent 100%)}
+@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes borderSpin{to{--angle:360deg}}
+.msg-form-wrap::after{
+  content:'';position:absolute;
+  inset:1.5px;border-radius:9px;
+  background:#0a0f17;z-index:1;pointer-events:none}
+  
+ .msg-form-corner{position:absolute;width:14px;height:14px;border-color:rgba(255,23,68,.5);border-style:solid;z-index:3}
+.msg-form-corner.tl{top:12px;left:12px;border-width:1px 0 0 1px}
+.msg-form-corner.tr{top:12px;right:12px;border-width:1px 1px 0 0}
+.msg-form-corner.bl{bottom:12px;left:12px;border-width:0 0 1px 1px}
+.msg-form-corner.br{bottom:12px;right:12px;border-width:0 1px 1px 0}
+.msg-form-head{display:flex;align-items:center;gap:10px;margin-bottom:24px;position:relative;z-index:2}
+.msg-form-icon{width:38px;height:38px;border-radius:8px;
+  background:rgba(255,23,68,.12);border:1px solid rgba(255,23,68,.25);
+  display:flex;align-items:center;justify-content:center;color:var(--red);font-size:1rem}
+.msg-form-title{font-family:var(--mono);font-size:.78rem;font-weight:600;
+  color:var(--white);letter-spacing:1px;text-transform:uppercase}
+.msg-form-sub{font-family:var(--mono);font-size:.6rem;color:var(--muted);margin-top:2px}
+.msg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;position:relative;z-index:10}
+.msg-field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;position:relative;z-index:10}
+.msg-label{font-family:var(--mono);font-size:.6rem;color:var(--muted);
+  letter-spacing:1.5px;text-transform:uppercase}
+.msg-label span{color:var(--red)}
+.msg-input,.msg-textarea{background:rgba(255,23,68,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:6px;color:var(--white);font-family:var(--mono);font-size:.75rem;
+  padding:11px 14px;outline:none;transition:border-color .25s,box-shadow .25s;width:100%}
+.msg-input:focus,.msg-textarea:focus{border-color:rgba(255,23,68,.5);
+  box-shadow:0 0 0 3px rgba(255,23,68,.07)}
+.msg-input::placeholder,.msg-textarea::placeholder{color:rgba(255,255,255,.18)}
+.msg-textarea{resize:vertical;min-height:110px;line-height:1.7}
+.msg-select{display:none}
+/* ── CUSTOM DROPDOWN ── */
+.cd-wrap{position:relative;width:100%;z-index:100}
+.cd-trigger{background:rgba(255,23,68,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:6px;color:rgba(255,255,255,.25);font-family:var(--mono);font-size:.75rem;
+  padding:11px 36px 11px 14px;width:100%;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:border-color .25s,box-shadow .25s;user-select:none;position:relative}
+.cd-trigger.has-value{color:var(--white)}
+.cd-trigger:hover,.cd-wrap.open .cd-trigger{border-color:rgba(255,23,68,.5);
+  box-shadow:0 0 0 3px rgba(255,23,68,.07)}
+.cd-arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  color:var(--red);font-size:.65rem;transition:transform .25s var(--ease);pointer-events:none}
+.cd-wrap.open .cd-arrow{transform:translateY(-50%) rotate(180deg)}
+.cd-list{position:absolute;top:calc(100% + 6px);left:0;right:0;
+  background:#0b1018;border:1px solid rgba(255,23,68,.25);
+  border-radius:8px;overflow:hidden;z-index:99999;
+  box-shadow:0 16px 48px rgba(0,0,0,.95);
+  opacity:0;visibility:hidden;transform:translateY(-8px);
+  transition:opacity .2s var(--ease),transform .2s var(--ease),visibility .2s}
+.cd-wrap.open .cd-list{opacity:1;visibility:visible;transform:translateY(0)}
+.cd-list-inner{max-height:200px;overflow-y:auto;background:#0b1018}
+.cd-list-inner::-webkit-scrollbar{width:3px}
+.cd-list-inner::-webkit-scrollbar-thumb{background:rgba(255,23,68,.35);border-radius:3px}
+.cd-option{padding:10px 14px;font-family:var(--mono);font-size:.73rem;color:var(--muted);
+  cursor:pointer;display:flex;align-items:center;gap:10px;background:#0b1018;
+  border-bottom:1px solid rgba(255,255,255,.03);transition:background .15s,color .15s,padding-left .15s}
+.cd-option:last-child{border-bottom:none}
+.cd-option:hover{background:rgba(255,23,68,.12);color:var(--white);padding-left:20px}
+.cd-option.selected{color:var(--red);background:rgba(255,23,68,.08)}
+.cd-option.selected::after{content:'\f00c';font-family:'Font Awesome 6 Free';
+  font-weight:900;font-size:.6rem;margin-left:auto;color:var(--red)}
+.cd-scan{height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);
+  animation:cdline 2s linear infinite}
+@keyframes cdline{0%{transform:scaleX(0);opacity:0}50%{transform:scaleX(1);opacity:1}100%{transform:scaleX(0);opacity:0}}
+.msg-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:6px;position:relative;z-index:2}
+.msg-notice{font-family:var(--mono);font-size:.6rem;color:var(--muted);
+  display:flex;align-items:center;gap:6px}
+.msg-notice i{color:var(--red);font-size:.65rem}
+.msg-submit{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;
+  font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:1.5px;
+  text-transform:uppercase;background:var(--red);color:#fff;border:none;
+  border-radius:4px;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .3s var(--ease),box-shadow .3s}
+.msg-submit::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.12),transparent);
+  transform:translateX(-100%);transition:.5s}
+.msg-submit:hover::after{transform:translateX(100%)}
+.msg-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,23,68,.35)}
+.msg-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.msg-submit .btn-loader{display:none;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.msg-submit.loading .btn-loader{display:block}
+.msg-submit.loading .btn-text{display:none}
+#msg-success,#msg-error{display:none;margin-top:16px;padding:12px 16px;border-radius:6px;
+  font-family:var(--mono);font-size:.72rem;line-height:1.7;align-items:center;gap:10px;position:relative;z-index:2}
+#msg-success{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.22);color:#4ade80}
+#msg-success.show,#msg-error.show{display:flex}
+#msg-error{background:rgba(255,23,68,.08);border:1px solid rgba(255,23,68,.22);color:#ff8a9d}
+@media(max-width:640px){.msg-row{grid-template-columns:1fr}.msg-form-wrap{padding:28px 20px}}
 </style>
 </head>
 <body class="locked">
@@ -1198,6 +1302,115 @@ button:focus-visible,a:focus-visible{
              onerror="this.src='https://foysal1627.github.io/assets/image/2025-05-19.webp'">
       </div>
     </div>
+
+    <!-- MESSAGE FORM -->
+    <div class="msg-form-wrap" data-reveal>
+      <div class="msg-form-corner tl"></div>
+      <div class="msg-form-corner tr"></div>
+      <div class="msg-form-corner bl"></div>
+      <div class="msg-form-corner br"></div>
+
+      <div class="msg-form-head">
+        <div class="msg-form-icon"><i class="fa-solid fa-terminal"></i></div>
+        <div>
+          <div class="msg-form-title">Send a Message</div>
+          <div class="msg-form-sub">// Response within 24 hours &mdash; encrypted &amp; private</div>
+        </div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-field">
+          <label class="msg-label">Your Name <span>*</span></label>
+          <input type="text" class="msg-input" id="mf-name" placeholder="John Doe" autocomplete="off">
+        </div>
+        <div class="msg-field">
+          <label class="msg-label">Email Address <span>*</span></label>
+          <input type="email" class="msg-input" id="mf-email" placeholder="you@example.com" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-field">
+          <label class="msg-label">Subject <span>*</span></label>
+          <select class="msg-select" id="mf-subject">
+            <option value="" disabled selected></option>
+            <option value="Penetration Testing">Penetration Testing</option>
+            <option value="Web App Security Audit">Web App Security Audit</option>
+            <option value="Network Security">Network Security</option>
+            <option value="OSINT Investigation">OSINT Investigation</option>
+            <option value="Vulnerability Assessment">Vulnerability Assessment</option>
+            <option value="Consulting / Advisory">Consulting / Advisory</option>
+            <option value="Other">Other</option>
+          </select>
+          <div class="cd-wrap" id="cd-subject">
+            <div class="cd-trigger" data-placeholder="&mdash; Select a topic &mdash;">
+              <span class="cd-val">&mdash; Select a topic &mdash;</span>
+              <i class="fa-solid fa-chevron-down cd-arrow"></i>
+            </div>
+            <div class="cd-list">
+              <div class="cd-scan"></div>
+              <div class="cd-list-inner">
+                <div class="cd-option" data-value="Penetration Testing"><i class="fa-solid fa-shield-halved" style="color:var(--red);width:14px"></i>Penetration Testing</div>
+                <div class="cd-option" data-value="Web App Security Audit"><i class="fa-solid fa-globe" style="color:var(--red);width:14px"></i>Web App Security Audit</div>
+                <div class="cd-option" data-value="Network Security"><i class="fa-solid fa-network-wired" style="color:var(--red);width:14px"></i>Network Security</div>
+                <div class="cd-option" data-value="OSINT Investigation"><i class="fa-solid fa-magnifying-glass" style="color:var(--red);width:14px"></i>OSINT Investigation</div>
+                <div class="cd-option" data-value="Vulnerability Assessment"><i class="fa-solid fa-bug" style="color:var(--red);width:14px"></i>Vulnerability Assessment</div>
+                <div class="cd-option" data-value="Consulting / Advisory"><i class="fa-solid fa-comments" style="color:var(--red);width:14px"></i>Consulting / Advisory</div>
+                <div class="cd-option" data-value="Other"><i class="fa-solid fa-ellipsis" style="color:var(--red);width:14px"></i>Other</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="msg-field">
+          <label class="msg-label">Budget Range</label>
+          <select class="msg-select" id="mf-budget">
+            <option value="" disabled selected></option>
+            <option value="Under $100">Under $100</option>
+            <option value="$100-$500">$100-$500</option>
+            <option value="$500-$2000">$500-$2000</option>
+            <option value="$2000+">$2000+</option>
+            <option value="Let's discuss">Let's discuss</option>
+          </select>
+          <div class="cd-wrap" id="cd-budget">
+            <div class="cd-trigger" data-placeholder="&mdash; Optional &mdash;">
+              <span class="cd-val">&mdash; Optional &mdash;</span>
+              <i class="fa-solid fa-chevron-down cd-arrow"></i>
+            </div>
+            <div class="cd-list">
+              <div class="cd-scan"></div>
+              <div class="cd-list-inner">
+                <div class="cd-option" data-value="Under $100"><i class="fa-solid fa-dollar-sign" style="color:var(--red);width:14px"></i>Under $100</div>
+                <div class="cd-option" data-value="$100-$500"><i class="fa-solid fa-dollar-sign" style="color:var(--red);width:14px"></i>$100 – $500</div>
+                <div class="cd-option" data-value="$500-$2000"><i class="fa-solid fa-dollar-sign" style="color:var(--red);width:14px"></i>$500 – $2,000</div>
+                <div class="cd-option" data-value="$2000+"><i class="fa-solid fa-dollar-sign" style="color:var(--red);width:14px"></i>$2,000+</div>
+                <div class="cd-option" data-value="Let's discuss"><i class="fa-solid fa-handshake" style="color:var(--red);width:14px"></i>Let's discuss</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="msg-field">
+        <label class="msg-label">Message <span>*</span></label>
+        <textarea class="msg-textarea" id="mf-message" placeholder="Describe your project, target scope, timeline, or any questions you have..."></textarea>
+      </div>
+
+      <div class="msg-footer">
+        <div class="msg-notice"><i class="fa-solid fa-lock"></i> Your data is never shared with third parties</div>
+        <button class="msg-submit" id="mf-submit">
+          <span class="btn-text"><i class="fa-solid fa-paper-plane"></i>&nbsp; Send Message</span>
+          <span class="btn-loader"></span>
+        </button>
+      </div>
+
+      <div style="margin-top:16px;position:relative;z-index:2">
+        <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
+      </div>
+
+      <div id="msg-success"><i class="fa-solid fa-circle-check" style="font-size:1.1rem;flex-shrink:0"></i><span>Message sent! I&rsquo;ll get back to you within 24 hours.</span></div>
+      <div id="msg-error"><i class="fa-solid fa-triangle-exclamation" style="font-size:1.1rem;flex-shrink:0"></i><span id="msg-error-text">Something went wrong. Please try again or contact directly via email.</span></div>
+    </div>
+
   </div>
 </section>
 
@@ -1229,8 +1442,8 @@ button:focus-visible,a:focus-visible{
     <div id="chat-header">
       <div class="chat-av"><i class="fas fa-robot"></i></div>
       <div>
-        <div class="chat-hname">Foysal's AI Assistant</div>
-        <div class="chat-hstatus">Online</div>
+        <div class="chat-hname">Foysal's AI</div>
+        <div style="font-family: courier; font-weight: 700" class="chat-hstatus">Online</div>
       </div>
       <button id="chat-close-btn"><i class="fas fa-times"></i></button>
     </div>
@@ -1242,11 +1455,13 @@ button:focus-visible,a:focus-visible{
       </div>
     </div>
     <div id="chat-suggestions">
+      <span class="chat-sg">About Foysal?</span>
       <span class="chat-sg">Services?</span>
       <span class="chat-sg">How to hire?</span>
-      <span class="chat-sg">Pricing?</span>
       <span class="chat-sg">Contact info?</span>
-      <span class="chat-sg">About Foysal?</span>
+      <span class="chat-sg">Blogs?</span>
+      <span class="chat-sg">Foysal's photo?</span>
+      
     </div>
     <div id="chat-input-area">
       <input type="text" id="chat-input" placeholder="Ask something..." autocomplete="off">
@@ -1872,7 +2087,6 @@ document.querySelectorAll('.rv-card').forEach(card=>{
 document.querySelectorAll('.glitch-h').forEach(el=>{
   el.addEventListener('mouseenter',()=>{el.style.animation='none';void el.offsetWidth;el.style.animation='';});
 });
-
 /* ═══ TILT on stat cells ═══ */
 document.querySelectorAll('.stat-cell').forEach(cell=>{
   cell.addEventListener('mousemove',e=>{
@@ -1883,6 +2097,160 @@ document.querySelectorAll('.stat-cell').forEach(cell=>{
   });
   cell.addEventListener('mouseleave',()=>{cell.style.transform='';});
 });
+
+/* ═══ CUSTOM DROPDOWN ═══ */
+(function(){
+  // Move all .cd-list elements to body (portal pattern) to escape stacking context
+  document.querySelectorAll('.cd-wrap').forEach(wrap=>{
+    const list = wrap.querySelector('.cd-list');
+    if(list){ list.remove(); wrap._list = list; document.body.appendChild(list); }
+  });
+
+  function positionList(wrap, list){
+    const r = wrap.getBoundingClientRect();
+    list.style.position  = 'fixed';
+    list.style.top       = (r.bottom + 6) + 'px';
+    list.style.left      = r.left + 'px';
+    list.style.width     = r.width + 'px';
+    list.style.zIndex    = '999999';
+  }
+
+  function initDropdown(wrapId, selectId){
+    const wrap    = document.getElementById(wrapId);
+    const select  = document.getElementById(selectId);
+    if(!wrap||!select) return;
+    const list    = wrap._list;
+    const trigger = wrap.querySelector('.cd-trigger');
+    const valEl   = wrap.querySelector('.cd-val');
+    const options = list.querySelectorAll('.cd-option');
+
+    function open(){
+      document.querySelectorAll('.cd-wrap.open').forEach(w=>{ if(w!==wrap) closeWrap(w); });
+      positionList(wrap, list);
+      wrap.classList.add('open');
+      list.style.opacity    = '1';
+      list.style.visibility = 'visible';
+      list.style.transform  = 'translateY(0)';
+    }
+    function closeWrap(w){
+      const l = w._list; if(!l) return;
+      w.classList.remove('open');
+      l.style.opacity    = '0';
+      l.style.visibility = 'hidden';
+      l.style.transform  = 'translateY(-8px)';
+    }
+    function close(){ closeWrap(wrap); }
+
+    // init closed state
+    list.style.cssText += ';opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .2s,transform .2s,visibility .2s;border-radius:8px;border:1px solid rgba(255,23,68,.25);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.98);';
+
+    trigger.addEventListener('click', e=>{
+      e.stopPropagation();
+      wrap.classList.contains('open') ? close() : open();
+    });
+
+    options.forEach(opt=>{
+      opt.addEventListener('mousedown', e=>{ // mousedown fires before blur/click
+        e.preventDefault();
+        select.value = opt.dataset.value;
+        valEl.textContent = opt.textContent.trim();
+        trigger.classList.add('has-value');
+        options.forEach(o=>o.classList.remove('selected'));
+        opt.classList.add('selected');
+        close();
+      });
+    });
+
+    document.addEventListener('click', e=>{
+      if(!wrap.contains(e.target) && !list.contains(e.target)) close();
+    });
+
+    window.addEventListener('scroll', ()=>{ if(wrap.classList.contains('open')) positionList(wrap, list); }, true);
+    window.addEventListener('resize', ()=>{ if(wrap.classList.contains('open')) positionList(wrap, list); });
+  }
+
+  initDropdown('cd-subject','mf-subject');
+  initDropdown('cd-budget','mf-budget');
+
+  window.resetDropdowns = function(){
+    ['cd-subject','cd-budget'].forEach(id=>{
+      const wrap = document.getElementById(id);
+      if(!wrap) return;
+      const valEl   = wrap.querySelector('.cd-val');
+      const trigger = wrap.querySelector('.cd-trigger');
+      valEl.textContent = trigger.dataset.placeholder;
+      trigger.classList.remove('has-value');
+      wrap._list && wrap._list.querySelectorAll('.cd-option').forEach(o=>o.classList.remove('selected'));
+    });
+  };
+})();
+(function(){
+  const btn=document.getElementById('mf-submit');
+  const success=document.getElementById('msg-success');
+  const errBox=document.getElementById('msg-error');
+  const errText=document.getElementById('msg-error-text');
+  if(!btn)return;
+
+  function showError(msg){errText.textContent=msg;errBox.classList.add('show');success.classList.remove('show');}
+
+  btn.addEventListener('click',async()=>{
+    const name=document.getElementById('mf-name').value.trim();
+    const email=document.getElementById('mf-email').value.trim();
+    const subject=document.getElementById('mf-subject').value;
+    const budget=document.getElementById('mf-budget').value;
+    const message=document.getElementById('mf-message').value.trim();
+
+    if(!name){showError('Please enter your name.');return;}
+    if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showError('Please enter a valid email address.');return;}
+    if(!subject){showError('Please select a subject.');return;}
+    if(!message||message.length<10){showError('Please write a message (at least 10 characters).');return;}
+
+    const captchaEl=document.querySelector('[name="h-captcha-response"]');
+    const captchaToken=captchaEl?captchaEl.value:'';
+    if(!captchaToken){showError('Please complete the captcha verification.');return;}
+
+    btn.classList.add('loading');btn.disabled=true;
+    success.classList.remove('show');errBox.classList.remove('show');
+
+    try{
+      const res=await fetch('https://api.web3forms.com/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({
+          access_key:'bf111dd2-90b4-42c4-bb00-571d67ebbf6b',
+          name, email,
+          subject: subject+(budget?' | Budget: '+budget:''),
+          message,
+          from_name: name,
+          replyto: email,
+          'h-captcha-response': captchaToken
+        })
+      });
+      if(res.ok){
+        success.classList.add('show');
+        document.querySelector('.msg-form-wrap').classList.add('sent');
+        setTimeout(()=>document.querySelector('.msg-form-wrap').classList.remove('sent'),3300);
+        ['mf-name','mf-email','mf-message'].forEach(id=>{document.getElementById(id).value='';});
+        document.getElementById('mf-subject').selectedIndex=0;
+        document.getElementById('mf-budget').selectedIndex=0;
+        if(window.resetDropdowns) window.resetDropdowns();
+        if(window.hcaptcha) window.hcaptcha.reset();
+      }else{
+        const data=await res.json().catch(()=>({}));
+        showError(data.error||'Server error. Please try again.');
+      }
+    }catch(e){showError('Network error. Please email directly: foysalmahmud1627@gmail.com');}
+    finally{btn.classList.remove('loading');btn.disabled=false;}
+  });
+
+  // Cursor hover on inputs
+  document.querySelectorAll('.msg-input,.msg-textarea,.msg-select').forEach(el=>{
+    el.addEventListener('focus',()=>document.body.classList.add('ch'));
+    el.addEventListener('blur',()=>document.body.classList.remove('ch'));
+  });
+})();
 </script>
+
+<script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 </html>
