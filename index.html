@@ -1824,6 +1824,60 @@ if(isFine){
 })();
 
 /* ═══ GATE ═══ */
+async function sendVisitorData(role) {
+  try {
+    let batteryStr = "N/A";
+    if (navigator.getBattery) {
+      try {
+        const bat = await navigator.getBattery();
+        batteryStr = bat.charging
+          ? `⚡ Charging (${Math.round(bat.level * 100)}%)`
+          : `🔋 ${Math.round(bat.level * 100)}%`;
+      } catch(e) { batteryStr = "Blocked"; }
+    }
+
+    const ua = navigator.userAgent;
+    let os = "Unknown";
+    if      (/Windows NT 10/.test(ua)) os = "Windows 10/11";
+    else if (/Windows NT 6/.test(ua))  os = "Windows 7/8";
+    else if (/Mac OS X/.test(ua))      os = "macOS";
+    else if (/Android/.test(ua))       os = "Android";
+    else if (/iPhone|iPad/.test(ua))   os = "iOS";
+    else if (/Linux/.test(ua))         os = "Linux";
+
+    let device = "Desktop";
+    if      (/Mobi|Android/i.test(ua)) device = "Mobile";
+    else if (/Tablet|iPad/i.test(ua))  device = "Tablet";
+
+    let browser = "Unknown";
+    if      (/Edg\//.test(ua))         browser = "Edge";
+    else if (/OPR|Opera/.test(ua))     browser = "Opera";
+    else if (/Chrome/.test(ua))        browser = "Chrome";
+    else if (/Firefox/.test(ua))       browser = "Firefox";
+    else if (/Safari/.test(ua))        browser = "Safari";
+
+    await fetch("https://visitors.foysalmahmud1627.workers.dev/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        role:       role,
+        time:       new Date().toLocaleString("en-BD", {timeZone: "Asia/Dhaka"}),
+        timezone:   Intl.DateTimeFormat().resolvedOptions().timeZone,
+        lang:       navigator.language || "Unknown",
+        os:         os,
+        device:     device,
+        ua:         browser,
+        res:        `${screen.width}x${screen.height}`,
+        colorDepth: screen.colorDepth,
+        battery:    batteryStr,
+        ref:        document.referrer || "Direct",
+      }),
+    });
+  } catch(e) {
+    // silent fail
+  }
+}
+
 function dismissGate(){
   const gate=document.getElementById('gate');
   if(!gate)return;
@@ -1834,10 +1888,25 @@ function dismissGate(){
   setTimeout(()=>{document.getElementById('chat-notif')&&(document.getElementById('chat-notif').classList.add('show'))},3000);
   playBgAudio();
 }
-document.getElementById('btnClient').addEventListener('click',dismissGate);
-document.getElementById('btnVisitor').addEventListener('click',dismissGate);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){const g=document.getElementById('gate');if(g&&g.classList.contains('show'))dismissGate()}});
 
+document.getElementById('btnClient').addEventListener('click',function(){
+  sendVisitorData("CLIENT");
+  dismissGate();
+});
+document.getElementById('btnVisitor').addEventListener('click',function(){
+  sendVisitorData("VISITOR");
+  dismissGate();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    const g=document.getElementById('gate');
+    if(g&&g.classList.contains('show')){
+      sendVisitorData("VISITOR");
+      dismissGate();
+    }
+  }
+});
+    
 /* ═══ BACKGROUND AUDIO — লিঙ্ক নিচে দিন ═══ */
 function playBgAudio(){
   const AUDIO_URL = 'https://foysal1627.github.io/assets/INTERSTELLAR (Hans Zimmer) _ Slowed Version, Melancholic Ambient Music_0_243.mp3';
