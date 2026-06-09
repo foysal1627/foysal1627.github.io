@@ -1,272 +1,328 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Resource Dashboard</title>
+    <title>⚡ CENTRALIZED REPOSITORY // C2 DASHBOARD</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #64748b;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --accent-color: #3b82f6;
+            --bg-main: #060913;
+            --bg-card: rgba(13, 20, 38, 0.6);
+            --border-glow: #00f0ff;
+            --accent-red: #ff1744;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
         }
 
+        /* 🔒 শুরুতে পুরো বডি হাইড থাকবে */
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
             margin: 0;
-            padding: 20px;
-            display: flex;
+            padding: 40px 20px;
+            display: none; 
             justify-content: center;
+            background-image: radial-gradient(circle at 50% 10%, rgba(0, 240, 255, 0.05), transparent 50%);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             width: 100%;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         }
 
         header {
-            text-align: center;
+            text-align: left;
             margin-bottom: 40px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 20px;
+            border-bottom: 1px dashed rgba(0, 240, 255, 0.2);
+            padding-bottom: 25px;
         }
 
         h1 {
-            font-size: 2rem;
-            color: var(--primary-color);
+            font-family: 'DM Mono', monospace;
+            font-size: 1.8rem;
+            color: var(--border-glow);
             margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        header p {
+            color: var(--text-secondary);
+            margin-top: 8px;
+            font-size: 0.95rem;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
         }
 
         .section {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            padding: 20px;
-            border-radius: 12px;
-            transition: transform 0.2s;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 8px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 3px; height: 100%;
+            background: var(--border-glow);
+            opacity: 0.5;
         }
 
         .section:hover {
             transform: translateY(-5px);
-            border-color: var(--accent-color);
+            border-color: var(--border-glow);
+            box-shadow: 0 12px 40px rgba(0, 240, 255, 0.15);
         }
 
+        /* স্পেশাল সেকশন স্টাইল */
+        .section.red-theme::before { background: var(--accent-red); }
+        .section.red-theme:hover { border-color: var(--accent-red); box-shadow: 0 12px 40px rgba(255, 23, 68, 0.15); }
+
         h2 {
-            font-size: 1.1rem;
-            color: var(--secondary-color);
+            font-family: 'DM Mono', monospace;
+            font-size: 1rem;
+            color: var(--text-primary);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .link-btn {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
+            font-family: 'DM Mono', monospace;
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--border-glow);
+            border: 1px solid rgba(0, 240, 255, 0.3);
             padding: 10px 18px;
-            border-radius: 8px;
+            border-radius: 4px;
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            transition: opacity 0.3s;
+            font-size: 0.85rem;
+            transition: all 0.2s;
         }
 
         .link-btn:hover {
-            opacity: 0.85;
+            background: var(--border-glow);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
         }
 
         .info-item {
-            margin: 10px 0;
-            padding: 8px;
-            background: #f1f5f9;
-            border-radius: 6px;
-            font-size: 0.95rem;
+            font-family: 'DM Mono', monospace;
+            margin: 12px 0;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
         }
 
         .label {
-            font-weight: bold;
-            color: #475569;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr; }
-            .container { padding: 20px; }
+        .value {
+            color: var(--text-primary);
         }
 
-        .video-container {
-.yt-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #FF0000; /* YouTube Red Color */
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    margin: 10px;
-    transition: background 0.3s ease;
-}
+        /* 🎧 কাস্টম অডিও প্লেয়ার প্যানেল */
+        .audio-wrapper {
+            grid-column: 1 / -1;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
 
-.yt-button:hover {
-    background-color: #CC0000; 
-}
+        .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
 
+        audio {
+            width: 100%;
+            height: 35px;
+            filter: invert(0.9) hue-rotate(180deg); /* ম্যাচিং ডার্ক লুক */
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        audio:hover { opacity: 1; }
+
+        .playlist-wrapper {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>Information & Study Dashboard</h1>
-        <p>Centralized repository for notes, labs, and contact details</p>
+        <h1>⚡ CENTRALIZED REPOSITORY // C2 DASHBOARD</h1>
+        <p>Secure encryption mechanism active. Database logs & educational units node.</p>
     </header>
 
     <div class="grid">
         <div class="section">
-            <h2>Biology Materials</h2>
-            <p>Comprehensive Phylum study notes.</p>
-            <a href="https://foysal1627.github.io/assets/image/IMG_20251117_171345.jpg" class="link-btn" target="_blank">Open Phylum Note</a>
+            <h2>🟢 Biology Materials</h2>
+            <p>Comprehensive Phylum study notes and systematic biology logs.</p>
+            <div class="btn-group">
+                <a href="https://foysal1627.github.io/assets/image/IMG_20251117_171345.jpg" class="link-btn" target="_blank">OPEN_NOTE_</a>
+            </div>
         </div>
 
         <div class="section">
-            <h2>Question Bank</h2>
-            <p>Shared Google Drive folder for practice questions.</p>
-            <a href="https://drive.google.com/drive/folders/1C9WgtrYUbXkVkTi82CdfHZDoFphrNbiQ" class="link-btn" target="_blank">Access Folder</a>
+            <h2>🟢 Question Bank</h2>
+            <p>Shared repository directory for practice questions and mock data.</p>
+            <div class="btn-group">
+                <a href="https://drive.google.com/drive/folders/1C9WgtrYUbXkVkTi82CdfHZDoFphrNbiQ" class="link-btn" target="_blank">ACCESS_DIR_</a>
+            </div>
         </div>
 
         <div class="section">
-            <h2>Math Laboratory</h2>
-            <p>Lab instructions and documentation.</p>
-            <a href="https://docs.google.com/document/d/11OzsD61jg_VrLV8pNKRyyLZCFAKVZODDU0X1701yusk/edit?usp=drive_link" class="link-btn" target="_blank">View Google Doc</a>
+            <h2>🟢 Math Laboratory</h2>
+            <p>Lab instructions, analytical visualization, and operational documentation.</p>
+            <div class="btn-group">
+                <a href="https://docs.google.com/document/d/11OzsD61jg_VrLV8pNKRyyLZCFAKVZODDU0X1701yusk/edit?usp=drive_link" class="link-btn" target="_blank">VIEW_DOC_</a>
+            </div>
         </div>
 
         <div class="section">
-            <h2>Lab Reports</h2>
-            <p>Reference reports and mobile drive folders.</p>
-            <a href="https://cutt.ly/DtrkDuPf" class="link-btn" target="_blank">Report Link 1</a>
-            <a href="https://drive.google.com/drive/mobile/folders/1n3s7hHOpV_6djYovYtv-Tia7bjDAxe1m" class="link-btn" target="_blank" style="background: #10b981;">Report Link 2</a>
+            <h2>🟢 Lab Reports</h2>
+            <p>Reference deployment reports and structural mobile cloud storage.</p>
+            <div class="btn-group">
+                <a href="https://cutt.ly/DtrkDuPf" class="link-btn" target="_blank">REPORT_01</a>
+                <a href="https://drive.google.com/drive/mobile/folders/1n3s7hHOpV_6djYovYtv-Tia7bjDAxe1m" class="link-btn" target="_blank" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">REPORT_02</a>
+            </div>
+        </div>
+
+        <div class="section red-theme">
+            <h2>🔴 Contact Details</h2>
+            <div class="info-item"><span class="label">ID Ref:</span> <span class="value">BP 1111111</span></div>
+            <div class="info-item"><span class="label">Primary:</span> <span class="value" style="color: var(--accent-red);">01732375924</span></div>
+            <div class="info-item"><span class="label">Secondary:</span> <span class="value">01345841363</span></div>
+            <div class="info-item"><span class="label">Email:</span> <span class="value">himusadiaarefin@gmail.com</span></div>
         </div>
 
         <div class="section">
-            <h2>Contact Details</h2>
-            <div class="info-item"><span class="label">ID Ref:</span> BP 1111111</div>
-            <div class="info-item"><span class="label">Primary:</span> 01732375924</div>
-            <div class="info-item"><span class="label">Secondary:</span> 01345841363</div>
-            <div class="info-item"><span class="label">Email:</span> himusadiaarefin@gmail.com</div>
+            <h2>🟢 Academic References</h2>
+            <div class="info-item"><span class="label">Chem:</span> <span class="value">Redwan Method 16082007Mr</span></div>
+            <div class="info-item"><span class="label">ACS:</span> <span class="value">30122008</span></div>
+            <div class="playlist-wrapper">
+                <a href="https://shikho.io/hsc27-science-pb" class="link-btn" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3);">SHIKHO_HSC_27</a>
+            </div>
         </div>
 
-        <div class="section">
-            <h2>Academic References</h2>
-            <div class="info-item"><span class="label">Chem:</span> Redwan Method 16082007Mr</div>
-            <div class="info-item"><span class="label">ACS:</span> 30122008</div>
-            <p><strong>External Course:</strong></p>
-            <a href="https://shikho.io/hsc27-science-pb" class="link-btn" style="background: #f59e0b;">Shikho HSC '27</a>
+        <div class="section red-theme">
+            <h2>🔴 Gateway WiFi Configuration</h2>
+            <div class="info-item"><span class="label">Administrator:</span> <span class="value">0003691627</span></div>
+            <div class="info-item"><span class="label">5G Key:</span> <span class="value" style="color: var(--accent-red);">foysal31416</span></div>
+            <div class="info-item"><span class="label">2.4G Key:</span> <span class="value">foysal369</span></div>
         </div>
+    </div>
 
-        <div class="section">
-            <h2>WiFi</h2>
-            <div class="info-item"><span class="label">Administrator:</span> 0003691627</div>
-            <div class="info-item"><span class="label">5G password:</span> foysal31416</div>
-            <div class="info-item"><span class="label">2.4G password:</span> foysal369</div>
+    <div class="audio-wrapper">
+        <h2 style="color: var(--border-glow);">🎵 INTERCEPTED AUDIO CHANNELS</h2>
+        <div class="audio-grid">
+            <div><p style="margin:0 0 5px 0; font-size:0.8rem; color:var(--text-secondary);">Channel_Arpon</p><audio controls preload="none"><source src="https://foysal1627.github.io/assets/arpon.opus" type="audio/mpeg"></audio></div>
+            <div><p style="margin:0 0 5px 0; font-size:0.8rem; color:var(--text-secondary);">Channel_Tina</p><audio controls preload="none"><source src="https://foysal1627.github.io/assets/tina.opus" type="audio/mpeg"></audio></div>
+            <div><p style="margin:0 0 5px 0; font-size:0.8rem; color:var(--text-secondary);">Channel_Nusrat</p><audio controls preload="none"><source src="https://foysal1627.github.io/assets/nusrat.m4a" type="audio/mpeg"></audio></div>
+            <div><p style="margin:0 0 5px 0; font-size:0.8rem; color:var(--text-secondary);">Jimi_Node_01</p><audio controls preload="none"><source src="https://foysal1627.github.io/assets/jimibhai1.m4a" type="audio/mpeg"></audio></div>
+            <div><p style="margin:0 0 5px 0; font-size:0.8rem; color:var(--text-secondary);">Jimi_Node_02</p><audio controls preload="none"><source src="https://foysal1627.github.io/assets/jimibhai2.m4a" type="audio/mpeg"></audio></div>
+            <div><p style="margin:0 0 5px 0; font-size:0.8rem; color:var(--text-secondary);">Jimi_Node_03</p><audio controls preload="none"><source src="https://foysal1627.github.io/assets/jimibhai3.m4a" type="audio/mpeg"></audio></div>
+            <div><p style="margin:0 0 5px 0; font-size:0.8rem; color:var(--text-secondary);">Secure_PTT_12</p><audio controls preload="none"><source src="https://foysal1627.github.io/assets/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/PTT-20260417-WA0012.opus" type="audio/mpeg"></audio></div>
+            <div><p style="margin:0 0 5px 0; font-size:0.8rem; color:var(--text-secondary);">Secure_PTT_04</p><audio controls preload="none"><source src="https://foysal1627.github.io/assets/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/PTT-20260415-WA0004.opus" type="audio/mpeg"></audio></div>
         </div>
-
-<audio controls>
-  <source src="https://foysal1627.github.io/assets/arpon.opus" type="audio/mpeg">
-  Apnar browser ti audio tag support kore na.
-</audio>
-
-<audio controls>
-  <source src="https://foysal1627.github.io/assets/tina.opus" type="audio/mpeg">
-  Apnar browser ti audio tag support kore na.
-</audio>
-
-
-<audio controls>
-  <source src="https://foysal1627.github.io/assets/nusrat.m4a" type="audio/mpeg">
-  Apnar browser ti audio tag support kore na.
-</audio>
-
-        <audio controls>
-  <source src="https://foysal1627.github.io/assets/jimibhai1.m4a" type="audio/mpeg">
-  Apnar browser ti audio tag support kore na.
-        </audio>
-
-        <audio controls>
-  <source src="https://foysal1627.github.io/assets/jimibhai2.m4a" type="audio/mpeg">
-  Apnar browser ti audio tag support kore na.
-        </audio>
-
-        <audio controls>
-  <source src="https://foysal1627.github.io/assets/jimibhai3.m4a" type="audio/mpeg">
-  Apnar browser ti audio tag support kore na.
-        </audio>
-
-        <audio controls>
-  <source src="https://foysal1627.github.io/assets/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/PTT-20260417-WA0012.opus" type="audio/mpeg">
-  Apnar browser ti audio tag support kore na.
-        </audio>
-
-        <audio controls>
-  <source src="https://foysal1627.github.io/assets/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/infinity/PTT-20260415-WA0004.opus" type="audio/mpeg">
-  Apnar browser ti audio tag support kore na.
-        </audio>
         
-<a href="https://youtube.com/playlist?list=PLBJzN4mdFwTAecmRRoJ4gREC9Qto1JsRw" class="yt-button" target="_blank">
-    Playlist
-</a>
-
-<p>https://youtube.com/playlist?list=PLBJzN4mdFwTAecmRRoJ4gREC9Qto1JsRw&si=fUW0T5iafUZJE4cv
-</p>
-   <p>https://youtube.com/playlist?list=PLBJzN4mdFwTCSynNE38pXZEvmtlgW2knO&si=Bek2KiCRXmdLzRFF</p>     
-
+        <div class="playlist-wrapper">
+            <a href="https://youtube.com/playlist?list=PLBJzN4mdFwTAecmRRoJ4gREC9Qto1JsRw" class="link-btn" target="_blank" style="background: rgba(255, 0, 0, 0.1); color: #ff0000; border-color: rgba(255, 0, 0, 0.3);">STREAM_PLAYLIST_</a>
+        </div>
     </div>
 </div>
-    <script>
-        async function checkDashboardAccess() {
-    
-    const ACCESS_KEY = prompt("🔒 ENTER ADMIN ACCESS KEY:");
-    
-    if (!ACCESS_KEY) {
-        document.body.innerHTML = "<h1 style='color: #ff1744; text-align: center; margin-top: 20vh; font-family: monospace;'>[ACCESS DENIED // NO KEY PROVIDED]</h1>";
-        return;
-    }
 
-  
-    const WORKER_URL = 'https://wandering-rain-e523.foysalmahmud1627.workers.dev'; 
-
-    try {
-       
-        const res = await fetch(`${WORKER_URL}/api/get-logs?key=${ACCESS_KEY}`);
+<script>
+    // 🔒 ডক লোড হওয়ার সাথে সাথেই সবার আগে স্ক্রিপ্ট এক্সিকিউট হবে
+    (async function checkDashboardAccess() {
+        // ১. পপ-আপ প্রম্পট কল করা
+        const ACCESS_KEY = prompt("🔒 ENTER ADMIN ACCESS KEY:");
         
-        if (!res.ok) {
-  
-            document.body.innerHTML = "<h1 style='color: #ff1744; text-align: center; margin-top: 20vh; font-family: monospace;'>[ACCESS DENIED // INVALID KEY]</h1>";
-        } else {
-            console.log("Access Granted. Loading Dashboard...");
-
+        if (!ACCESS_KEY) {
+            renderAccessDenied("[ACCESS DENIED // NO KEY PROVIDED]");
+            return;
         }
-    } catch (err) {
-        document.body.innerHTML = `<h1 style='color: #ff1744; text-align: center; margin-top: 20vh; font-family: monospace;'>❌ CONNECTION ERROR: ${err.message}</h1>`;
+
+        // ২. ইউআরএল জেনারেট (তোমার সাবডোমেইন রিফ্লেক্ট করে)
+        const WORKER_URL = 'https://wandering-rain-e523.foysalmahmud1627.workers.dev'; 
+
+        try {
+            // সার্ভার সাইড অথেনটিকেশন চেক
+            const res = await fetch(`${WORKER_URL}/api/get-logs?key=${ACCESS_KEY}`);
+            
+            if (!res.ok) {
+                renderAccessDenied("[ACCESS DENIED // INVALID ACCESS TOKEN]");
+            } else {
+                // পাসওয়ার্ড সঠিক হলে বডি ভিজিবল করবে এবং গ্রিড ফ্লেক্স একটিভ করবে
+                document.body.style.display = "flex";
+                console.log("Access Granted. C2 Server Node Unlocked.");
+            }
+        } catch (err) {
+            renderAccessDenied(`❌ NETWORK_ERROR: ${err.message}`);
+        }
+    })();
+
+    // এরর হ্যান্ডেল স্ক্রিন ফাংশন
+    function renderAccessDenied(message) {
+        document.documentElement.innerHTML = `
+            <style>
+                body { background: #04060a; color: #ff1744; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'DM Mono', monospace; }
+                .wrapper { text-align: center; border: 1px dashed #ff1744; padding: 30px; border-radius: 4px; box-shadow: 0 0 20px rgba(255, 23, 68, 0.1); }
+            </style>
+            <body>
+                <div class="wrapper">
+                    <h1 style="font-size: 1.5rem; margin: 0;">${message}</h1>
+                </div>
+            </body>
+        `;
     }
-}
-
-
-window.onload = checkDashboardAccess;
-    </script>
+</script>
 </body>
 </html>
