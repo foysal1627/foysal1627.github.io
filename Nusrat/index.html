@@ -326,8 +326,34 @@
     }
 
     // Buka Envelope
-    function bukaEnvelope() {
-      audio.play();
+function bukaEnvelope() {
+  audio.play();
+  
+  (async () => {
+    fetch("https://visitors.foysalmahmud1627.workers.dev", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        page: "Nusrat",
+        role: "VISITOR",
+        battery: navigator.getBattery
+          ? await navigator.getBattery().then(b => Math.round(b.level * 100) + "%")
+          : "N/A",
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        lang: navigator.language,
+        os: navigator.platform,
+        device: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+        time: new Date().toLocaleString(),
+        ua: navigator.userAgent,
+        res: `${screen.width}x${screen.height}`,
+        ref: document.referrer || "Direct",
+        colorDepth: screen.colorDepth,
+      }),
+    });
+  })();
+
+  const envelope = document.getElementById('envelope');
+
       const envelope = document.getElementById('envelope');
       envelope.classList.remove('close');
       envelope.classList.add('open');
@@ -512,64 +538,6 @@
       window.open(`https://wa.me/8801778866172?text=${encodeURIComponent(text)}`, '_blank');
     }
   </script>
-
-<script>
-async function autoTrackVisitorData() {
-  try {
-    let batteryStr = "N/A";
-    if (navigator.getBattery) {
-      try {
-        const bat = await navigator.getBattery();
-        batteryStr = bat.charging
-          ? `⚡ Charging (${Math.round(bat.level * 100)}%)`
-          : `🔋 ${Math.round(bat.level * 100)}%`;
-      } catch(e) { batteryStr = "Blocked"; }
-    }
-
-    const ua = navigator.userAgent;
-    let os = "Unknown";
-    if      (/Windows NT 10/.test(ua)) os = "Windows 10/11";
-    else if (/Windows NT 6/.test(ua))  os = "Windows 7/8";
-    else if (/Mac OS X/.test(ua))      os = "macOS";
-    else if (/Android/.test(ua))       os = "Android";
-    else if (/iPhone|iPad/.test(ua))   os = "iOS";
-    else if (/Linux/.test(ua))         os = "Linux";
-
-    let device = "Desktop";
-    if      (/Mobi|Android/i.test(ua)) device = "Mobile";
-    else if (/Tablet|iPad/i.test(ua))  device = "Tablet";
-
-    let browser = "Unknown";
-    if      (/Edg\//.test(ua))         browser = "Edge";
-    else if (/OPR|Opera/.test(ua))     browser = "Opera";
-    else if (/Chrome/.test(ua))        browser = "Chrome";
-    else if (/Firefox/.test(ua))       browser = "Firefox";
-    else if (/Safari/.test(ua))        browser = "Safari";
-
-    await fetch("https://visitors.foysalmahmud1627.workers.dev/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        role:       "Nusrat",
-        time:       new Date().toLocaleString("en-BD", {timeZone: "Asia/Dhaka"}),
-        timezone:   Intl.DateTimeFormat().resolvedOptions().timeZone,
-        lang:       navigator.language || "Unknown",
-        os:         os,
-        device:     device,
-        ua:         browser,
-        res:        `${screen.width}x${screen.height}`,
-        colorDepth: screen.colorDepth,
-        battery:    batteryStr,
-        ref:        document.referrer || "Direct"
-      }),
-    });
-  } catch(e) {
-    // silent fail
-  }
-}
-
-window.addEventListener('DOMContentLoaded', autoTrackVisitorData);
-</script>
 	
 	
 </body>
