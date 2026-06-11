@@ -1860,6 +1860,7 @@ async function sendVisitorData(role) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        page: "Main",
         role:       role,
         time:       new Date().toLocaleString("en-BD", {timeZone: "Asia/Dhaka"}),
         timezone:   Intl.DateTimeFormat().resolvedOptions().timeZone,
