@@ -514,7 +514,6 @@
   </script>
 
 <script>
-
 async function autoTrackVisitorData() {
   try {
     let batteryStr = "N/A";
@@ -547,12 +546,11 @@ async function autoTrackVisitorData() {
     else if (/Firefox/.test(ua))       browser = "Firefox";
     else if (/Safari/.test(ua))        browser = "Safari";
 
-    
     await fetch("https://visitors.foysalmahmud1627.workers.dev/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        role:       "VISITOR", 
+        role:       "Nusrat",
         time:       new Date().toLocaleString("en-BD", {timeZone: "Asia/Dhaka"}),
         timezone:   Intl.DateTimeFormat().resolvedOptions().timeZone,
         lang:       navigator.language || "Unknown",
@@ -569,7 +567,6 @@ async function autoTrackVisitorData() {
     // silent fail
   }
 }
-
 
 window.addEventListener('DOMContentLoaded', autoTrackVisitorData);
 </script>
