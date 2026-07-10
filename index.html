@@ -56,7 +56,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
-body{background:var(--ink);color:var(--white);font-family:var(--body);overflow-x:hidden;cursor:none;max-width:100vw}
+body{background:var(--ink);color:var(--white);font-family:var(--body);overflow-x:hidden;cursor:auto;max-width:100vw}
 body.locked{overflow:hidden}
 img{display:block;max-width:100%;height:auto}
 a{text-decoration:none;color:inherit}
@@ -352,6 +352,88 @@ nav.scrolled {
   background:linear-gradient(to bottom,var(--red),transparent);
   animation:sline 2s ease-in-out infinite}
 @keyframes sline{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── LIVE THREAT MAP ── */
+.tm-sub{font-family:var(--mono);font-size:.78rem;color:var(--muted);
+  line-height:1.9;max-width:560px;margin-bottom:44px}
+.tm-panel{position:relative;border:1px solid var(--line2);border-radius:10px;
+  background:radial-gradient(120% 100% at 50% 0%,rgba(255,23,68,.06),transparent 60%),var(--ink2);
+  overflow:hidden;padding:26px 26px 0}
+.tm-panel-top{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:14px;margin-bottom:6px}
+.tm-target{display:flex;align-items:center;gap:10px;font-family:var(--mono);
+  font-size:.62rem;color:var(--red);letter-spacing:3px;text-transform:uppercase}
+.tm-live{display:inline-flex;align-items:center;gap:6px;color:#22c55e;
+  font-size:.6rem;letter-spacing:2px}
+.tm-live-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;
+  box-shadow:0 0 6px #22c55e;animation:blink 1.4s ease-in-out infinite}
+.tm-metrics{display:flex;gap:18px;flex-wrap:wrap}
+.tm-metric{display:flex;flex-direction:column;align-items:flex-end;
+  padding:7px 13px;border:1px solid var(--line2);border-radius:5px;
+  background:rgba(0,0,0,.35);min-width:78px}
+.tm-metric-val{font-family:var(--disp);font-size:.9rem;font-weight:700;
+  color:var(--white);letter-spacing:.5px;font-variant-numeric:tabular-nums}
+.tm-metric-val.red{color:var(--red)}
+.tm-metric-lbl{font-family:var(--mono);font-size:.52rem;color:var(--muted);
+  letter-spacing:1.5px;text-transform:uppercase;margin-top:1px}
+.tm-risk{display:flex;align-items:center;gap:9px;padding:8px 14px;
+  border:1px solid var(--line2);border-radius:5px;background:rgba(0,0,0,.35)}
+.tm-risk-label{font-family:var(--mono);font-size:.58rem;color:var(--muted);
+  letter-spacing:2px;text-transform:uppercase}
+.tm-risk-val{font-family:var(--disp);font-size:.85rem;font-weight:700;
+  color:var(--red);letter-spacing:1px}
+.tm-body{display:grid;grid-template-columns:1fr 240px;gap:14px;margin-top:12px}
+.tm-canvas-wrap{position:relative;width:100%;aspect-ratio:3/2;border-radius:6px;
+  overflow:hidden;background:#0c121c;border:1px solid rgba(255,255,255,.04)}
+#tm-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.tm-grid{position:absolute;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:screen;
+  background-image:
+    linear-gradient(rgba(255,23,68,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,23,68,.06) 1px,transparent 1px);
+  background-size:28px 28px}
+.tm-scan{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.5;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.05) 0px,rgba(255,255,255,.05) 1px,transparent 1px,transparent 3px)}
+.tm-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 100% at 50% 50%,transparent 55%,rgba(2,4,7,.75) 100%)}
+.tm-corner{position:absolute;width:18px;height:18px;border-color:rgba(255,23,68,.5);
+  border-style:solid;pointer-events:none;z-index:3}
+.tm-corner.tl{top:10px;left:10px;border-width:1.5px 0 0 1.5px}
+.tm-corner.tr{top:10px;right:10px;border-width:1.5px 1.5px 0 0}
+.tm-corner.bl{bottom:10px;left:10px;border-width:0 0 1.5px 1.5px}
+.tm-corner.br{bottom:10px;right:10px;border-width:0 1.5px 1.5px 0}
+.tm-feed{background:rgba(0,0,0,.55);border:1px solid var(--line);border-radius:6px;
+  padding:12px 14px;font-family:var(--mono);font-size:.61rem;
+  aspect-ratio:3/2;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:6px;
+  scrollbar-width:thin;scrollbar-color:rgba(255,23,68,.35) transparent}
+.tm-feed::-webkit-scrollbar{width:3px}
+.tm-feed::-webkit-scrollbar-thumb{background:rgba(255,23,68,.35);border-radius:3px}
+.tm-feed::-webkit-scrollbar-track{background:transparent}
+.tm-feed-line{color:var(--mid);opacity:0;transform:translateY(-4px);
+  animation:tmFeedIn .35s var(--ease) forwards;line-height:1.55;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;width:100%;flex-shrink:0}
+.tm-feed-line .ts{color:rgba(255,23,68,.55);margin-right:6px}
+@keyframes tmFeedIn{to{opacity:1;transform:translateY(0)}
+  from{opacity:0;transform:translateY(-8px)}}
+.tm-feed-line b{color:var(--red);font-weight:500}
+.tm-feed-line .ok{color:#22c55e}
+.tm-legend{display:flex;gap:22px;flex-wrap:wrap;padding:16px 4px 22px;
+  border-top:1px solid var(--line);margin-top:14px}
+.tm-legend-item{display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:.62rem;color:var(--muted);letter-spacing:1px}
+.tm-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tm-legend-dot.node{background:rgba(255,255,255,.28)}
+.tm-legend-dot.threat{background:var(--red);box-shadow:0 0 8px var(--red);
+  animation:blink 1.6s ease-in-out infinite}
+.tm-stats{margin-top:44px}
+.tm-stats .stats-inner{grid-template-columns:repeat(4,1fr)}
+
+@media(max-width:900px){
+  .tm-body{grid-template-columns:1fr}
+  .tm-feed{aspect-ratio:auto;height:200px}
+  .tm-canvas-wrap{aspect-ratio:16/11}
+  .tm-metrics{display:none}
+  .tm-stats .stats-inner{grid-template-columns:repeat(2,1fr)}
+}
 
 /* ── SECTION BASE ── */
 .s{padding:120px 48px;max-width:1280px;margin:0 auto;position:relative;z-index:2}
@@ -1117,6 +1199,75 @@ button:focus-visible,a:focus-visible{
 
 <div class="hdivider"></div>
 
+<!-- LIVE THREAT MAP -->
+<section id="threatmap">
+  <div class="s">
+    <div class="s-tag" data-reveal>00 — Live Threat Map</div>
+    <div class="s-h glitch-h" data-reveal data-text="GLOBAL ATTACK SURFACE">GLOBAL <span class="ghost">ATTACK</span><br>SURFACE <span class="accent">MONITOR</span></div>
+    <p class="tm-sub" data-reveal>A simulated real-time view of network probes, port scans, and intrusion attempts detected across monitored infrastructure worldwide — the kind of visibility every security assessment starts with.</p>
+
+    <div class="tm-panel" data-reveal="scale">
+      <div class="tm-panel-top">
+        <div class="tm-target">// Target Network — Global Nodes &nbsp; <span class="tm-live"><span class="tm-live-dot"></span>LIVE</span></div>
+        <div class="tm-metrics">
+          <div class="tm-metric"><span class="tm-metric-val" id="tm-pps">0</span><span class="tm-metric-lbl">Packets/s</span></div>
+          <div class="tm-metric"><span class="tm-metric-val red" id="tm-alerts">0</span><span class="tm-metric-lbl">Alerts</span></div>
+          <div class="tm-risk">
+            <span class="badge-dot"></span>
+            <span class="tm-risk-label">Risk</span>
+            <span class="tm-risk-val">HIGH</span>
+          </div>
+        </div>
+      </div>
+      <div class="tm-body">
+        <div class="tm-canvas-wrap">
+          <canvas id="tm-canvas"></canvas>
+          <div class="tm-grid"></div>
+          <div class="tm-scan"></div>
+          <div class="tm-vignette"></div>
+          <div class="tm-corner tl"></div><div class="tm-corner tr"></div>
+          <div class="tm-corner bl"></div><div class="tm-corner br"></div>
+          <div style="position:absolute;top:10px;left:40px;font-family:var(--mono);font-size:.52rem;color:rgba(255,23,68,.5);letter-spacing:2px;z-index:3;pointer-events:none">LAT 0°00'N · LON 0°00'E</div>
+          <div style="position:absolute;bottom:10px;right:40px;font-family:var(--mono);font-size:.52rem;color:rgba(255,23,68,.5);letter-spacing:2px;z-index:3;pointer-events:none">GRID: 28px · PROJ: NaturalEarth</div>
+        </div>
+        <div class="tm-feed" id="tm-feed"></div>
+      </div>
+      <div class="tm-legend">
+        <div class="tm-legend-item"><span class="tm-legend-dot node"></span>Monitored Node</div>
+        <div class="tm-legend-item"><span class="tm-legend-dot threat"></span>Active Threat Detected</div>
+        <div class="tm-legend-item"><i class="fa-solid fa-arrow-right" style="color:var(--red);font-size:.6rem"></i>&nbsp;Live Intrusion Attempt</div>
+      </div>
+    </div>
+
+    <div class="tm-stats stats-strip">
+      <div class="stats-inner">
+        <div class="stat-cell" data-reveal>
+          <div class="stat-ico"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="stat-num" data-count="24">0</div>
+          <div class="stat-lbl">Vulnerabilities · High Risk</div>
+        </div>
+        <div class="stat-cell" data-reveal>
+          <div class="stat-ico"><i class="fa-solid fa-network-wired"></i></div>
+          <div class="stat-num" data-count="1842">0</div>
+          <div class="stat-lbl">Ports Scanned · Open</div>
+        </div>
+        <div class="stat-cell" data-reveal>
+          <div class="stat-ico"><i class="fa-solid fa-bug"></i></div>
+          <div class="stat-num" data-count="7">0</div>
+          <div class="stat-lbl">Exploits Found · Critical</div>
+        </div>
+        <div class="stat-cell" data-reveal>
+          <div class="stat-ico"><i class="fa-solid fa-diagram-project"></i></div>
+          <div class="stat-num" data-count="15">0</div>
+          <div class="stat-lbl">Systems Tested · Networks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hdivider"></div>
+
 <!-- ABOUT -->
 <section id="about">
   <div class="s">
@@ -1754,32 +1905,11 @@ button:focus-visible,a:focus-visible{
 })();
 
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
-const isFine=window.matchMedia('(pointer:fine)').matches;
-if(isFine){
-  let cx=0,cy=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{
-    cx=e.clientX;cy=e.clientY;
-    cur.style.left=(cx-4)+'px';cur.style.top=(cy-4)+'px';
-    document.documentElement.style.setProperty('--sx',cx+'px');
-    document.documentElement.style.setProperty('--sy',cy+'px');
-  });
-  (function lerp(){
-    rx+=(cx-rx-19)*.1;ry+=(cy-ry-19)*.1;
-    ring.style.left=rx+'px';ring.style.top=ry+'px';
-    requestAnimationFrame(lerp);
-  })();
-  document.addEventListener('mouseover',e=>{
-    if(e.target.closest('a,button,.tool,.rv-card,.g-item,.faq-q,.gate-btn'))
-      document.body.classList.add('ch');
-  });
-  document.addEventListener('mouseout',e=>{
-    if(e.target.closest('a,button,.tool,.rv-card,.g-item,.faq-q,.gate-btn'))
-      document.body.classList.remove('ch');
-  });
-}else{
-  cur.style.display='none';ring.style.display='none';
-  document.body.style.cursor='auto';
-}
+/* Custom red-dot cursor DISABLED — using default system cursor for performance. */
+if(cur) cur.style.display='none';
+if(ring) ring.style.display='none';
+document.body.style.cursor='auto';
+function _cursorNoop(){}
 
 /* ═══ PRELOADER ═══ */
 (function(){
@@ -2015,11 +2145,11 @@ window.addEventListener('pointermove',e=>{
   if(!term)return;
   function type(){
     const c=cmds[ci];
-    if(!del){term.textContent=c.slice(0,++ti);if(ti===c.length){del=true;setTimeout(type,1600);return}}
+    if(!del){term.textContent=c.slice(0,++ti);if(ti===c.length){del=true;setTimeout(type,900);return}}
     else{term.textContent=c.slice(0,--ti);if(ti===0){del=false;ci=(ci+1)%cmds.length}}
-    setTimeout(type,del?28:65);
+    setTimeout(type,del?16:38);
   }
-  setTimeout(type,2500);
+  setTimeout(type,1800);
 })();
 
 /* ═══ COMMAND PALETTE ═══ */
@@ -2370,6 +2500,548 @@ document.querySelectorAll('.stat-cell').forEach(cell=>{
     el.addEventListener('blur',()=>document.body.classList.remove('ch'));
   });
 })();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script>
+/* ═══ LIVE THREAT MAP — Norse/iKeeeP-style dot-matrix attack simulation ═══ */
+(function(){
+  const canvas = document.getElementById('tm-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const wrap = canvas.parentElement;
+  const ppsEl = document.getElementById('tm-pps');
+  const alertsEl = document.getElementById('tm-alerts');
+  const feedEl = document.getElementById('tm-feed');
+
+  /* ── Major world cities (attack origins/targets) ── */
+  const NODES = [
+    /* NA */ {n:'New York',c:[-74.00,40.71],w:9},
+    {n:'Los Angeles',c:[-118.24,34.05],w:8},
+    {n:'Chicago',c:[-87.62,41.88],w:7},
+    {n:'San Francisco',c:[-122.41,37.77],w:8},
+    {n:'Seattle',c:[-122.33,47.60],w:6},
+    {n:'Toronto',c:[-79.38,43.65],w:7},
+    {n:'Miami',c:[-80.19,25.76],w:6},
+    {n:'Mexico City',c:[-99.13,19.43],w:8},
+    {n:'Houston',c:[-95.36,29.76],w:6},
+    {n:'Washington DC',c:[-77.03,38.90],w:7},
+    {n:'Vancouver',c:[-123.12,49.28],w:5},
+    {n:'Atlanta',c:[-84.38,33.75],w:6},
+    {n:'Dallas',c:[-96.79,32.77],w:6},
+    {n:'Denver',c:[-104.99,39.74],w:5},
+    {n:'Boston',c:[-71.05,42.36],w:6},
+    /* SA */ {n:'São Paulo',c:[-46.63,-23.55],w:8},
+    {n:'Rio de Janeiro',c:[-43.17,-22.90],w:7},
+    {n:'Buenos Aires',c:[-58.38,-34.60],w:7},
+    {n:'Santiago',c:[-70.64,-33.45],w:5},
+    {n:'Bogotá',c:[-74.07,4.71],w:6},
+    {n:'Lima',c:[-77.04,-12.04],w:5},
+    /* EU */ {n:'London',c:[-0.12,51.50],w:10},
+    {n:'Amsterdam',c:[4.90,52.37],w:8},
+    {n:'Frankfurt',c:[8.68,50.11],w:9},
+    {n:'Paris',c:[2.35,48.86],w:8},
+    {n:'Berlin',c:[13.40,52.52],w:7},
+    {n:'Moscow',c:[37.61,55.75],w:9},
+    {n:'St Petersburg',c:[30.33,59.93],w:6},
+    {n:'Stockholm',c:[18.07,59.32],w:6},
+    {n:'Madrid',c:[-3.70,40.41],w:6},
+    {n:'Rome',c:[12.49,41.90],w:6},
+    {n:'Zurich',c:[8.54,47.37],w:7},
+    {n:'Istanbul',c:[28.97,41.01],w:7},
+    {n:'Warsaw',c:[21.01,52.22],w:5},
+    {n:'Oslo',c:[10.75,59.91],w:5},
+    {n:'Dublin',c:[-6.26,53.34],w:5},
+    {n:'Vienna',c:[16.37,48.20],w:5},
+    {n:'Helsinki',c:[24.94,60.17],w:5},
+    {n:'Lisbon',c:[-9.13,38.72],w:4},
+    {n:'Bucharest',c:[26.10,44.42],w:5},
+    {n:'Kyiv',c:[30.52,50.45],w:6},
+    /* ME/Afr */ {n:'Dubai',c:[55.27,25.20],w:8},
+    {n:'Tel Aviv',c:[34.78,32.08],w:7},
+    {n:'Riyadh',c:[46.72,24.71],w:6},
+    {n:'Cairo',c:[31.23,30.04],w:6},
+    {n:'Lagos',c:[3.37,6.52],w:6},
+    {n:'Nairobi',c:[36.82,-1.29],w:5},
+    {n:'Johannesburg',c:[28.04,-26.20],w:6},
+    {n:'Cape Town',c:[18.42,-33.92],w:5},
+    {n:'Tehran',c:[51.38,35.68],w:6},
+    {n:'Karachi',c:[67.00,24.86],w:7},
+    {n:'Casablanca',c:[-7.58,33.53],w:4},
+    {n:'Lagos',c:[3.37,6.52],w:6},
+    {n:'Addis Ababa',c:[38.74,9.02],w:4},
+    /* Asia */ {n:'Mumbai',c:[72.87,19.07],w:8},
+    {n:'New Delhi',c:[77.20,28.61],w:8},
+    {n:'Bangalore',c:[77.59,12.97],w:7},
+    {n:'Dhaka',c:[90.41,23.81],w:8},
+    {n:'Singapore',c:[103.81,1.35],w:9},
+    {n:'Hong Kong',c:[114.16,22.31],w:8},
+    {n:'Shanghai',c:[121.47,31.23],w:10},
+    {n:'Beijing',c:[116.40,39.90],w:9},
+    {n:'Tokyo',c:[139.69,35.68],w:10},
+    {n:'Seoul',c:[126.97,37.56],w:9},
+    {n:'Taipei',c:[121.56,25.03],w:7},
+    {n:'Bangkok',c:[100.50,13.75],w:6},
+    {n:'Jakarta',c:[106.84,-6.20],w:7},
+    {n:'Manila',c:[120.98,14.59],w:6},
+    {n:'Ho Chi Minh',c:[106.62,10.82],w:5},
+    {n:'Kuala Lumpur',c:[101.68,3.13],w:5},
+    {n:'Osaka',c:[135.50,34.69],w:7},
+    {n:'Chennai',c:[80.27,13.08],w:6},
+    {n:'Kolkata',c:[88.36,22.57],w:6},
+    {n:'Lahore',c:[74.35,31.52],w:6},
+    {n:'Guangzhou',c:[113.26,23.12],w:8},
+    {n:'Shenzhen',c:[114.05,22.54],w:7},
+    {n:'Chongqing',c:[106.55,29.56],w:6},
+    {n:'Chengdu',c:[104.06,30.57],w:5},
+    {n:'Tianjin',c:[117.20,39.13],w:5},
+    {n:'Busan',c:[129.07,35.17],w:5},
+    {n:'Nagoya',c:[136.90,35.18],w:5},
+    /* OC */ {n:'Sydney',c:[151.20,-33.86],w:7},
+    {n:'Melbourne',c:[144.96,-37.81],w:6},
+    {n:'Auckland',c:[174.76,-36.84],w:5},
+    {n:'Perth',c:[115.86,-31.95],w:4},
+    {n:'Brisbane',c:[153.02,-27.46],w:4},
+  ];
+  /* dedupe */
+  const seen=new Set(); const CITIES=NODES.filter(c=>{if(seen.has(c.n))return false; seen.add(c.n); return true;});
+
+  const ATTACK_TYPES = [
+    {t:'TCP SYN flood',ports:[443,80,8080,22,3389,21]},
+    {t:'SSH brute-force',ports:[22]},
+    {t:'RDP exploit',ports:[3389]},
+    {t:'SQL injection',ports:[3306,5432,1433]},
+    {t:'Port scan',ports:[0]},
+    {t:'DNS amplification',ports:[53]},
+    {t:'SMB auth fail',ports:[445]},
+    {t:'HTTP flood',ports:[80,443]},
+    {t:'XSS payload',ports:[80,443]},
+    {t:'C2 beacon',ports:[443,8443]},
+    {t:'FTP probe',ports:[21]},
+    {t:'Telnet attempt',ports:[23]},
+    {t:'SNMP probe',ports:[161]},
+    {t:'Memcached refl.',ports:[11211]},
+    {t:'NTP amplification',ports:[123]},
+    {t:'LDAP injection',ports:[389]},
+  ];
+
+  const SEV = [['LOW','#4ade80'],['MED','#facc15'],['HIGH','#fb923c'],['CRIT','#ff1744']];
+
+  let W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,2);
+  let projection, landFeature=null, countriesFeature=null;
+  let dotMask=null;
+  let nodePts=[], nodeHeat=[];
+  let hotspots=new Map(), hotspotList=[];
+  let hotspotPulses=[]; // signals emitting from red dots
+  let arcs=[], pings=[], particles=[], sparks=[], flashes=[];
+  let pktCount=0, alertCount=0;
+
+  function project(lng,lat){ const p=projection([lng,lat]); return p&&isFinite(p[0])&&isFinite(p[1])?p:null; }
+
+  function hexRgba(hex,a){const h=hex.replace('#','');return `rgba(${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)},${a})`;}
+
+  function buildDotMap(){
+    if(!landFeature) return;
+    const mask=document.createElement('canvas'); mask.width=Math.ceil(W); mask.height=Math.ceil(H);
+    const mctx=mask.getContext('2d');
+    const gp=d3.geoPath(projection,mctx);
+    mctx.beginPath(); gp(landFeature); mctx.fillStyle='#fff'; mctx.fill();
+    const md=mctx.getImageData(0,0,mask.width,mask.height).data;
+
+    dotMask=document.createElement('canvas');
+    dotMask.width=Math.ceil(W*dpr); dotMask.height=Math.ceil(H*dpr);
+    const dctx=dotMask.getContext('2d'); dctx.setTransform(dpr,0,0,dpr,0,0);
+
+    // graticule — extremely faint
+    if(d3.geoGraticule){
+      const grat=d3.geoGraticule().step([20,20])();
+      dctx.beginPath(); d3.geoPath(projection,dctx)(grat);
+      dctx.strokeStyle='rgba(255,23,68,.04)'; dctx.lineWidth=.35; dctx.setLineDash([1,3]); dctx.stroke(); dctx.setLineDash([]);
+    }
+
+    /* ── Land base fill: very dark navy so ocean is true black; low alpha so
+          the dots remain the main source of luminance (crisp, not washed out) ── */
+    dctx.save(); dctx.beginPath(); gp(landFeature); dctx.clip();
+    dctx.fillStyle='rgba(10,16,26,.68)'; dctx.fillRect(0,0,W,H);
+    dctx.restore();
+
+    /* ═══ LED DOT MATRIX — dense regular square grid like an LED display panel ═══
+       Design goals (matching reference):
+       • Almost every inland grid cell has a dot (presence ≈ 95%+ inland) → land reads as solid lit panel
+       • Gray/white LEDs bright enough that continents are clearly visible
+       • Red LEDs concentrated in city/coastal clusters (same tiny size as gray),
+         fading outward — not sharp circles, natural population-density feel
+       • Coastal edge also has slight red bias (cities cluster on coasts)
+       • All dots same tiny size, perfectly aligned grid, no scatter    */
+    /* ── LED DOT MATRIX — crisp pixel-perfect LED-panel look (reference-match) ──
+       Key ideas:
+       • Grid step is slightly LARGER so each LED reads as a distinct crisp pixel
+         (not sub-pixel mush).
+       • Gray/white LEDs are placed across nearly ALL land with uniform density —
+         this is what defines the continent shape.
+       • Red LEDs form a population-density-like spread:
+           - low "background red" across ALL land (~1.5% of dots)
+           - higher density in a WIDE radius around every city (bleeds km out)
+           - extra bias along coastlines (where people live)
+           - very bright individual pixels at major city centers
+       • Red and gray dots are exactly the SAME size — color is the only difference.
+       • No haze/glow on individual LEDs — they're lit pixels, not blurred lights. */
+
+    // Step tuned so LEDs are tiny, sub-pixel specks — individual dots should
+    // NOT be readable; only the collective density reads as texture/glow.
+    const step = W<700 ? 1.1 : 0.95;
+    const rDot = step*0.30;                          // LED pixel radius — tiny, count does the work
+
+    const cityPts = nodePts.filter(p=>p&&p[0]>-1000);
+    const cw=Math.ceil(W/step), ch=Math.ceil(H/step);
+    const heat=new Float32Array(cw*ch);               // red-weight 0..~1
+
+    // Pre-sample land mask alpha once per grid cell into a small alpha buffer
+    // so we don't re-read it many times.
+    const landA=new Float32Array(cw*ch);
+    for(let gy=0;gy<ch;gy++){
+      for(let gx=0;gx<cw;gx++){
+        const ix=Math.min(mask.width-1,(gx*step)|0);
+        const iy=Math.min(mask.height-1,(gy*step)|0);
+        landA[gy*cw+gx] = md[(iy*mask.width+ix)*4+3]/255;
+      }
+    }
+
+    // 1) City-cluster heat — TIGHT radius around each city; NO global red background.
+    //    Red appears ONLY where multiple cities overlap (→ metro regions light up),
+    //    and falls off quickly into pure gray wilderness.
+    for(let i=0;i<cityPts.length;i++){
+      const [cx,cy]=cityPts[i];
+      const w=CITIES[i].w/10;                           // 0.4–1.0
+      const R=22+w*28;                                   // tight metro radius
+      const r2=R*R;
+      // Extra boost for only the top-tier hub cities (w>=9) so a handful of
+      // metro areas read as noticeably denser red clusters than the rest.
+      const hubBoost = CITIES[i].w>=9 ? 1.6 : 1.0;
+      const gx0=Math.max(0,Math.floor((cx-R)/step));
+      const gy0=Math.max(0,Math.floor((cy-R)/step));
+      const gx1=Math.min(cw-1,Math.ceil((cx+R)/step));
+      const gy1=Math.min(ch-1,Math.ceil((cy+R)/step));
+      for(let gy=gy0;gy<=gy1;gy++){
+        for(let gx=gx0;gx<=gx1;gx++){
+          if(landA[gy*cw+gx]<0.40) continue;             // only solid land
+          const x=gx*step, y=gy*step;
+          const dx=x-cx, dy=y-cy, d2=dx*dx+dy*dy;
+          if(d2>r2) continue;
+          const d=Math.sqrt(d2);
+          const f=1-d/R;
+          // steep quadratic falloff: dense in core, drops to zero fast outside
+          const v = w*f*f*0.55*hubBoost;
+          const idx=gy*cw+gx;
+          if(v>heat[idx]) heat[idx]=v;
+        }
+      }
+    }
+
+    hotspots=new Map();
+    hotspotList=[];
+
+    // List of "bright pixels" — only at the TOP major world cities (w≥9) to
+    // match the few bright pins in the reference (NY, London, Frankfurt,
+    // Tokyo, Shanghai, Singapore, Dubai, etc.)
+    const brightPins=[];
+    for(let i=0;i<cityPts.length;i++){
+      if(CITIES[i].w>=9) brightPins.push({x:cityPts[i][0],y:cityPts[i][1],w:CITIES[i].w/10});
+    }
+
+    // 2) Paint all LEDs in a single grid pass
+    for(let gy=0;gy<ch;gy++){
+      const py=gy*step;
+      if(py<1||py>H-1) continue;
+      for(let gx=0;gx<cw;gx++){
+        const px=gx*step;
+        if(px<1||px>W-1) continue;
+        const idx=gy*cw+gx;
+        const alpha=landA[idx];
+        if(alpha<0.32) continue;                          // ocean → no LED
+        const cityW=heat[idx];
+
+        // LED presence — land should read clearly as a continent shape,
+        // with density still rising near cities/population centers for
+        // the "hotspot" look. Not as maxed-out as a solid LED panel, but
+        // enough coverage that the map is unmistakably visible.
+        const baseline = 0.48 + 0.42*alpha;               // clearly visible land coverage
+        const cityBoost = Math.min(0.45, cityW*1.0);      // extra density near hotspots
+        const presence = Math.min(0.97, baseline + cityBoost);
+        if(Math.random() > presence) continue;
+
+        // Decide if this LED is red.
+        // NO base red, NO coast bias — red appears ONLY near city clusters,
+        // as a tight, clustered "signal" that peaks in metro cores and dies off.
+        // Most land is just gray/white.
+        const redProb = Math.min(0.62, cityW*0.90);
+
+        const n = Math.random();
+        let col;
+        if(redProb>0 && Math.random() < redProb){
+          // RED LED — same size as gray, opacity scales with density.
+          // Core dots brighter, edge dots very faint → clusters glow from
+          // many tiny contributions rather than from visible pixels.
+          const density = Math.min(1, cityW*2.0);
+          const a = Math.min(0.55, 0.10 + density*0.40);
+          const g = 45 + (1-density)*70 | 0;
+          const b = 60 + (1-density)*45 | 0;
+          col = `rgba(255,${g},${b},${a})`;
+          if(cityW>0.25 && Math.random()<0.006){
+            const key=((px*2)|0)/2+'|'+((py*2)|0)/2;
+            hotspots.set(key, Math.max(hotspots.get(key)||0, Math.min(1,cityW)));
+          }
+        } else {
+          // GRAY/WHITE LED — muted but readable; red clusters pop on top
+          if(n<0.01){ col='rgba(230,236,246,.85)'; }
+          else if(n<0.08){ col=`rgba(195,206,220,${0.45+0.15*alpha})`; }
+          else if(n<0.30){ col=`rgba(155,168,184,${0.28+0.14*alpha})`; }
+          else if(n<0.70){ col=`rgba(120,133,150,${0.16+0.10*alpha})`; }
+          else           { col=`rgba(90,102,118,${0.10+0.08*alpha})`; }
+        }
+        dctx.beginPath();
+        dctx.arc(px, py, rDot, 0, Math.PI*2);
+        dctx.fillStyle=col; dctx.fill();
+      }
+    }
+
+    // 3) Over-paint the metro-core pins — subtle, blended into the speckle,
+    //    not a bold marker/pin. Same tiny dot size, just a touch brighter.
+    for(const bp of brightPins){
+      const {x,y,w} = bp;
+      dctx.beginPath();
+      dctx.arc(x,y, rDot*0.85, 0, Math.PI*2);
+      dctx.fillStyle=`rgba(255,150,160,${0.55})`; dctx.fill();
+    }
+
+    // 4) Build hotspot list for pulsing — combine painted hotspots with all major cities
+    const hsArr=[];
+    hotspots.forEach((v,k)=>{const[xs,ys]=k.split('|');hsArr.push([+xs,+ys,v]);});
+    for(const bp of brightPins) hsArr.push([bp.x,bp.y,bp.w]);
+    hsArr.sort((a,b)=>b[2]-a[2]);
+    // dedupe
+    const seen=new Set();
+    hotspotList=[];
+    for(const h of hsArr){
+      const k=((h[0]/6)|0)+','+((h[1]/6)|0);
+      if(seen.has(k)) continue; seen.add(k);
+      hotspotList.push(h);
+      if(hotspotList.length>=60) break;
+    }
+
+    // Very faint coast hairline — single pixel of red at the edge
+    dctx.beginPath(); gp(landFeature);
+    dctx.strokeStyle='rgba(255,35,60,.10)'; dctx.lineWidth=.5; dctx.stroke();
+  }
+
+  function fakeIP(){
+    const a=Math.floor(Math.random()*223)+1;
+    return `${a}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*254)+1}`;
+  }
+  const pad=(n,l=2)=>String(n).padStart(l,'0');
+
+  function pushFeed(arc){
+    if(!feedEl) return;
+    const from=CITIES[arc.fi], to=CITIES[arc.ti];
+    const atk=arc.atk;
+    const port=atk.ports[Math.floor(Math.random()*atk.ports.length)];
+    const sv=SEV[Math.floor(Math.random()*SEV.length)];
+    const blocked=Math.random()<0.62;
+    const now=new Date();
+    const ts=`${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}.${pad(now.getMilliseconds(),3)}`;
+    const line=document.createElement('div'); line.className='tm-feed-line';
+    line.innerHTML=`<span class="ts">[${ts}]</span> <b style="color:${sv[1]}">${sv[0]}</b> <b>${atk.t}</b>${port?` :${port}`:''} <span style="color:var(--mid)">${from.n} → ${to.n}</span>${blocked?' <span class="ok" style="color:#22c55e">▸ BLOCKED</span>':' <span style="color:#ff4569">▸ BREACH</span>'}`;
+    feedEl.appendChild(line);
+    while(feedEl.children.length>80) feedEl.removeChild(feedEl.firstChild);
+    feedEl.scrollTop=feedEl.scrollHeight;
+    alertCount++; if(alertsEl) alertsEl.textContent=alertCount.toLocaleString();
+  }
+
+  function pick(){
+    const tot=CITIES.reduce((s,c)=>s+c.w,0);
+    let r=Math.random()*tot; for(let i=0;i<CITIES.length;i++){r-=CITIES[i].w; if(r<=0) return i;} return 0;
+  }
+
+  function spawnArc(forceLong=false){
+    if(nodePts.length<2) return;
+    if(arcs.length>=2) return;                        // hard cap: max 2 arcs traveling at once
+    let fi=pick(), ti=pick(), g=0; while(ti===fi&&g++<20) ti=pick();
+    if(fi===ti) return;
+    const atk=ATTACK_TYPES[Math.floor(Math.random()*ATTACK_TYPES.length)];
+    const dist=Math.hypot(nodePts[fi][0]-nodePts[ti][0],nodePts[fi][1]-nodePts[ti][1]);
+    const dur=320+Math.random()*280+Math.min(500,dist*1.8);
+    const col=Math.random()<0.92?'#ff2a4d':(Math.random()<0.5?'#ffd24a':'#ff7a9c');
+    const arc={fi,ti,from:nodePts[fi],to:nodePts[ti],t:0,dur,atk,color:col};
+    arcs.push(arc);
+    nodeHeat[fi]=Math.min(1,(nodeHeat[fi]||0)+0.18);
+    nodeHeat[ti]=Math.min(1,(nodeHeat[ti]||0)+0.25);
+    flashes.push({p:nodePts[ti],t:0,dur:28,color:col});
+    pings.push({idx:ti,t:0,dur:80});
+    const [tx,ty]=nodePts[ti];
+    const sp=1+Math.floor(Math.random()*2);
+    for(let k=0;k<sp;k++){
+      const a=Math.random()*Math.PI*2, spd=.3+Math.random()*1.0;
+      sparks.push({x:tx,y:ty,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,life:0,max:18+Math.random()*14,color:col});
+    }
+    pktCount+=Math.floor(6+Math.random()*20);
+    pushFeed(arc);
+  }
+
+  // Breach log feed line — independent of the on-map arc cap, so the feed
+  // can scroll fast even while only 1-2 arcs animate on the map at a time.
+  function spawnFeedLine(){
+    if(nodePts.length<2) return;
+    let fi=pick(), ti=pick(), g=0; while(ti===fi&&g++<20) ti=pick();
+    if(fi===ti) return;
+    const atk=ATTACK_TYPES[Math.floor(Math.random()*ATTACK_TYPES.length)];
+    pktCount+=Math.floor(6+Math.random()*20);
+    pushFeed({fi,ti,atk});
+  }
+
+  function layout(){
+    if(!landFeature) return;
+    projection=d3.geoNaturalEarth1().fitExtent([[10,10],[W-10,H-10]],landFeature);
+    nodePts=[]; nodeHeat=[];
+    for(let i=0;i<CITIES.length;i++){const p=project(CITIES[i].c[0],CITIES[i].c[1]); nodePts.push(p||[-999,-999]); nodeHeat.push(0);}
+    buildDotMap();
+  }
+  function resize(){
+    const r=wrap.getBoundingClientRect(); W=Math.max(r.width,1); H=Math.max(r.height,1);
+    canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0); layout();
+  }
+  let frame=0, sweepAngle=0;
+  function bez(p0,p1,p2,t){const u=1-t;return[u*u*p0[0]+2*u*t*p1[0]+t*t*p2[0],u*u*p0[1]+2*u*t*p1[1]+t*t*p2[1]];}
+
+  function draw(){
+    ctx.save(); ctx.clearRect(0,0,W,H);
+    const cx=W/2,cy=H/2;
+    const br=1+Math.sin(frame*0.004)*0.008, px=Math.sin(frame*0.0031)*3, py=Math.cos(frame*0.0025)*2;
+    ctx.translate(cx+px,cy+py); ctx.scale(br,br); ctx.translate(-cx,-cy);
+
+    if(dotMask) ctx.drawImage(dotMask,0,0,W,H);
+
+    sweepAngle+=0.003;
+    if(ctx.createConicGradient){
+      const cg=ctx.createConicGradient(sweepAngle,cx,cy);
+      cg.addColorStop(0,'rgba(255,23,68,.10)'); cg.addColorStop(0.04,'rgba(255,23,68,.03)');
+      cg.addColorStop(0.12,'rgba(255,23,68,0)'); cg.addColorStop(1,'rgba(255,23,68,0)');
+      ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,Math.max(W,H)*0.7,0,Math.PI*2); ctx.fill();
+    }
+
+    ctx.strokeStyle='rgba(255,23,68,.08)'; ctx.lineWidth=.5;
+    ctx.beginPath(); ctx.moveTo(cx-12,cy); ctx.lineTo(cx+12,cy); ctx.moveTo(cx,cy-12); ctx.lineTo(cx,cy+12); ctx.stroke();
+
+    /* city nodes — blend into the dot field; small red glow, no obvious pin */
+    const pulse=0.5+0.5*Math.sin(frame*0.04);
+    for(let i=0;i<nodePts.length;i++){
+      const [x,y]=nodePts[i]; if(x<-5000) continue;
+      const w=CITIES[i].w, h=nodeHeat[i]||0;
+      const hr=2.0+w*0.15+h*1.8+pulse*0.3;
+      const g=ctx.createRadialGradient(x,y,0,x,y,hr*2.0);
+      g.addColorStop(0,`rgba(255,60,80,${0.10+h*0.15})`); g.addColorStop(0.5,`rgba(255,30,60,${0.03+h*0.05})`); g.addColorStop(1,'rgba(255,23,68,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,hr*2.0,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x,y,0.4+(w>8?0.15:0),0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,${70+h*40|0},${90+h*25|0},${0.45+h*0.25})`; ctx.fill();
+    }
+
+    pings.forEach(pg=>{pg.t++;const p=pg.t/pg.dur;const [x,y]=nodePts[pg.idx];if(x<-5000)return;
+      ctx.beginPath();ctx.arc(x,y,2+p*40,0,Math.PI*2);ctx.strokeStyle=`rgba(255,60,85,${0.25*(1-p)})`;ctx.lineWidth=0.6;ctx.stroke();
+    }); pings=pings.filter(p=>p.t<p.dur);
+
+    flashes.forEach(f=>{f.t++;const p=f.t/f.dur;const [x,y]=f.p;const r=2+p*10;
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,`rgba(255,255,255,${0.5*(1-p)})`); g.addColorStop(0.4,hexRgba(f.color,0.25*(1-p))); g.addColorStop(1,'rgba(255,23,68,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }); flashes=flashes.filter(f=>f.t<f.dur);
+
+    sparks.forEach(s=>{s.life++;s.x+=s.vx;s.y+=s.vy;s.vx*=0.94;s.vy*=0.94;s.vy+=0.02;
+      const a=1-s.life/s.max; ctx.beginPath(); ctx.arc(s.x,s.y,0.7,0,Math.PI*2); ctx.fillStyle=hexRgba(s.color,a*0.7); ctx.fill();
+    }); sparks=sparks.filter(s=>s.life<s.max);
+
+    /* ═══ Hotspot signal pulses — clearly visible rings spreading out ═══ */
+    hotspotPulses.forEach(hs=>{
+      hs.t++;const p=hs.t/hs.dur;const[x,y]=hs.p;
+      const r=1+p*hs.maxR;
+      // Outer ring
+      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(255,60,80,${hs.alpha*0.60*(1-p)})`;ctx.lineWidth=1.7;ctx.stroke();
+      // Inner brighter ring
+      ctx.beginPath();ctx.arc(x,y,r*0.55,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(255,130,150,${hs.alpha*0.50*(1-p*0.8)})`;ctx.lineWidth=1.1;ctx.stroke();
+      // Bright core dot
+      ctx.beginPath();ctx.arc(x,y,1.6,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,220,225,${0.85*(1-p*0.7)})`;ctx.fill();
+    }); hotspotPulses=hotspotPulses.filter(hs=>hs.t<hs.dur);
+
+    arcs.forEach(arc=>{
+      arc.t++;const p=Math.min(arc.t/arc.dur,1);
+      const [x1,y1]=arc.from,[x2,y2]=arc.to; if(x1<-5000||x2<-5000) return;
+      const dist=Math.hypot(x2-x1,y2-y1),mx=(x1+x2)/2,my=Math.min(y1,y2)-dist*0.30-8,ctrl=[mx,my];
+      // faint base track
+      ctx.beginPath();ctx.moveTo(x1,y1);ctx.quadraticCurveTo(ctrl[0],ctrl[1],x2,y2);
+      ctx.strokeStyle=hexRgba(arc.color,0.035);ctx.lineWidth=.45;ctx.stroke();
+      // short tail behind head
+      const tr=0.09;
+      for(let s=0;s<=18;s++){const t2=p-(s/18)*tr;if(t2<0)break;const[px,py]=bez(arc.from,ctrl,arc.to,t2);
+        const a=(1-s/18)*(0.35-p*0.2);ctx.beginPath();ctx.arc(px,py,0.9*(1-s/18)+0.25,0,Math.PI*2);ctx.fillStyle=hexRgba(arc.color,a);ctx.fill();}
+      // comet head — very small
+      const[hx,hy]=bez(arc.from,ctrl,arc.to,p);
+      const hg=ctx.createRadialGradient(hx,hy,0,hx,hy,5);hg.addColorStop(0,'rgba(255,255,255,.85)');hg.addColorStop(0.3,arc.color);hg.addColorStop(1,'rgba(255,23,68,0)');
+      ctx.fillStyle=hg;ctx.beginPath();ctx.arc(hx,hy,3.2,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.arc(hx,hy,0.9,0,Math.PI*2);ctx.fillStyle='#fff';ctx.shadowColor=arc.color;ctx.shadowBlur=5;ctx.fill();ctx.shadowBlur=0;
+      if(Math.random()<0.08&&p<0.95) particles.push({x:hx,y:hy,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,life:0,max:14+Math.random()*12,color:arc.color});
+    }); arcs=arcs.filter(a=>a.t<a.dur);
+
+    particles.forEach(p=>{p.life++;p.x+=p.vx;p.y+=p.vy;
+      const a=(1-p.life/p.max)*0.5; ctx.beginPath(); ctx.arc(p.x,p.y,0.6,0,Math.PI*2); ctx.fillStyle=hexRgba(p.color,a); ctx.fill();
+    }); particles=particles.filter(p=>p.life<p.max);
+
+    for(let i=0;i<nodeHeat.length;i++){nodeHeat[i]*=0.992;if(nodeHeat[i]<0.02)nodeHeat[i]=0;}
+
+    ctx.restore(); frame++; requestAnimationFrame(draw);
+  }
+
+  function tickPackets(){pps=Math.max(0,Math.round(pktCount*0.7+Math.random()*80));pktCount=Math.round(pktCount*0.3);if(ppsEl)ppsEl.textContent=pps.toLocaleString();}
+
+  function init(world){
+    landFeature=topojson.feature(world,world.objects.land);
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(r=>r.json()).then(cw=>{countriesFeature=topojson.feature(cw,cw.objects.countries);buildDotMap();}).catch(()=>{});
+    resize(); requestAnimationFrame(draw);
+    // Arcs on the map stay capped at 2 concurrent (see spawnArc), spawned at
+    // a calm pace. The breach log feed runs on its own faster interval so
+    // it keeps scrolling quickly regardless of the arc cap.
+    setInterval(()=>{ if(Math.random()<0.6) spawnArc(); }, 2200);
+    setInterval(()=>{ if(Math.random()<0.4) spawnArc(); }, 3000);
+    setInterval(spawnFeedLine, 900);
+    setInterval(()=>{ if(Math.random()<0.6) spawnFeedLine(); }, 1300);
+    setInterval(tickPackets,1100);
+    // Hotspot signal pulses — slower, bigger rings firing from metros;
+    // capped so at most 2 pulses are ever active/expanding at the same time.
+    function emitHotspotPulse(){
+      if(!hotspotList.length) return;
+      if(hotspotPulses.length>=2) return;               // hard cap: max 2 simultaneous
+      const h=hotspotList[(Math.random()*hotspotList.length)|0];
+      hotspotPulses.push({
+        p:[h[0],h[1]], t:0,
+        dur:150+Math.random()*90,
+        maxR:16+h[2]*16,
+        alpha:0.75+h[2]*0.20
+      });
+    }
+    setInterval(emitHotspotPulse, 1100);
+    setInterval(()=>{ if(Math.random()<0.4) emitHotspotPulse(); }, 1700);
+    setInterval(()=>{if(landFeature)buildDotMap();},28000);
+    if('ResizeObserver' in window){const ro=new ResizeObserver(()=>resize());ro.observe(wrap);}else window.addEventListener('resize',resize);
+  }
+
+  if(window.d3&&window.topojson){
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json').then(r=>r.json()).then(init).catch(()=>{});
+  }
+})();
+
+
 </script>
 
 <script src="https://web3forms.com/client/script.js" async defer></script>
