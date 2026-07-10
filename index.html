@@ -2266,19 +2266,32 @@ window.addEventListener('pointermove',e=>{
   toggle.addEventListener('click',toggleChat);
   closeBtn.addEventListener('click',toggleChat);
 
-  function appendMsg(role,text){
+function appendMsg(role,text,finalHtml){
     const wrap=document.createElement('div');
     wrap.className='chat-msg '+role;
     const av=document.createElement('div');av.className='msg-av';
-    av.innerHTML=`<i class=\"fas fa-${role==='user'?'user':'robot'}\"></i>`;
+    av.innerHTML=`<i class="fas fa-${role==='user'?'user':'robot'}"></i>`;
     const bubble=document.createElement('div');bubble.className='msg-bubble';
     wrap.appendChild(av);wrap.appendChild(bubble);
     content.appendChild(wrap);
     if(role==='bot'&&!text.startsWith('⚠️')){
       let i=0;
-      function type(){if(i<text.length){bubble.innerHTML=text.substring(0,i+1);i++;content.scrollTop=content.scrollHeight;setTimeout(type,6)}}
+      function type(){
+        if(i<text.length){
+          bubble.textContent=text.substring(0,i+1);
+          i++;
+          content.scrollTop=content.scrollHeight;
+          setTimeout(type,6);
+        }else if(finalHtml){
+          bubble.innerHTML=finalHtml;
+          content.scrollTop=content.scrollHeight;
+        }
+      }
       type();
-    }else{bubble.innerHTML=text;content.scrollTop=content.scrollHeight;}
+    }else{
+      bubble.innerHTML=finalHtml||text;
+      content.scrollTop=content.scrollHeight;
+    }
   }
 
   function showTyping(){
@@ -2305,14 +2318,17 @@ window.addEventListener('pointermove',e=>{
       clearTimeout(timeout);
       if(!res.ok)throw new Error('Server error');
       const data=await res.json();
-      hideTyping();
+hideTyping();
       if(data&&data.candidates&&data.candidates[0].content){
-        let reply=data.candidates[0].content.parts[0].text;
-        reply=reply.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'$2');
-        reply=reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
-        reply=reply.replace(/(https?:\/\/[^\s<"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#ff8a9d;text-decoration:underline">$1</a>');
-        appendMsg('bot',reply);
-        chatHistory.push({role:'assistant',content:reply});
+        let raw=data.candidates[0].content.parts[0].text;
+        raw=raw.replace(/(https?:\/\/[^\s<"']+)([.,;:!?)\]]+)(?=\s|$)/g,'$1');
+        raw=raw.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'$2');
+        const plainText=raw.replace(/\*\*(.*?)\*\*/g,'$1');
+        let finalHtml=raw.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+        finalHtml=finalHtml.replace(/(https?:\/\/[^\s<"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#ff8a9d;text-decoration:underline">$1</a>');
+
+        appendMsg('bot',plainText,finalHtml);
+        chatHistory.push({role:'assistant',content:raw});
       }else throw new Error('Format Error');
     }catch(e){
       clearTimeout(timeout);hideTyping();
