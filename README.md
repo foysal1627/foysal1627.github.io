@@ -1,7 +1,7 @@
 # 🚀 Foysal Mahmud | Cyber Security Specialist  
 
 ## 🛡️ About Me  
-I am **Foysal Mahmud**, a **Cyber Security Specialist & Ethical Hacker** with **2+ years of experience** in **ethical hacking, penetration testing, and cybersecurity**. My expertise lies in identifying vulnerabilities, securing digital infrastructures, and protecting systems from cyber threats.  
+I am **Foysal Mahmud**, a **Cyber Security Specialist & Ethical Hacker** with **3+ years of experience** in **ethical hacking, penetration testing, and cybersecurity**. My expertise lies in identifying vulnerabilities, securing digital infrastructures, and protecting systems from cyber threats.  
 
 ## 🔍 Skills & Expertise  
 - 🔹 **Ethical Hacking**  
