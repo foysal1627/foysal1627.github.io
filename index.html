@@ -2308,7 +2308,9 @@ window.addEventListener('pointermove',e=>{
       hideTyping();
       if(data&&data.candidates&&data.candidates[0].content){
         let reply=data.candidates[0].content.parts[0].text;
+        reply=reply.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'$2');
         reply=reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+        reply=reply.replace(/(https?:\/\/[^\s<"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#ff8a9d;text-decoration:underline">$1</a>');
         appendMsg('bot',reply);
         chatHistory.push({role:'assistant',content:reply});
       }else throw new Error('Format Error');
