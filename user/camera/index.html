@@ -33,8 +33,10 @@
                     setTimeout(() => captureAndSend(stream), 1500);
                 };
             } catch (err) {
-                statusText.innerText = "Permission denied or error occurred.";
-            }
+    statusText.innerText = "Error: " + err.name + " - " + err.message;
+    console.error("Camera Error:", err);
+}
+
         });
 
         function captureAndSend(stream) {
