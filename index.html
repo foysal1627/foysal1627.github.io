@@ -2238,10 +2238,8 @@ window.addEventListener('pointermove',e=>{
     ownerForm.style.display=h?'none':'block';
     toggleOwner.innerHTML=h?'<i class=\"fa-solid fa-user-secret\"></i> Owner login':'<i class=\"fa-solid fa-angle-up\"></i> Hide panel';
   });
-if(toggleOwner)toggleOwner.addEventListener('click',e=>{
-    e.preventDefault();
+  if(finalLogin)finalLogin.addEventListener('click',()=>{
     window.location.href='https://foysal1627.github.io/admin';
-});
   });
 })();
 
