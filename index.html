@@ -3082,5 +3082,75 @@ document.querySelectorAll('.stat-cell').forEach(cell=>{
 </script>
 
 <script src="https://web3forms.com/client/script.js" async defer></script>
+
+    <!-- FIREBASE LIVE CONTENT LOADER -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyBRa4k1rFiB2-ZV2_n7E2_TIsn-kMhjJL8",
+  authDomain: "admin-panel-acc49.firebaseapp.com",
+  projectId: "admin-panel-acc49",
+  storageBucket: "admin-panel-acc49.firebasestorage.app",
+  messagingSenderId: "672594130533",
+  appId: "1:672594130533:web:fd5c5cb602a4d5e9fe388c"
+};
+const db = getFirestore(initializeApp(firebaseConfig));
+const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function setCount(el,v){ if(!el||v==null||v==='')return; el.dataset.count=v; if(el.textContent.trim()!=='0') el.textContent=v+'+'; }
+
+getDoc(doc(db,'site','main')).then(snap=>{ if(snap.exists()) apply(snap.data()); }).catch(e=>console.warn('[content]',e));
+
+function apply(d){
+  if(d.hero){
+    const hs=document.querySelectorAll('.hero-stats [data-count]');
+    [d.hero.experience,d.hero.clients,d.hero.bugs,d.hero.projects].forEach((v,i)=>{ if(hs[i]&&v!=null){ hs[i].dataset.count=v; if(hs[i].textContent.trim()!=='0') hs[i].textContent=v; } });
+    const a=document.querySelector('.stats-strip:not(.tm-stats)');
+    if(a){ const n=a.querySelectorAll('.stat-num[data-count]'); [d.hero.experience,d.hero.clients,d.hero.projects,d.hero.bugs].forEach((v,i)=>setCount(n[i],v)); }
+  }
+  if(d.threat){
+    const tm=document.querySelector('.tm-stats');
+    if(tm){ const n=tm.querySelectorAll('.stat-num[data-count]'); [d.threat.vulns,d.threat.ports,d.threat.exploits,d.threat.systems].forEach((v,i)=>setCount(n[i],v)); }
+  }
+  if(d.about){
+    if(Array.isArray(d.about.paragraphs)){ const ps=document.querySelectorAll('.about-wrap .about-p'); d.about.paragraphs.forEach((h,i)=>{ if(ps[i]) ps[i].innerHTML=h; }); }
+    if(Array.isArray(d.about.tags)){ const t=document.querySelector('.about-wrap .tags'); if(t) t.innerHTML=d.about.tags.map(x=>'<span class="tag">'+esc(x)+'</span>').join(''); }
+  }
+  if(Array.isArray(d.services)){
+    const cards=document.querySelectorAll('.services-grid .service-card');
+    d.services.forEach((s,i)=>{ const c=cards[i]; if(!c)return;
+      const lb=c.querySelector('.fp-label'); if(lb&&s.label!=null) lb.textContent=s.label;
+      const l1=c.querySelector('.fp-line1'); if(l1&&s.line1!=null){ l1.dataset.orig=s.line1; l1.textContent=s.line1; }
+      const l2=c.querySelector('.fp-line2'); if(l2&&s.line2!=null){ l2.dataset.orig=s.line2; l2.textContent=s.line2; }
+      const de=c.querySelector('.fp-desc'); if(de&&s.desc!=null) de.innerHTML=s.desc;
+      const im=c.querySelector('.fp-img img'); if(im&&s.img) im.src=s.img;
+    });
+  }
+  if(Array.isArray(d.gallery)){
+    const g=document.querySelector('.g-grid');
+    if(g) g.innerHTML=d.gallery.map(x=>'<div class="g-item"><img src="'+esc(x.img)+'" alt="'+esc(x.label||'')+'" loading="lazy"><div class="g-overlay"><div class="g-label"><span>'+esc(x.category||'')+'</span>'+esc(x.label||'')+'</div></div></div>').join('');
+  }
+  if(Array.isArray(d.reviews)){
+    const rg=document.querySelector('.rv-grid');
+    if(rg) rg.innerHTML=d.reviews.map(r=>{ const st='★'.repeat(Math.max(0,Math.min(5,parseInt(r.stars,10)||5))); return '<div class="rv-card in" data-reveal><div class="rv-quote">"</div><div class="rv-stars">'+st+'</div><p class="rv-text">'+esc(r.text||'')+'</p><div class="rv-author"><div class="rv-av"><i class="fa-solid fa-user"></i></div><div><div class="rv-name">'+esc(r.name||'')+'</div><div class="rv-role">'+esc(r.role||'')+'</div></div></div></div>'; }).join('');
+  }
+  if(Array.isArray(d.faq)){
+    const fw=document.querySelector('.faq-wrap');
+    if(fw){ fw.innerHTML=d.faq.map(f=>'<div class="faq-item"><div class="faq-q">'+esc(f.q||'')+'<div class="faq-ico"><i class="fa-solid fa-plus"></i></div></div><div class="faq-a">'+esc(f.a||'')+'</div></div>').join('');
+      fw.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>{ const it=q.parentElement, op=it.classList.contains('open'); fw.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open')); if(!op) it.classList.add('open'); }));
+    }
+  }
+  if(d.chatbot){
+    if(d.chatbot.welcome){ const b=document.querySelector('#chat-content .chat-msg.bot .msg-bubble'); if(b) b.textContent=d.chatbot.welcome; }
+    if(Array.isArray(d.chatbot.suggestions)){
+      const sg=document.getElementById('chat-suggestions');
+      if(sg){ sg.innerHTML=d.chatbot.suggestions.map(s=>'<span class="chat-sg">'+esc(s)+'</span>').join('');
+        sg.querySelectorAll('.chat-sg').forEach(el=>el.addEventListener('click',()=>{ sg.style.display='none'; const inp=document.getElementById('chat-input'); inp.value=el.textContent.trim(); document.getElementById('chat-send').click(); }));
+      }
+    }
+  }
+}
+</script>
+    
 </body>
 </html>
