@@ -218,13 +218,13 @@ function makeList(id, fields, items, addLabel){
     row.querySelector('.del').onclick=()=>row.remove();
     container.insertBefore(row,btn);
   }
-  (items||[]).forEach(addRow);
+  (Array.isArray(items)?items:[]).forEach(addRow);
   container.appendChild(btn);
   btn.onclick=()=>addRow();
   return {collect(){return [...container.querySelectorAll('.row-card')].map(r=>{const o={};r.querySelectorAll('[data-k]').forEach(el=>o[el.dataset.k]=el.value);return o;});}};
 }
 
-let servicesList, galleryList, reviewsList, faqList;
+let servicesList, galleryList, reviewsList, faqList, dataReady=false;
 
 function fill(d){
   $('h-exp').value=d.hero&&d.hero.experience!=null?d.hero.experience:'';
@@ -275,11 +275,21 @@ onAuthStateChanged(auth, async user=>{
     $('panel').style.display='block';
     $('savebar').style.display='block';
     $('who').textContent='Signed in as '+user.email;
-    try{
-      const snap=await getDoc(DOCREF);
-      fill(snap.exists()?snap.data():DEFAULTS);
-      setStatus(snap.exists()?'Loaded from Firestore.':'Loaded defaults - click Save to publish.','');
-    }catch(e){ fill(DEFAULTS); setStatus('Load error: '+e.message,'bad'); }
+try{
+  const snap=await getDoc(DOCREF);
+  const raw = snap.exists()?snap.data():DEFAULTS;
+  console.log('Firestore raw data:', raw);
+  fill(raw);
+  dataReady = true;
+  $('saveBtn').disabled = false;
+  setStatus(snap.exists()?'Loaded from Firestore.':'Loaded defaults - click Save to publish.','');
+}catch(e){
+  console.error('Load/fill error:', e);
+  fill(DEFAULTS);
+  dataReady = true;
+  $('saveBtn').disabled = false;
+  setStatus('Load error: '+e.message,'bad');
+}
   }else{
     $('login').style.display='flex';
     $('panel').style.display='none';
@@ -288,9 +298,10 @@ onAuthStateChanged(auth, async user=>{
 });
 
 $('saveBtn').onclick=async()=>{
+  if(!dataReady){ setStatus('Data still loading, wait...','bad'); return; }
   setStatus('Saving...','');
   try{ await setDoc(DOCREF, gather()); setStatus('Saved. Refresh your site to see changes.','ok'); }
-  catch(e){ setStatus('Save failed: '+e.message,'bad'); }
+  catch(e){ console.error('Save error:', e); setStatus('Save failed: '+e.message,'bad'); }
 };
 </script>
 </body>
