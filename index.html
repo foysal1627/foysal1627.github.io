@@ -2238,11 +2238,10 @@ window.addEventListener('pointermove',e=>{
     ownerForm.style.display=h?'none':'block';
     toggleOwner.innerHTML=h?'<i class=\"fa-solid fa-user-secret\"></i> Owner login':'<i class=\"fa-solid fa-angle-up\"></i> Hide panel';
   });
-  if(finalLogin)finalLogin.addEventListener('click',()=>{
-    const u=document.getElementById('ownerUser').value.trim();
-    const p=document.getElementById('ownerPass').value.trim();
-    if(u==='cyber'&&p==='369'){alert('Access Granted! Redirecting...',true);setTimeout(()=>window.location.href='https://foysal1627.github.io/dashboard',1200)}
-    else alert('Access Denied! Wrong credentials.',false);
+if(toggleOwner)toggleOwner.addEventListener('click',e=>{
+    e.preventDefault();
+    window.location.href='https://foysal1627.github.io/admin';
+});
   });
 })();
 
