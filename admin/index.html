@@ -206,6 +206,7 @@ function makeList(id, fields, items, addLabel){
   const container=$(id);
   container.innerHTML='';
   const btn=document.createElement('button');btn.type='button';btn.className='add';btn.textContent=addLabel||'+ Add';
+  container.appendChild(btn);
   function addRow(data){
     data=data||{};
     const row=document.createElement('div');row.className='row-card';
@@ -219,7 +220,6 @@ function makeList(id, fields, items, addLabel){
     container.insertBefore(row,btn);
   }
   (Array.isArray(items)?items:[]).forEach(addRow);
-  container.appendChild(btn);
   btn.onclick=()=>addRow();
   return {collect(){return [...container.querySelectorAll('.row-card')].map(r=>{const o={};r.querySelectorAll('[data-k]').forEach(el=>o[el.dataset.k]=el.value);return o;});}};
 }
